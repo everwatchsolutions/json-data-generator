@@ -102,7 +102,7 @@ public class JsonGenerator {
                             outputValues.put(propName, val);
                             addValue(gen, propName, val);
                         } else {
-                            log.warn("Unknown Type: [ " + type + " ]. Prop [ " + propName + " ] being ignored in output");
+                            log.warn("Unknown Type: [ " + type + " ] for prop [ " + propName + " ]. Attempting to echo literal value.");
                             Object val = type;
                             if (type.contains("\"")) {
                                 val = type.replaceAll("\"", "").trim();
@@ -171,7 +171,7 @@ public class JsonGenerator {
     }
     
     public static void main(String... args) {
-        String config = "config1.json";
+        String config = "config2.json";
         try {
             JsonGenerator gen = new JsonGenerator(config);
         } catch (IOException ex) {

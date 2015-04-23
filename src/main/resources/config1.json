@@ -1,6 +1,6 @@
 {
     "firstName" : firstName(),
-/*    "lastName": lastName(),
+    "lastName": lastName(),
     "randomName":random('one', "two", 'three'),
     "active":boolean(),
     "rand-long":long(),
@@ -22,11 +22,18 @@
         "now": now(),
         "nowTimestamp": nowTimestamp(),
         "timestamp": timestamp("2015/03/01","2015/03/30")
-    },*/
+    },
+    "literal-test": {
+        "literal-bool": true,
+        "literal-int": 34,
+        "literal-long": 897789789574389,
+        "literal-double": 45.33
+    },
     "array": [
         { "thing": alpha(3) },
         { "thing2": alpha(3) },
         { "thing3": true },
         { "thing4": "job" }
-    ]
+    ],
+    "after-array": boolean()
 }

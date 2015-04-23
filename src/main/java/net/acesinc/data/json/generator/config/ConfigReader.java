@@ -62,6 +62,9 @@ public class ConfigReader {
                     if (!methodStarted && !inCommentBlock || (inCommentBlock && startCount == 2)) {
                         slashCount++;
                     }
+                    if (methodStarted) {
+                        sb.append(c);
+                    }
 
                     if (slashCount == 2 && !inCommentBlock) {
                         inComment = true;
@@ -174,13 +177,26 @@ public class ConfigReader {
                         //end of a line
                         if (!methodStarted && !arrayStarted) {
                             propValueStarted = false;
-                        } else {
+                            if (sb.length() > 0) {
+                                props.put(curProp, sb.toString());
+                                sb = new StringBuilder();
+                            }
+                        } else if (methodStarted) {
                             sb.append(c);
                         }
 
                         break;
                     }
-                    case '\n':
+                    case '\n': {
+                        if (propValueStarted && !arrayStarted) {
+                            if (sb.length() > 0) {
+                                props.put(curProp, sb.toString());
+                                sb = new StringBuilder();
+                            }
+                            propValueStarted = false;
+                        }
+                        break;
+                    }
                     case ' ': {
                         //ignore space and return 
                         break;

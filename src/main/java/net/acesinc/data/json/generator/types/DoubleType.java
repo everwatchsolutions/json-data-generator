@@ -5,7 +5,7 @@
  */
 package net.acesinc.data.json.generator.types;
 
-import org.apache.commons.lang3.RandomUtils;
+import java.util.Random;
 
 /**
  *
@@ -18,6 +18,8 @@ public class DoubleType extends TypeHandler {
 
     private double min;
     private double max;
+    private Random rand;
+    private int decimalPlaces = 4;
 
     public DoubleType(String... args) {
         super();
@@ -32,11 +34,20 @@ public class DoubleType extends TypeHandler {
             min = Double.parseDouble(args[0]);
             max = Double.parseDouble(args[1]);
         }
+        rand = new Random();
+
     }
 
     @Override
     public Double getNextRandomValue() {
-        return RandomUtils.nextDouble(min, max);
+//        return RandomUtils.nextDouble(min, max);
+
+        double range = max - min;
+        double scaled = rand.nextDouble() * range;
+        double shifted = scaled + min;
+//        return shifted; // == (rand.nextDouble() * (max-min)) + min;
+        return Double.parseDouble(String.format("%." + decimalPlaces + "f", shifted));
+
     }
 
 }

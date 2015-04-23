@@ -1,0 +1,22 @@
+{
+    "who": {
+        "firstName":firstName(),
+        "lastName":lastName()
+    },
+    "what": {
+        "name":alpha(10),
+        "id": uuid(),
+        "details": [{
+            "start": timestamp("2015/03/01"),
+            "stop" : timestamp("2015/03/02"),
+            "speed": double(50.0, 100.0)
+        }]
+    },
+    "where": {
+        "lat": double(-90.0, 90.0),
+        "lon": double(-180.0, 180.0)
+    },
+    "when": {
+        "timestamp": now()
+    }
+}
