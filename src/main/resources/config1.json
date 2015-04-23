@@ -1,5 +1,5 @@
 {
-    "firstName" : firstName(),
+/*    "firstName" : firstName(),
     "lastName": lastName(),
     "randomName":random('one', "two", 'three'),
     "active":boolean(),
@@ -22,7 +22,7 @@
         "now": now(),
         "nowTimestamp": nowTimestamp(),
         "timestamp": timestamp("2015/03/01","2015/03/30")
-    },
+    },*/
     "array": [
         { "thing": alpha() },
         { "thing2": alpha(3) },

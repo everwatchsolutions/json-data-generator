@@ -17,7 +17,7 @@ public class AlphaNumericType extends TypeHandler {
     
     private int length;
 
-    public AlphaNumericType(String... args) {
+    public AlphaNumericType(String... args) throws IllegalArgumentException {
         super();
         if (args.length != 1) {
             throw new IllegalArgumentException("You must specifc a length for Alpha Numeric types");
