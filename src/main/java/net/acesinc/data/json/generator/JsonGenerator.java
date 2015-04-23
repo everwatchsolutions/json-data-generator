@@ -33,57 +33,18 @@ public class JsonGenerator {
         //First generate the config
         Map<String, Object> props = ConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(config));
         log.debug("Map: " + props.toString());
-//        Map<String, Object> props = new HashMap<>();
-//        props.put("firstName", "firstName()");
-//        props.put("lastName", "firstName()");
-//        props.put("randomName", "random('one',\"two\",'three')");
-//        props.put("active", "boolean()");
-//        props.put("rand-long", "long()");
-//        props.put("rand-long-min", "long(895043890865)");
-//        props.put("rand-long-range", "long(787658, 8948555)");
-//        props.put("rand-int", "integer()");
-//        props.put("rand-int-min", "integer(80000)");
-//        props.put("rand-int-range", "integer(10, 20)");
-//        props.put("rand-double", "double()");
-//        props.put("rand-double-min", "double(80000.44)");
-//        props.put("rand-double-range", "double(10.5, 20.3)");
-//        props.put("alpha", "alpha(5)");
-//        props.put("alphaNumeric", "alphaNumeric(10)");
-//
-//        Map<String, Object> nestedProps = new HashMap<>();
-//        nestedProps.put("nested-alpha", "alpha(10)");
-//        nestedProps.put("nested-long", "long(10, 20)");
-//        props.put("nested-props", nestedProps);
-//
-//        List<Map<String, Object>> listOfNestedProps = new ArrayList<>();
-//        Map<String, Object> nestedProps1 = new HashMap<>();
-//        nestedProps1.put("nested1-alpha", "alpha(10)");
-//        nestedProps1.put("nested1-long", "long(10, 20)");
-//        listOfNestedProps.add(nestedProps1);
-//        
-//        Map<String, Object> nestedProps2 = new HashMap<>();
-//        nestedProps2.put("nested2-alpha", "alpha(10)");
-//        nestedProps2.put("nested2-long", "long(10, 20)");
-//        listOfNestedProps.add(nestedProps2);
-//        
-//        props.put("list-of-stuff", listOfNestedProps);
 
         //now generate the json
         JsonGeneratorFactory factory = Json.createGeneratorFactory(null);
         StringWriter w = new StringWriter();
         javax.json.stream.JsonGenerator gen = factory.createGenerator(w);
-        processProperties(gen, props, null);
+        processProperties(gen, props);
         gen.flush();
         
         log.info("Gernerated json: " + w.toString());
     }
     
-    private javax.json.stream.JsonGenerator processProperties(javax.json.stream.JsonGenerator gen, Map<String, Object> props, String objectName) {
-        if (objectName == null) {
-            gen.writeStartObject();
-        } else {
-            gen.writeStartObject(objectName);
-        }
+    private javax.json.stream.JsonGenerator processProperties(javax.json.stream.JsonGenerator gen, Map<String, Object> props) {
         Map<String, Object> outputValues = new LinkedHashMap<>();
         for (String propName : props.keySet()) {
             Object value = props.get(propName);
@@ -138,18 +99,30 @@ public class JsonGenerator {
             } else if (Map.class.isAssignableFrom(value.getClass())) {
                 //nested object
                 Map<String, Object> nestedProps = (Map<String, Object>) value;
-                processProperties(gen, nestedProps, propName);
+                if (propName == null) {
+                    gen.writeStartObject();
+                } else {
+                    gen.writeStartObject(propName);
+                }
+                processProperties(gen, nestedProps);
+                gen.writeEnd();
             } else if (List.class.isAssignableFrom(value.getClass())) {
                 //array
                 List<Map<String, Object>> listOfNestedProps = (List<Map<String, Object>>) value;
-                gen.writeStartArray(propName);
+                if (propName != null) {
+                    gen.writeStartArray(propName);
+                } else {
+                    gen.writeStartArray();
+                }
                 for (Map<String, Object> nestedProps : listOfNestedProps) {
-                    processProperties(gen, nestedProps, null);
+                    gen.writeStartObject();
+                    processProperties(gen, nestedProps);
+                    gen.writeEnd();
                 }
                 gen.writeEnd();
             }
         }
-        gen.writeEnd();
+        
         return gen;
     }
     
@@ -171,7 +144,7 @@ public class JsonGenerator {
     }
     
     public static void main(String... args) {
-        String config = "config2.json";
+        String config = "config3.json";
         try {
             JsonGenerator gen = new JsonGenerator(config);
         } catch (IOException ex) {

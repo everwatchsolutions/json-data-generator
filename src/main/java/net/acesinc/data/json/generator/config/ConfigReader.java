@@ -13,6 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.math3.random.RandomDataGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,6 +27,8 @@ public class ConfigReader {
 
     private static int currentPosition = 0;
 
+    private static RandomDataGenerator rand = new RandomDataGenerator(); 
+    
     public static Map<String, Object> readConfig(InputStream input) throws IOException {
         StringWriter writer = new StringWriter();
         IOUtils.copy(input, writer, "utf-8");
@@ -99,14 +102,46 @@ public class ConfigReader {
                         break;
                     case '{': {
                         //start object
+                        //let's see if they put any specal instructions before this.
+                        String specialFunc = null;
+                        String[] specialFuncArgs = {};
+                        if (sb.length() > 0) {
+                            String name = sb.toString();
+                            sb = new StringBuilder();
+                            specialFunc = name.substring(0, name.indexOf("("));
+                            String args = name.substring(name.indexOf("(") + 1, name.indexOf(")"));
+                            
+                            if (!args.isEmpty()) {
+                                specialFuncArgs = args.split(",");
+                            }
+                        }
                         objectStarted = true;
                         Map<String, Object> objectProps = processString(s, currentPosition++);
                         if (propValueStarted && !arrayStarted) {
                             props.put(curProp, objectProps);
                         } else if (arrayStarted) {
-                            arrayBuilderList.add(objectProps);
+                            if (specialFunc != null) {
+                                switch (specialFunc) {
+                                    case "repeat": {
+                                        int timesToRepeat = 1;
+                                        if (specialFuncArgs.length == 1) {
+                                            timesToRepeat = Integer.parseInt(specialFuncArgs[0]);
+                                        } else {
+                                            timesToRepeat = rand.nextInt(0, 10);
+                                        }
+                                        for (int i = 0; i < timesToRepeat; i++) {
+                                            arrayBuilderList.add(objectProps);
+                                        }
+                                        break;
+                                    }
+                                }
+                            } else {
+                                arrayBuilderList.add(objectProps);
+                            }
                         } else {
-                            return objectProps;
+                            Map<String, Object> holder = new LinkedHashMap<>();
+                            holder.put(null, objectProps);
+                            return holder;
                         }
                         break;
                     }
@@ -122,7 +157,7 @@ public class ConfigReader {
                         }
                     }
                     case '[': {
-                    //start array
+                        //start array
                         //XXX What about arrays inside of arrays?!
                         arrayStarted = true;
                         arrayBuilderList = new ArrayList<>();
@@ -137,16 +172,22 @@ public class ConfigReader {
                     }
                     case '(': {
                         //start method params
+                        if (!arrayStarted) {
                         methodStarted = true;
+                        
+                        }
                         sb.append(c);
                         break;
                     }
                     case ')': {
                         //end method params
-                        methodStarted = false;
                         sb.append(c);
-                        props.put(curProp, sb.toString());
-                        sb = new StringBuilder();
+                        if (!arrayStarted) {
+                            methodStarted = false;
+                            props.put(curProp, sb.toString());
+                            sb = new StringBuilder();
+                        }
+                        
                         break;
                     }
                     case '"': {

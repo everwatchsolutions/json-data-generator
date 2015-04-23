@@ -29,7 +29,7 @@ public class TypeHandlerFactory {
                 helperArgs = args.split(",");
                 helperArgs = stripQuotes(helperArgs);
             }
-            log.debug("Helper Args: " + Arrays.toString(helperArgs));
+//            log.debug("Helper Args: " + Arrays.toString(helperArgs));
             switch (typeName) {
                 case FirstName.TYPE_NAME: {
                     return new FirstName();
@@ -65,7 +65,6 @@ public class TypeHandlerFactory {
                     try {
                         return new DateType(helperArgs);
                     } catch (ParseException ex) {
-                        log.warn("Bad date format");
                         throw new IllegalArgumentException("Unable to create date genertor due to an invalid date. Please use the correct format of yyyy/MM/dd");
                     }
                 }
@@ -73,7 +72,6 @@ public class TypeHandlerFactory {
                     try {
                         return new TimestampType(helperArgs);
                     } catch (ParseException ex) {
-                        log.warn("Bad date format");
                         throw new IllegalArgumentException("Unable to create date genertor due to an invalid date. Please use the correct format of yyyy/MM/dd");
                     }
                 }

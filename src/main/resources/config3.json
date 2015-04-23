@@ -1,0 +1,14 @@
+[
+    repeat(),
+    {
+        "details": [
+            repeat(3),
+            {
+                "start": timestamp("2015/03/01"),
+                "stop" : timestamp("2015/03/02"),
+                "speed": double(50.0, 100.0)
+            }
+        ]
+    
+    }
+]
