@@ -5,6 +5,7 @@
  */
 package net.acesinc.data.json.generator.types;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +20,7 @@ public class TypeHandlerFactory {
 
     private static final Logger log = LogManager.getLogger(TypeHandlerFactory.class);
 
-    public static TypeHandler getTypeHandler(String name) {
+    public static TypeHandler getTypeHandler(String name) throws IllegalArgumentException{
         if (name.contains("(")) {
             String typeName = name.substring(0, name.indexOf("("));
             String args = name.substring(name.indexOf("(") + 1, name.indexOf(")"));
@@ -59,6 +60,28 @@ public class TypeHandlerFactory {
                 }
                 case AlphaNumericType.TYPE_NAME: {
                     return new AlphaNumericType(helperArgs);
+                }
+                case DateType.TYPE_NAME: {
+                    try {
+                        return new DateType(helperArgs);
+                    } catch (ParseException ex) {
+                        log.warn("Bad date format");
+                        throw new IllegalArgumentException("Unable to create date genertor due to an invalid date. Please use the correct format of yyyy/MM/dd");
+                    }
+                }
+                case TimestampType.TYPE_NAME: {
+                    try {
+                        return new TimestampType(helperArgs);
+                    } catch (ParseException ex) {
+                        log.warn("Bad date format");
+                        throw new IllegalArgumentException("Unable to create date genertor due to an invalid date. Please use the correct format of yyyy/MM/dd");
+                    }
+                }
+                case NowType.TYPE_NAME: {
+                    return new NowType();
+                }
+                case NowTimestampType.TYPE_NAME: {
+                    return new NowTimestampType();
                 }
                 default: {
                     return null;
