@@ -1,6 +1,6 @@
 {
-/*    "firstName" : firstName(),
-    "lastName": lastName(),
+    "firstName" : firstName(),
+/*    "lastName": lastName(),
     "randomName":random('one', "two", 'three'),
     "active":boolean(),
     "rand-long":long(),
@@ -24,8 +24,9 @@
         "timestamp": timestamp("2015/03/01","2015/03/30")
     },*/
     "array": [
-        { "thing": alpha() },
+        { "thing": alpha(3) },
         { "thing2": alpha(3) },
-        { "thing3": true }
+        { "thing3": true },
+        { "thing4": "job" }
     ]
 }

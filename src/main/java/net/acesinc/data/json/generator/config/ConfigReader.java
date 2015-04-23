@@ -56,6 +56,7 @@ public class ConfigReader {
         while (currentPosition < s.length()) {
             char c = s.charAt(currentPosition);
 
+            //First switch checks for comments
             switch (c) {
                 case '/': {
                     if (!methodStarted && !inCommentBlock || (inCommentBlock && startCount == 2)) {
@@ -78,7 +79,6 @@ public class ConfigReader {
                     break;
                 }
                 case '\n': {
-                    //ignore return characters
                     if (!inCommentBlock) {
                         slashCount = 0;
                     }
@@ -88,15 +88,17 @@ public class ConfigReader {
             }
 
             if (!inComment && !inCommentBlock) {
+                //If we aren't in a comment, then process the characters to see what's going on
                 switch (c) {
                     case '/':
                     case '*':
+                        //these were handled above
                         break;
                     case '{': {
                         //start object
                         objectStarted = true;
                         Map<String, Object> objectProps = processString(s, currentPosition++);
-                        if (propValueStarted) {
+                        if (propValueStarted && !arrayStarted) {
                             props.put(curProp, objectProps);
                         } else if (arrayStarted) {
                             arrayBuilderList.add(objectProps);
@@ -109,11 +111,16 @@ public class ConfigReader {
                         //end object
                         objectStarted = false;
                         propValueStarted = false;
-                        return props;
+                        if (!arrayStarted) {
+                            if (props.isEmpty() && sb.length() > 0) {
+                                props.put(curProp, sb.toString());
+                            }
+                            return props;
+                        }
                     }
                     case '[': {
                     //start array
-                        //XXX What about arrays inside or arrays?!
+                        //XXX What about arrays inside of arrays?!
                         arrayStarted = true;
                         arrayBuilderList = new ArrayList<>();
                         break;
@@ -141,12 +148,12 @@ public class ConfigReader {
                     }
                     case '"': {
                         //start/end quote
-                        if (stringStarted && !methodStarted) {
+                        if (stringStarted && !methodStarted && !propValueStarted) {
                             //we are ending a property
                             curProp = sb.toString();
                             sb = new StringBuilder();
                         }
-                        if (!methodStarted) {
+                        if (!methodStarted && !propValueStarted) {
                             stringStarted = !stringStarted;
                         } else {
                             sb.append(c);
@@ -165,7 +172,7 @@ public class ConfigReader {
                     }
                     case ',': {
                         //end of a line
-                        if (!methodStarted) {
+                        if (!methodStarted && !arrayStarted) {
                             propValueStarted = false;
                         } else {
                             sb.append(c);

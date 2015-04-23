@@ -103,6 +103,33 @@ public class JsonGenerator {
                             addValue(gen, propName, val);
                         } else {
                             log.warn("Unknown Type: [ " + type + " ]. Prop [ " + propName + " ] being ignored in output");
+                            Object val = type;
+                            if (type.contains("\"")) {
+                                val = type.replaceAll("\"", "").trim();
+                            } else {
+                                //trial and error!
+                                try {
+                                    val = Long.parseLong(type);
+                                } catch (NumberFormatException nfe) {
+                                    //not a long..
+                                    try {
+                                        val = Double.parseDouble(type);
+                                    } catch (NumberFormatException nfe2) {
+                                        //not a double..
+                                        try {
+                                            val = Integer.parseInt(type);
+                                        } catch (NumberFormatException nfe3) {
+                                            //not an int..
+                                            //at this point, must be a boolean
+                                            val = Boolean.parseBoolean(type);
+                                        }
+                                    }
+                                }
+                                
+                                
+                            }
+                            outputValues.put(propName, val);
+                            addValue(gen, propName, val);
                         }
                     } catch (IllegalArgumentException iae) {
                         log.warn("Error creating type [ " + type + " ]. Prop [ " + propName + " ] being ignored in output.  Reason: " + iae.getMessage());
