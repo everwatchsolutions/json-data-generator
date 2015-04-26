@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import net.acesinc.data.json.generator.config.WorkflowConfigReader;
+import net.acesinc.data.json.generator.config.JSONConfigReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,16 +25,15 @@ public class JsonGenerator {
     }
     
     public Map<String, Object> testMapGenerator(String config) throws IOException {
-        Map<String, Object> props = WorkflowConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(config), Map.class);
+        Map<String, Object> props = JSONConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(config), Map.class);
         Map<String, Object> wrapper = new LinkedHashMap<>();
         wrapper.put(null, props);
         RandomJsonGenerator generator = new RandomJsonGenerator(wrapper);
         Map<String, Object> map = generator.generateJsonMap();
-        log.info("Gernerated json: " + generator.generateJsonMap());
         return map;
     }
     public List<Map<String, Object>> testListGenerator(String config) throws IOException {
-        List<Map<String, Object>> props = WorkflowConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(config), List.class);
+        List<Map<String, Object>> props = JSONConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(config), List.class);
         Map<String, Object> wrapper = new LinkedHashMap<>();
         wrapper.put(null, props);
         RandomJsonGenerator generator = new RandomJsonGenerator(wrapper);

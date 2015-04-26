@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.acesinc.data.json.generator.config.SimulationConfig;
 import net.acesinc.data.json.generator.config.WorkflowConfig;
-import net.acesinc.data.json.generator.config.WorkflowConfigReader;
+import net.acesinc.data.json.generator.config.JSONConfigReader;
 import net.acesinc.data.json.generator.log.EventLogger;
 import net.acesinc.data.json.generator.workflow.Workflow;
 import org.apache.logging.log4j.LogManager;
@@ -42,7 +42,7 @@ public class SimulationRunner {
         running = false;
         for (WorkflowConfig workflowConfig : config.getWorkflowList()) {
             try {
-                Workflow w = WorkflowConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(workflowConfig.getWorkflowFilename()), Workflow.class);
+                Workflow w = JSONConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(workflowConfig.getWorkflowFilename()), Workflow.class);
                 final EventGenerator gen = new EventGenerator(w, workflowConfig.getWorkflowName(), eventLogger);
                 log.info("Adding EventGenerator for [ " + workflowConfig.getWorkflowName()+ "," + workflowConfig.getWorkflowFilename()+ " ]");
                 eventGenerators.add(gen);

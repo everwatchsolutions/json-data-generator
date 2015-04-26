@@ -7,7 +7,7 @@ package net.acesinc.data.json.generator;
 
 import java.io.IOException;
 import net.acesinc.data.json.generator.config.SimulationConfig;
-import net.acesinc.data.json.generator.config.WorkflowConfigReader;
+import net.acesinc.data.json.generator.config.JSONConfigReader;
 import net.acesinc.data.json.generator.log.Log4JLogger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,7 +41,7 @@ public class LogDataGenerator {
     }
 
     private SimulationConfig getSimConfig() throws IOException {
-        return WorkflowConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(simConfigFile), SimulationConfig.class);
+        return JSONConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(simConfigFile), SimulationConfig.class);
     }
 
     public boolean isRunning() {

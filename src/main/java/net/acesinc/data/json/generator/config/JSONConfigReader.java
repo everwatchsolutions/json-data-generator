@@ -8,12 +8,10 @@ package net.acesinc.data.json.generator.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import net.acesinc.data.json.generator.jackson.ProblemHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,8 +19,8 @@ import org.apache.logging.log4j.Logger;
  *
  * @author andrewserff
  */
-public class WorkflowConfigReader {
-    private static final Logger log = LogManager.getLogger(WorkflowConfigReader.class);
+public class JSONConfigReader {
+    private static final Logger log = LogManager.getLogger(JSONConfigReader.class);
     
     public static String getJsonConfig(Object o) {
         ObjectMapper mapper = new ObjectMapper();
@@ -41,10 +39,6 @@ public class WorkflowConfigReader {
     
     public static <T> T readConfig(InputStream input, Class<T> targetClass) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        log.info("adding handler");
-        mapper.addHandler(new ProblemHandler());
-        SimpleModule module = new SimpleModule();
-//        module.addDeserializer(targetClass, null)
         return mapper.readValue(input, targetClass);
     }
 }
