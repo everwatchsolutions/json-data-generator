@@ -17,15 +17,17 @@ public class AlphaType extends TypeHandler {
     
     private int length;
 
-    public AlphaType(String... args) throws IllegalArgumentException {
-        super();
-        if (args.length != 1) {
-            throw new IllegalArgumentException("You must specifc a length for Alpha types");
-        }
-        length = Integer.parseInt(args[0]);
+    public AlphaType() {
     }
     
-    
+    @Override
+    public void setLaunchArguments(String[] launchArguments) {
+        super.setLaunchArguments(launchArguments);
+        if (launchArguments.length != 1) {
+            throw new IllegalArgumentException("You must specifc a length for Alpha Numeric types");
+        }
+        length = Integer.parseInt(launchArguments[0]);
+    }
 
     
     @Override
@@ -33,4 +35,8 @@ public class AlphaType extends TypeHandler {
         return RandomStringUtils.randomAlphabetic(length);
     }
             
+    @Override
+    public String getName() {
+        return TYPE_NAME;
+    }
 }

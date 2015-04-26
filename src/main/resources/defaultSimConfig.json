@@ -1,0 +1,6 @@
+{
+    "workflowList": [{
+            "workflowName": "bob",
+            "workflowFilename": "normalUser1Workflow.json"
+        }]
+}

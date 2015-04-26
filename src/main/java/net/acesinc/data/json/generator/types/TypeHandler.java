@@ -13,13 +13,15 @@ import org.apache.commons.math3.random.RandomDataGenerator;
  */
 public abstract class TypeHandler {
     private RandomDataGenerator rand;
+    private String[] launchArguments;
     
     public TypeHandler() {
         rand = new RandomDataGenerator();
     }
     
     public abstract Object getNextRandomValue();
-
+    public abstract String getName();
+    
     /**
      * @return the rand
      */
@@ -32,5 +34,19 @@ public abstract class TypeHandler {
      */
     public void setRand(RandomDataGenerator rand) {
         this.rand = rand;
+    }
+
+    /**
+     * @return the launchArguments
+     */
+    public String[] getLaunchArguments() {
+        return launchArguments;
+    }
+
+    /**
+     * @param launchArguments the launchArguments to set
+     */
+    public void setLaunchArguments(String[] launchArguments) {
+        this.launchArguments = launchArguments;
     }
 }

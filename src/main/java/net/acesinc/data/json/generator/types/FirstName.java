@@ -19,5 +19,10 @@ public class FirstName extends TypeHandler {
     public String getNextRandomValue() {
         return nameList[getRand().nextInt(0, nameList.length - 1)];
     }
+    
+    @Override
+    public String getName() {
+        return TYPE_NAME;
+    }
             
 }

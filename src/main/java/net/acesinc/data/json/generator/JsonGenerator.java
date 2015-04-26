@@ -6,8 +6,10 @@
 package net.acesinc.data.json.generator;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import net.acesinc.data.json.generator.config.ConfigReader;
+import net.acesinc.data.json.generator.config.WorkflowConfigReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,20 +21,34 @@ public class JsonGenerator {
     
     private static final Logger log = LogManager.getLogger(JsonGenerator.class);
     
-    public JsonGenerator(String config) throws IOException {
-        //First generate the config
-        Map<String, Object> props = ConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(config));
-        log.debug("Map: " + props.toString());
-        
-        //now generate the json
-        RandomJsonGenerator generator = new RandomJsonGenerator(props);
-        log.info("Gernerated json: " + generator.generateJson());
+    public JsonGenerator() throws IOException {
+    }
+    
+    public Map<String, Object> testMapGenerator(String config) throws IOException {
+        Map<String, Object> props = WorkflowConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(config), Map.class);
+        Map<String, Object> wrapper = new LinkedHashMap<>();
+        wrapper.put(null, props);
+        RandomJsonGenerator generator = new RandomJsonGenerator(wrapper);
+        Map<String, Object> map = generator.generateJsonMap();
+        log.info("Gernerated json: " + generator.generateJsonMap());
+        return map;
+    }
+    public List<Map<String, Object>> testListGenerator(String config) throws IOException {
+        List<Map<String, Object>> props = WorkflowConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(config), List.class);
+        Map<String, Object> wrapper = new LinkedHashMap<>();
+        wrapper.put(null, props);
+        RandomJsonGenerator generator = new RandomJsonGenerator(wrapper);
+        List<Map<String, Object>> list = generator.generateJsonList();
+        return list;
     }
     
     public static void main(String... args) {
-        String config = "config1.json";
+        String config = "config4.json";
         try {
-            JsonGenerator gen = new JsonGenerator(config);
+            JsonGenerator gen = new JsonGenerator();
+            log.info("Generated json Map: " + gen.testMapGenerator(config));
+            JsonGenerator gen2 = new JsonGenerator();
+            log.info("Generated json List: " + gen2.testListGenerator("config3.json"));
         } catch (IOException ex) {
             ex.printStackTrace();
         }

@@ -17,24 +17,33 @@ public class LongType extends TypeHandler {
     private long min;
     private long max;
 
-    public LongType(String... args) {
-        super();
-        if (args.length == 0) {
+    public LongType() {
+    }
+    
+    @Override
+    public void setLaunchArguments(String[] launchArguments) {
+        super.setLaunchArguments(launchArguments);
+        if (launchArguments.length == 0) {
             min = 0;
             max = Long.MAX_VALUE;
-        } else if (args.length == 1) {
+        } else if (launchArguments.length == 1) {
             //min only
-            min = Long.parseLong(args[0]);
+            min = Long.parseLong(launchArguments[0]);
             max = Long.MAX_VALUE;
-        } else if (args.length == 2) {
-            min = Long.parseLong(args[0]);
-            max = Long.parseLong(args[1]);
+        } else if (launchArguments.length == 2) {
+            min = Long.parseLong(launchArguments[0]);
+            max = Long.parseLong(launchArguments[1]);
         }
     }
 
     @Override
     public Long getNextRandomValue() {
         return getRand().nextLong(min, max);
+    }
+    
+    @Override
+    public String getName() {
+        return TYPE_NAME;
     }
 
 }

@@ -5,12 +5,17 @@
  */
 package net.acesinc.data.json.generator.types;
 
-import java.text.ParseException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.reflections.Reflections;
 
 /**
  *
@@ -20,7 +25,44 @@ public class TypeHandlerFactory {
 
     private static final Logger log = LogManager.getLogger(TypeHandlerFactory.class);
 
-    public static TypeHandler getTypeHandler(String name) throws IllegalArgumentException{
+    private static TypeHandlerFactory instance;
+    private Map<String, Class> typeHandlerNameMap;
+
+    private TypeHandlerFactory() {
+        typeHandlerNameMap = new LinkedHashMap<>();
+        scanForTypeHandlers();
+    }
+
+    public static TypeHandlerFactory getInstance() {
+        if (instance == null) {
+            instance = new TypeHandlerFactory();
+        }
+        return instance;
+    }
+
+    private void scanForTypeHandlers() {
+        Reflections reflections = new Reflections("net.acesinc.data.json.generator.types");
+        Set<Class<? extends TypeHandler>> subTypes = reflections.getSubTypesOf(TypeHandler.class);
+        for (Class type : subTypes) {
+            //first, make sure we aren't trying to create an abstract class
+            if (Modifier.isAbstract(type.getModifiers())) {
+                continue;
+            }
+            try {
+                Object o = type.newInstance();
+                Method nameMethod = o.getClass().getMethod("getName");
+                nameMethod.setAccessible(true);
+
+                String typeHandlerName = (String) nameMethod.invoke(o);
+                typeHandlerNameMap.put(typeHandlerName, type);
+                log.debug("Discovered TypeHandler [ " + typeHandlerName + "," + type.getName() + " ]");
+            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException ex) {
+                log.warn("Error instantiating TypeHandler class [ " + type.getName() + " ]. It will not be available during processing.", ex);
+            }
+        }
+    }
+
+    public TypeHandler getTypeHandler(String name) throws IllegalArgumentException {
         if (name.contains("(")) {
             String typeName = name.substring(0, name.indexOf("("));
             String args = name.substring(name.indexOf("(") + 1, name.indexOf(")"));
@@ -29,63 +71,19 @@ public class TypeHandlerFactory {
                 helperArgs = args.split(",");
                 helperArgs = stripQuotes(helperArgs);
             }
-//            log.debug("Helper Args: " + Arrays.toString(helperArgs));
-            switch (typeName) {
-                case FirstName.TYPE_NAME: {
-                    return new FirstName();
-                }
-                case LastName.TYPE_NAME: {
-                    return new LastName();
-                }
-                case UuidType.TYPE_NAME: {
-                    return new UuidType();
-                }
-                case RandomType.TYPE_NAME: {
-                    return new RandomType(helperArgs);
-                }
-                case BooleanType.TYPE_NAME: {
-                    return new BooleanType();
-                }
-                case LongType.TYPE_NAME: {
-                    return new LongType(helperArgs);
-                }
-                case IntegerType.TYPE_NAME: {
-                    return new IntegerType(helperArgs);
-                }
-                case DoubleType.TYPE_NAME: {
-                    return new DoubleType(helperArgs);
-                }
-                case AlphaType.TYPE_NAME: {
-                    return new AlphaType(helperArgs);
-                }
-                case AlphaNumericType.TYPE_NAME: {
-                    return new AlphaNumericType(helperArgs);
-                }
-                case DateType.TYPE_NAME: {
-                    try {
-                        return new DateType(helperArgs);
-                    } catch (ParseException ex) {
-                        throw new IllegalArgumentException("Unable to create date genertor due to an invalid date. Please use the correct format of yyyy/MM/dd");
-                    }
-                }
-                case TimestampType.TYPE_NAME: {
-                    try {
-                        return new TimestampType(helperArgs);
-                    } catch (ParseException ex) {
-                        throw new IllegalArgumentException("Unable to create date genertor due to an invalid date. Please use the correct format of yyyy/MM/dd");
-                    }
-                }
-                case NowType.TYPE_NAME: {
-                    return new NowType();
-                }
-                case NowTimestampType.TYPE_NAME: {
-                    return new NowTimestampType();
-                }
-                default: {
-                    return null;
+
+            Class handlerClass = typeHandlerNameMap.get(typeName);
+            if (handlerClass != null) {
+                try {
+                    TypeHandler o = (TypeHandler) handlerClass.newInstance();
+                    o.setLaunchArguments(helperArgs);
+                    return o;
+                } catch (InstantiationException | IllegalAccessException ex) {
+                    log.warn("Error instantiating TypeHandler class [ " + handlerClass.getName() + " ]", ex);
                 }
 
-            }
+            } 
+            return null;
         } else {
             //not a type handler
             return null;
@@ -98,5 +96,14 @@ public class TypeHandlerFactory {
             newList.add(item.replaceAll("'", "").replaceAll("\"", "").trim());
         }
         return newList.toArray(new String[]{});
+    }
+
+    public static void main(String[] args) {
+        TypeHandler random = TypeHandlerFactory.getInstance().getTypeHandler("random('one', 'two', 'three')");
+        if (random == null) {
+            log.error("error getting handler");
+        } else {
+            log.info("success! random value: " + random.getNextRandomValue());
+        }
     }
 }

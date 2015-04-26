@@ -19,5 +19,9 @@ public class NowType extends TypeHandler {
     public Date getNextRandomValue() {
         return new Date();
     }
-            
+        
+    @Override
+    public String getName() {
+        return TYPE_NAME;
+    }
 }

@@ -5,6 +5,7 @@
  */
 package net.acesinc.data.json.generator.types;
 
+
 /**
  *
  * @author andrewserff
@@ -16,15 +17,19 @@ public class RandomType extends TypeHandler{
     
     private String[] values;
     
-    public RandomType(String... args) {
-        super();
-        this.values = args;
+    @Override
+    public void setLaunchArguments(String[] launchArguments) {
+        super.setLaunchArguments(launchArguments);
+        this.values = launchArguments;
     }
-
     
     @Override
     public String getNextRandomValue() {
         return values[getRand().nextInt(0, values.length - 1)];
     }
     
+    @Override
+    public String getName() {
+        return TYPE_NAME;
+    }
 }

@@ -1,0 +1,9 @@
+{
+    "string-test": "alpha(4)",
+    "system": "BADGE",
+    "action": "ENTER",
+    "objects": ["Building 1"],
+    "location": "45.5,44.3",
+    "message": "Entered Building 1",
+    "null-test": null
+}

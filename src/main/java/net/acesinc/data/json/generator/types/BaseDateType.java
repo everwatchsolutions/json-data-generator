@@ -20,20 +20,31 @@ public abstract class BaseDateType extends TypeHandler {
     private Date max;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
-    public BaseDateType(String... args) throws ParseException {
-        super();
-        if (args.length == 0) {
-            min = sdf.parse("1970/01/01");
-            max = new Date();
-        } else if (args.length == 1) {
-            //min only
-            min = sdf.parse(args[0]);
-            max = new Date();
-        } else if (args.length == 2) {
-            min = sdf.parse(args[0]);
-            max = sdf.parse(args[1]);
+    public BaseDateType() {
+    }
+
+    @Override
+    public void setLaunchArguments(String[] launchArguments) {
+        super.setLaunchArguments(launchArguments);
+        try {
+            if (launchArguments.length == 0) {
+
+                min = sdf.parse("1970/01/01");
+                max = new Date();
+
+            } else if (launchArguments.length == 1) {
+                //min only
+                min = sdf.parse(launchArguments[0]);
+                max = new Date();
+            } else if (launchArguments.length == 2) {
+                min = sdf.parse(launchArguments[0]);
+                max = sdf.parse(launchArguments[1]);
+            }
+
+        } catch (ParseException ex) {
+            throw new IllegalArgumentException("Provided date is invalid. Please use the format [ yyyy/MM/dd ]", ex);
         }
-        
+
         if (!min.before(max)) {
             throw new IllegalArgumentException("Min Date must be before Max Date");
         }
@@ -45,7 +56,7 @@ public abstract class BaseDateType extends TypeHandler {
         minCal.setTime(min);
         GregorianCalendar maxCal = new GregorianCalendar();
         maxCal.setTime(max);
-        
+
         int year = getRand().nextInt(minCal.get(GregorianCalendar.YEAR), maxCal.get(GregorianCalendar.YEAR));
         gc.set(GregorianCalendar.YEAR, year);
 
@@ -60,7 +71,7 @@ public abstract class BaseDateType extends TypeHandler {
             month = getRand().nextInt(gc.getActualMinimum(GregorianCalendar.MONTH), gc.getActualMaximum(GregorianCalendar.MONTH));
         }
         gc.set(GregorianCalendar.MONTH, month);
-        
+
         int day = -1;
         if (minCal.get(GregorianCalendar.YEAR) == maxCal.get(GregorianCalendar.YEAR) && minCal.get(GregorianCalendar.MONTH) == maxCal.get(GregorianCalendar.MONTH)) {
             day = getRand().nextInt(minCal.get(GregorianCalendar.DAY_OF_MONTH), maxCal.get(GregorianCalendar.DAY_OF_MONTH));
@@ -72,7 +83,7 @@ public abstract class BaseDateType extends TypeHandler {
             day = getRand().nextInt(1, gc.getActualMaximum(GregorianCalendar.DAY_OF_MONTH));
         }
         gc.set(GregorianCalendar.DAY_OF_MONTH, day);
-        
+
         return gc.getTime();
     }
 }

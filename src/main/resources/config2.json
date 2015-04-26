@@ -1,27 +1,27 @@
 {
     "who": {
-        "firstName":firstName(),
-        "lastName":lastName()
+        "firstName":"firstName()",
+        "lastName":"lastName()"
     },
     "what": {
-        "name":alpha(10),
-        "id": uuid(),
+        "name":"alpha(10)",
+        "id": "uuid()",
         "details": [
-            repeat(3),
+            "repeat(3)",
             {
-            "start": timestamp("2015/03/01"),
-            "stop" : timestamp("2015/03/02"),
-            "speed": double(50.0, 100.0),
-            "pos-neg-int": integer(-10, 0),
-            "pos-neg-long": long(-10, 0),
-            "pos-neg-double": double(-10, 0)
+            "start": "timestamp(\"2015/03/01\")",
+            "stop" : "timestamp(\"2015/03/02\")",
+            "speed": "double(50.0, 100.0)",
+            "pos-neg-int": "integer(-10, 0)",
+            "pos-neg-long": "long(-10, 0)",
+            "pos-neg-double": "double(-10, 0)"
         }]
     },
     "where": {
-        "lat": double(-90.0, 90.0),
-        "lon": double(-180.0, 180.0)
+        "lat": "double(-90.0, 90.0)",
+        "lon": "double(-180.0, 180.0)"
     },
     "when": {
-        "timestamp": now()
+        "timestamp": "now()"
     }
 }

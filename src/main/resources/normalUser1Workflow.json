@@ -1,0 +1,54 @@
+{
+    "eventFrequency": 4000,
+    "varyEventFrequency": true,
+    "repeatWorkflow": true,
+    "timeBetweenRepeat": 15000,
+    "varyRepeatFrequency": true,
+    "steps": [{
+            "config": [{
+                    "system": "BADGE",
+                    "action": "ENTER",
+                    "objects": ["Building 1"],
+                    "location": "45.5,44.3",
+                    "message": "Entered Building 1"
+                }],
+            "duration": 0
+        },{
+            "config": [{
+                    "system": "AD",
+                    "action": "LOGIN",
+                    "objects": ["workstation1"],
+                    "location": null,
+                    "message": "Logged in to workstation 1"
+                }],
+            "duration": 0
+        }, {
+            "config": [{
+                    "system": "AUDIT",
+                    "action": "random(\"PRINT\",\"OPEN\",\"COPY\")",
+                    "objects": ["random(\"/data/file1.txt\",\"/share/mystuff/file2.txt\")"],
+                    "location": null,
+                    "message": "Printed /data/file1.txt"
+                }],
+            "duration": 10000
+        }, {
+            "config": [{
+                    "system": "AD",
+                    "action": "LOGOUT",
+                    "objects": ["workstation1"],
+                    "location": null,
+                    "message": "Logged out of workstation 1"
+                }],
+            "duration": 0
+        }, {
+            "config": [{
+                    "system": "BADGE",
+                    "action": "EXIT",
+                    "objects": ["Building 1"],
+                    "location": "45.5,44.3",
+                    "message": "Exited Building 1"
+                }],
+            "duration": 0
+        }]
+}
+

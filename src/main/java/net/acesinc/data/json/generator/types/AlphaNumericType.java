@@ -17,20 +17,26 @@ public class AlphaNumericType extends TypeHandler {
     
     private int length;
 
-    public AlphaNumericType(String... args) throws IllegalArgumentException {
-        super();
-        if (args.length != 1) {
+    public AlphaNumericType() {
+    }
+
+    @Override
+    public void setLaunchArguments(String[] launchArguments) {
+        super.setLaunchArguments(launchArguments);
+        if (launchArguments.length != 1) {
             throw new IllegalArgumentException("You must specifc a length for Alpha Numeric types");
         }
-        length = Integer.parseInt(args[0]);
+        length = Integer.parseInt(launchArguments[0]);
     }
-    
-    
-
     
     @Override
     public String getNextRandomValue() {
         return RandomStringUtils.randomAlphanumeric(length);
+    }
+
+    @Override
+    public String getName() {
+        return TYPE_NAME;
     }
             
 }

@@ -16,12 +16,16 @@ public class TimestampType extends BaseDateType {
     public static final String TYPE_NAME = "timestamp";
     public static final String TYPE_DISPLAY_NAME = "Timestamp";
 
-    public TimestampType(String... args) throws ParseException {
-        super(args);
+    public TimestampType() {
     }
     
     @Override
     public Long getNextRandomValue() {
         return getRandomDate().getTime();
+    }
+    
+    @Override
+    public String getName() {
+        return TYPE_NAME;
     }
 }

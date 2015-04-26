@@ -21,33 +21,40 @@ public class DoubleType extends TypeHandler {
     private Random rand;
     private int decimalPlaces = 4;
 
-    public DoubleType(String... args) {
+    public DoubleType() {
         super();
-        if (args.length == 0) {
+        rand = new Random();
+    }
+
+    @Override
+    public void setLaunchArguments(String[] launchArguments) {
+        super.setLaunchArguments(launchArguments);
+        if (launchArguments.length == 0) {
             min = 0;
             max = Double.MAX_VALUE;
-        } else if (args.length == 1) {
+        } else if (launchArguments.length == 1) {
             //min only
-            min = Double.parseDouble(args[0]);
+            min = Double.parseDouble(launchArguments[0]);
             max = Double.MAX_VALUE;
-        } else if (args.length == 2) {
-            min = Double.parseDouble(args[0]);
-            max = Double.parseDouble(args[1]);
+        } else if (launchArguments.length == 2) {
+            min = Double.parseDouble(launchArguments[0]);
+            max = Double.parseDouble(launchArguments[1]);
         }
-        rand = new Random();
-
     }
 
     @Override
     public Double getNextRandomValue() {
-//        return RandomUtils.nextDouble(min, max);
-
         double range = max - min;
         double scaled = rand.nextDouble() * range;
         double shifted = scaled + min;
 //        return shifted; // == (rand.nextDouble() * (max-min)) + min;
         return Double.parseDouble(String.format("%." + decimalPlaces + "f", shifted));
 
+    }
+
+    @Override
+    public String getName() {
+        return TYPE_NAME;
     }
 
 }

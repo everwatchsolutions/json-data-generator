@@ -17,18 +17,19 @@ public class IntegerType extends TypeHandler {
     private int min;
     private int max;
 
-    public IntegerType(String... args) {
-        super();
-        if (args.length == 0) {
+    @Override
+    public void setLaunchArguments(String[] launchArguments) {
+        super.setLaunchArguments(launchArguments);
+        if (launchArguments.length == 0) {
             min = 0;
             max = Integer.MAX_VALUE;
-        } else if (args.length == 1) {
+        } else if (launchArguments.length == 1) {
             //min only
-            min = Integer.parseInt(args[0]);
+            min = Integer.parseInt(launchArguments[0]);
             max = Integer.MAX_VALUE;
-        } else if (args.length == 2) {
-            min = Integer.parseInt(args[0]);
-            max = Integer.parseInt(args[1]);
+        } else if (launchArguments.length == 2) {
+            min = Integer.parseInt(launchArguments[0]);
+            max = Integer.parseInt(launchArguments[1]);
         }
     }
 
@@ -37,4 +38,8 @@ public class IntegerType extends TypeHandler {
         return getRand().nextInt(min, max);
     }
 
+    @Override
+    public String getName() {
+        return TYPE_NAME;
+    }
 }

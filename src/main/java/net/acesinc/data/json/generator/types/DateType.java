@@ -5,7 +5,6 @@
  */
 package net.acesinc.data.json.generator.types;
 
-import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -17,12 +16,16 @@ public class DateType extends BaseDateType {
     public static final String TYPE_NAME = "date";
     public static final String TYPE_DISPLAY_NAME = "Date";
 
-    public DateType(String... args) throws ParseException {
-        super(args);
+    public DateType() {
     }
     
     @Override
     public Date getNextRandomValue() {
         return getRandomDate();
+    }
+    
+    @Override
+    public String getName() {
+        return TYPE_NAME;
     }
 }

@@ -19,5 +19,10 @@ public class BooleanType extends TypeHandler {
     public Boolean getNextRandomValue() {
         return new Random().nextBoolean();
     }
+    
+    @Override
+    public String getName() {
+        return TYPE_NAME;
+    }
             
 }

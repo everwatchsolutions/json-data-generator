@@ -27,9 +27,12 @@ public class ConfigReader {
 
     private static int currentPosition = 0;
 
-    private static RandomDataGenerator rand = new RandomDataGenerator(); 
-    
+    private static RandomDataGenerator rand = new RandomDataGenerator();
+
     public static Map<String, Object> readConfig(InputStream input) throws IOException {
+        if (input == null) {
+            throw new IllegalArgumentException("Config InputStream cannot be null");
+        }
         StringWriter writer = new StringWriter();
         IOUtils.copy(input, writer, "utf-8");
         String theString = writer.toString();
@@ -41,7 +44,7 @@ public class ConfigReader {
 
     public static Map<String, Object> processString(String s, int position) {
         Map<String, Object> props = new LinkedHashMap<>();
-        List<Map<String, Object>> arrayBuilderList = new ArrayList<>();
+        List<Object> arrayBuilderList = new ArrayList<>();
         String curProp = null;
         StringBuilder sb = new StringBuilder();
         boolean objectStarted = false;
@@ -110,7 +113,7 @@ public class ConfigReader {
                             sb = new StringBuilder();
                             specialFunc = name.substring(0, name.indexOf("("));
                             String args = name.substring(name.indexOf("(") + 1, name.indexOf(")"));
-                            
+
                             if (!args.isEmpty()) {
                                 specialFuncArgs = args.split(",");
                             }
@@ -167,14 +170,17 @@ public class ConfigReader {
                         //end array
                         arrayStarted = false;
                         propValueStarted = false;
+                        if (sb.length() > 0) {
+                            arrayBuilderList.add(sb.toString());
+                            sb = new StringBuilder();
+                        }
                         props.put(curProp, arrayBuilderList);
                         break;
                     }
                     case '(': {
                         //start method params
                         if (!arrayStarted) {
-                        methodStarted = true;
-                        
+                            methodStarted = true;
                         }
                         sb.append(c);
                         break;
@@ -184,10 +190,14 @@ public class ConfigReader {
                         sb.append(c);
                         if (!arrayStarted) {
                             methodStarted = false;
-                            props.put(curProp, sb.toString());
+                            if (stringStarted) {
+                                props.put(curProp, sb.toString().replaceAll("\"", ""));
+                            } else {
+                                props.put(curProp, sb.toString());
+                            }
                             sb = new StringBuilder();
                         }
-                        
+
                         break;
                     }
                     case '"': {
@@ -197,9 +207,8 @@ public class ConfigReader {
                             curProp = sb.toString();
                             sb = new StringBuilder();
                         }
-                        if (!methodStarted && !propValueStarted) {
-                            stringStarted = !stringStarted;
-                        } else {
+                        stringStarted = !stringStarted;
+                        if ((methodStarted || propValueStarted) && stringStarted) {
                             sb.append(c);
                         }
                         break;
@@ -216,13 +225,16 @@ public class ConfigReader {
                     }
                     case ',': {
                         //end of a line
-                        if (!methodStarted && !arrayStarted) {
+                        if (!stringStarted && !methodStarted && !arrayStarted) {
                             propValueStarted = false;
                             if (sb.length() > 0) {
                                 props.put(curProp, sb.toString());
                                 sb = new StringBuilder();
                             }
-                        } else if (methodStarted) {
+                        } else if (arrayStarted && !stringStarted && sb.length() > 0 && !sb.toString().contains("(")) {
+                            arrayBuilderList.add(sb.toString());
+                            sb = new StringBuilder();
+                        } else if (methodStarted || stringStarted) {
                             sb.append(c);
                         }
 

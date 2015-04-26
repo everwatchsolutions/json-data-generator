@@ -1,27 +1,27 @@
 {
-    "firstName" : firstName(),
-    "lastName": lastName(),
-    "randomName":random('one', "two", 'three'),
-    "active":boolean(),
-    "rand-long":long(),
-    "rand-long-min":long(895043890865),
-    "rand-long-range":long(787658, 8948555),
-    "rand-int":integer(),
-    "rand-int-min":integer(80000),
-    "rand-int-range":integer(10, 20),
-    "rand-double":double(),
-    "rand-double-min":double(80000.44),
-    "rand-double-range":double(10.5, 20.3),
-    "alpha":alpha(5),
-    "alphaNumeric":alphaNumeric(10),
-    "uuid":uuid(),
+    "firstName" : "firstName()",
+    "lastName": "lastName()",
+    "randomName":"random('one', \"two\", 'three')",
+    "active":"boolean()",
+    "rand-long":"long()",
+    "rand-long-min":"long(895043890865)",
+    "rand-long-range":"long(787658, 8948555)",
+    "rand-int":"integer()",
+    "rand-int-min":"integer(80000)",
+    "rand-int-range":"integer(10, 20)",
+    "rand-double":"double()",
+    "rand-double-min":"double(80000.44)",
+    "rand-double-range":"double(10.5, 20.3)",
+    "alpha":"alpha(5)",
+    "alphaNumeric":"alphaNumeric(10)",
+    "uuid":"uuid()",
     "date-test": {
-        "rand-date": date(),
-        "min-date": date("2015/03/01"),
-        "range-date": date("2015/03/01","2015/03/30"),
-        "now": now(),
-        "nowTimestamp": nowTimestamp(),
-        "timestamp": timestamp("2015/03/01","2015/03/30")
+        "rand-date": "date()",
+        "min-date": "date(\"2015/03/01\")",
+        "range-date": "date(\"2015/03/01\",\"2015/03/30\")",
+        "now": "now()",
+        "nowTimestamp": "nowTimestamp()",
+        "timestamp": "timestamp(\"2015/03/01\",\"2015/03/30\")"
     },
     "literal-test": {
         "literal-bool": true,
@@ -30,10 +30,10 @@
         "literal-double": 45.33
     },
     "array": [
-        { "thing": alpha(3) },
-        { "thing2": alpha(3) },
+        { "thing": "alpha(3)" },
+        { "thing2": "alpha(3)" },
         { "thing3": true },
         { "thing4": "job" }
     ],
-    "after-array": boolean()
+    "after-array": "boolean()"
 }

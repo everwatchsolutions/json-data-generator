@@ -19,5 +19,10 @@ public class UuidType extends TypeHandler {
     public String getNextRandomValue() {
         return UUID.randomUUID().toString();
     }
+    
+    @Override
+    public String getName() {
+        return TYPE_NAME;
+    }
             
 }

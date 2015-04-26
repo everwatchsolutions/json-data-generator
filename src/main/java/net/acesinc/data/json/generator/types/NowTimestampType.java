@@ -20,4 +20,8 @@ public class NowTimestampType extends TypeHandler {
         return new Date().getTime();
     }
             
+    @Override
+    public String getName() {
+        return TYPE_NAME;
+    }
 }
