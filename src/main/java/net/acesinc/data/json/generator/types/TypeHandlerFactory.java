@@ -27,9 +27,11 @@ public class TypeHandlerFactory {
 
     private static TypeHandlerFactory instance;
     private Map<String, Class> typeHandlerNameMap;
+    private Map<String, TypeHandler> typeHandlerCache;
 
     private TypeHandlerFactory() {
         typeHandlerNameMap = new LinkedHashMap<>();
+        typeHandlerCache = new LinkedHashMap<>();
         scanForTypeHandlers();
     }
 
@@ -72,18 +74,25 @@ public class TypeHandlerFactory {
                 helperArgs = stripQuotes(helperArgs);
             }
 
-            Class handlerClass = typeHandlerNameMap.get(typeName);
-            if (handlerClass != null) {
-                try {
-                    TypeHandler o = (TypeHandler) handlerClass.newInstance();
-                    o.setLaunchArguments(helperArgs);
-                    return o;
-                } catch (InstantiationException | IllegalAccessException ex) {
-                    log.warn("Error instantiating TypeHandler class [ " + handlerClass.getName() + " ]", ex);
-                }
+            TypeHandler handler = typeHandlerCache.get(typeName);
+            if (handler == null) {
+                Class handlerClass = typeHandlerNameMap.get(typeName);
+                if (handlerClass != null) {
+                    try {
+                        handler = (TypeHandler) handlerClass.newInstance();
+                        handler.setLaunchArguments(helperArgs);
 
-            } 
-            return null;
+                        typeHandlerCache.put(typeName, handler);
+                    } catch (InstantiationException | IllegalAccessException ex) {
+                        log.warn("Error instantiating TypeHandler class [ " + handlerClass.getName() + " ]", ex);
+                    }
+
+                }
+            } else {
+                handler.setLaunchArguments(helperArgs);
+            }
+
+            return handler;
         } else {
             //not a type handler
             return null;
