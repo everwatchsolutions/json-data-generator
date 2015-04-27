@@ -41,9 +41,9 @@ public class RandomJsonGenerator {
     public String generateJson() {
         StringWriter w = new StringWriter();
         javax.json.stream.JsonGenerator gen = factory.createGenerator(w);
-        
+
         processProperties(gen, config);
-        
+
         gen.flush();
         return w.toString();
     }
@@ -110,36 +110,38 @@ public class RandomJsonGenerator {
                     gen.writeStartArray();
                 }
 
-                if (String.class.isAssignableFrom(listOfItems.get(0).getClass()) && ((String) listOfItems.get(0)).contains("(")) {
-                    //special function in array
-                    String name = (String) listOfItems.get(0);
-                    String specialFunc = null;
-                    String[] specialFuncArgs = {};
+                if (!listOfItems.isEmpty()) {
+                    if (String.class.isAssignableFrom(listOfItems.get(0).getClass()) && ((String) listOfItems.get(0)).contains("(")) {
+                        //special function in array
+                        String name = (String) listOfItems.get(0);
+                        String specialFunc = null;
+                        String[] specialFuncArgs = {};
 
-                    specialFunc = name.substring(0, name.indexOf("("));
-                    String args = name.substring(name.indexOf("(") + 1, name.indexOf(")"));
+                        specialFunc = name.substring(0, name.indexOf("("));
+                        String args = name.substring(name.indexOf("(") + 1, name.indexOf(")"));
 
-                    if (!args.isEmpty()) {
-                        specialFuncArgs = args.split(",");
-                    }
-
-                    switch (specialFunc) {
-                        case "repeat": {
-                            int timesToRepeat = 1;
-                            if (specialFuncArgs.length == 1) {
-                                timesToRepeat = Integer.parseInt(specialFuncArgs[0]);
-                            } else {
-                                timesToRepeat = new RandomDataGenerator().nextInt(0, 10);
-                            }
-                            List<Object> subList = listOfItems.subList(1, listOfItems.size());
-                            for (int i = 0; i < timesToRepeat; i++) {
-                                processList(subList, gen);
-                            }
-                            break;
+                        if (!args.isEmpty()) {
+                            specialFuncArgs = args.split(",");
                         }
+
+                        switch (specialFunc) {
+                            case "repeat": {
+                                int timesToRepeat = 1;
+                                if (specialFuncArgs.length == 1) {
+                                    timesToRepeat = Integer.parseInt(specialFuncArgs[0]);
+                                } else {
+                                    timesToRepeat = new RandomDataGenerator().nextInt(0, 10);
+                                }
+                                List<Object> subList = listOfItems.subList(1, listOfItems.size());
+                                for (int i = 0; i < timesToRepeat; i++) {
+                                    processList(subList, gen);
+                                }
+                                break;
+                            }
+                        }
+                    } else {
+                        processList(listOfItems, gen);
                     }
-                } else {
-                    processList(listOfItems, gen);
                 }
                 gen.writeEnd();
             } else {
@@ -164,8 +166,6 @@ public class RandomJsonGenerator {
             }
         }
     }
-    
-    
 
     private javax.json.stream.JsonGenerator addValue(javax.json.stream.JsonGenerator gen, String propName, Object val) {
         if (val == null) {
