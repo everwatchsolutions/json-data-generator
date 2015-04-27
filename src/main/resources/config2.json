@@ -1,4 +1,5 @@
 {
+    "recordId": "counter()",
     "who": {
         "firstName":"firstName()",
         "lastName":"lastName()"

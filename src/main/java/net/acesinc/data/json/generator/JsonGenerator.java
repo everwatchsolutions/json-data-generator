@@ -42,7 +42,7 @@ public class JsonGenerator {
     }
     
     public static void main(String... args) {
-        String config = "config4.json";
+        String config = "config2.json";
         try {
             JsonGenerator gen = new JsonGenerator();
             log.info("Generated json Map: " + gen.testMapGenerator(config));
