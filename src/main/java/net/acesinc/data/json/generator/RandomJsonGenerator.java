@@ -33,6 +33,7 @@ public class RandomJsonGenerator {
 
     private Map<String, Object> config;
     private JsonGeneratorFactory factory = Json.createGeneratorFactory(null);
+    private Map<String, Object> generatedValues;
 
     public RandomJsonGenerator(Map<String, Object> config) {
         this.config = config;
@@ -41,8 +42,9 @@ public class RandomJsonGenerator {
     public String generateJson() {
         StringWriter w = new StringWriter();
         javax.json.stream.JsonGenerator gen = factory.createGenerator(w);
+        generatedValues = new LinkedHashMap<>();
 
-        processProperties(gen, config);
+        processProperties(gen, config, "");
 
         gen.flush();
         return w.toString();
@@ -60,31 +62,38 @@ public class RandomJsonGenerator {
         return mapper.readValue(json, List.class);
     }
 
-    private javax.json.stream.JsonGenerator processProperties(javax.json.stream.JsonGenerator gen, Map<String, Object> props) {
-        Map<String, Object> outputValues = new LinkedHashMap<>();
+    private javax.json.stream.JsonGenerator processProperties(javax.json.stream.JsonGenerator gen, Map<String, Object> props, String currentContext) {
+//        Map<String, Object> outputValues = new LinkedHashMap<>();
         for (String propName : props.keySet()) {
             Object value = props.get(propName);
             if (value == null) {
-                outputValues.put(propName, null);
+//                outputValues.put(propName, null);
+                generatedValues.put(currentContext + propName, null);
                 addValue(gen, propName, null);
             } else if (String.class.isAssignableFrom(value.getClass())) {
                 String type = (String) value;
 
                 if (type.startsWith("this.")) {
-                    //this could be recursive
-                    //can't do this at the same time as the type handlers because the value might not be made yet...
-                    log.warn("Referencing other properties is not implemented yet. Prop [ " + propName + " ] being ignored in output.");
+                    String refPropName = type.substring("this.".length(), type.length());
+                    Object refPropValue = generatedValues.get(refPropName);
+                    if (refPropValue != null) {
+                        addValue(gen, propName, refPropValue);
+                    } else {
+                        log.warn("Sorry, unable to reference property [ " + refPropName + " ]. Maybe it hasn't been generated yet?");
+                    }
                 } else {
                     try {
-                        TypeHandler th = TypeHandlerFactory.getInstance().getTypeHandler(type);
+                        TypeHandler th = TypeHandlerFactory.getInstance().getTypeHandler(type, generatedValues);
 
                         if (th != null) {
                             Object val = th.getNextRandomValue();
-                            outputValues.put(propName, val);
+//                            outputValues.put(propName, val);
+                            generatedValues.put(currentContext + propName, val);
                             addValue(gen, propName, val);
                         } else {
 //                            log.debug("Unknown Type: [ " + type + " ] for prop [ " + propName + " ]. Attempting to echo literal value.");
-                            outputValues.put(propName, type);
+//                            outputValues.put(propName, type);
+                            generatedValues.put(currentContext + propName, type);
                             addValue(gen, propName, type);
                         }
                     } catch (IllegalArgumentException iae) {
@@ -99,7 +108,15 @@ public class RandomJsonGenerator {
                 } else {
                     gen.writeStartObject(propName);
                 }
-                processProperties(gen, nestedProps);
+                String newContext = "";
+                if (propName != null) {
+                    if (currentContext.isEmpty()) {
+                        newContext = propName + ".";
+                    } else {
+                        newContext = currentContext + propName + ".";
+                    }
+                }
+                processProperties(gen, nestedProps, newContext);
                 gen.writeEnd();
             } else if (List.class.isAssignableFrom(value.getClass())) {
                 //array
@@ -134,13 +151,13 @@ public class RandomJsonGenerator {
                                 }
                                 List<Object> subList = listOfItems.subList(1, listOfItems.size());
                                 for (int i = 0; i < timesToRepeat; i++) {
-                                    processList(subList, gen);
+                                    processList(subList, gen, currentContext);
                                 }
                                 break;
                             }
                         }
                     } else {
-                        processList(listOfItems, gen);
+                        processList(listOfItems, gen, currentContext);
                     }
                 }
                 gen.writeEnd();
@@ -153,7 +170,7 @@ public class RandomJsonGenerator {
         return gen;
     }
 
-    protected void processList(List<Object> listOfItems, JsonGenerator gen) {
+    protected void processList(List<Object> listOfItems, JsonGenerator gen, String currentContext) {
         for (Object item : listOfItems) {
             if (String.class.isAssignableFrom(item.getClass())) {
                 //literal string, just add it
@@ -161,7 +178,8 @@ public class RandomJsonGenerator {
             } else if (Map.class.isAssignableFrom(item.getClass())) {
                 Map<String, Object> nestedProps = (Map<String, Object>) item;
                 gen.writeStartObject();
-                processProperties(gen, nestedProps);
+
+                processProperties(gen, nestedProps, currentContext);
                 gen.writeEnd();
             }
         }

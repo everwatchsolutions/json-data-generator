@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +65,7 @@ public class TypeHandlerFactory {
         }
     }
 
-    public TypeHandler getTypeHandler(String name) throws IllegalArgumentException {
+    public TypeHandler getTypeHandler(String name, Map<String, Object> knownValues) throws IllegalArgumentException {
         if (name.contains("(")) {
             String typeName = name.substring(0, name.indexOf("("));
             String args = name.substring(name.indexOf("(") + 1, name.indexOf(")"));
@@ -74,13 +75,31 @@ public class TypeHandlerFactory {
                 helperArgs = stripQuotes(helperArgs);
             }
 
+            List<String> resolvedArgs = new ArrayList<>();
+            for (String arg : helperArgs) {
+                if (arg.startsWith("this.")) {
+                    String refPropName = arg.substring("this.".length(), arg.length());
+                    Object refPropValue = knownValues.get(refPropName);
+                    if (refPropValue != null) {
+                        if (Date.class.isAssignableFrom(refPropValue.getClass())) {
+                            resolvedArgs.add(BaseDateType.INPUT_DATE_FORMAT.format((Date)refPropValue));
+                        } else {
+                            resolvedArgs.add(refPropValue.toString());
+                        }
+                    } else {
+                        log.warn("Sorry, unable to reference property [ " + refPropName + " ]. Maybe it hasn't been generated yet?");
+                    }
+                } else {
+                    resolvedArgs.add(arg);
+                }
+            }
             TypeHandler handler = typeHandlerCache.get(typeName);
             if (handler == null) {
                 Class handlerClass = typeHandlerNameMap.get(typeName);
                 if (handlerClass != null) {
                     try {
                         handler = (TypeHandler) handlerClass.newInstance();
-                        handler.setLaunchArguments(helperArgs);
+                        handler.setLaunchArguments(resolvedArgs.toArray(new String[]{}));
 
                         typeHandlerCache.put(typeName, handler);
                     } catch (InstantiationException | IllegalAccessException ex) {
@@ -89,7 +108,7 @@ public class TypeHandlerFactory {
 
                 }
             } else {
-                handler.setLaunchArguments(helperArgs);
+                handler.setLaunchArguments(resolvedArgs.toArray(new String[]{}));
             }
 
             return handler;
@@ -108,7 +127,8 @@ public class TypeHandlerFactory {
     }
 
     public static void main(String[] args) {
-        TypeHandler random = TypeHandlerFactory.getInstance().getTypeHandler("random('one', 'two', 'three')");
+        Map<String, Object> vals = new LinkedHashMap<>();
+        TypeHandler random = TypeHandlerFactory.getInstance().getTypeHandler("random('one', 'two', 'three')", vals);
         if (random == null) {
             log.error("error getting handler");
         } else {

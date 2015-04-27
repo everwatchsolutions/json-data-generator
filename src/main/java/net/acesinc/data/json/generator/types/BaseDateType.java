@@ -18,7 +18,7 @@ public abstract class BaseDateType extends TypeHandler {
 
     private Date min;
     private Date max;
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    public static final SimpleDateFormat INPUT_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd");
 
     public BaseDateType() {
     }
@@ -28,19 +28,16 @@ public abstract class BaseDateType extends TypeHandler {
         super.setLaunchArguments(launchArguments);
         try {
             if (launchArguments.length == 0) {
-
-                min = sdf.parse("1970/01/01");
+                min = INPUT_DATE_FORMAT.parse("1970/01/01");
                 max = new Date();
-
             } else if (launchArguments.length == 1) {
                 //min only
-                min = sdf.parse(launchArguments[0]);
+                min = INPUT_DATE_FORMAT.parse(launchArguments[0]);
                 max = new Date();
             } else if (launchArguments.length == 2) {
-                min = sdf.parse(launchArguments[0]);
-                max = sdf.parse(launchArguments[1]);
+                min = INPUT_DATE_FORMAT.parse(launchArguments[0]);
+                max = INPUT_DATE_FORMAT.parse(launchArguments[1]);
             }
-
         } catch (ParseException ex) {
             throw new IllegalArgumentException("Provided date is invalid. Please use the format [ yyyy/MM/dd ]", ex);
         }
