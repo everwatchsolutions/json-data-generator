@@ -58,6 +58,11 @@
             <version>0.9.9-RC1</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>0.8.2.1</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.10</version>
@@ -114,7 +119,7 @@
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             <addClasspath>true</addClasspath>
                             <useUniqueVersions>false</useUniqueVersions>
-                            <mainClass>com.aces.data.logdata.LogDataGenerator</mainClass>
+                            <mainClass>net.acesinc.data.json.generator.JsonDataGenerator</mainClass>
                             <classpathPrefix>lib/</classpathPrefix>
                         </manifest>
                         <manifestEntries>

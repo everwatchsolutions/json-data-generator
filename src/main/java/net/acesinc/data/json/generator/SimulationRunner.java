@@ -27,11 +27,11 @@ public class SimulationRunner {
     private List<EventGenerator> eventGenerators;
     private List<Thread> eventGenThreads;
     private boolean running;
-    private EventLogger eventLogger;
+    private List<EventLogger> eventLoggers;
 
-    public SimulationRunner(SimulationConfig config, EventLogger logger) {
+    public SimulationRunner(SimulationConfig config, List<EventLogger> loggers) {
         this.config = config;
-        this.eventLogger = logger;
+        this.eventLoggers = loggers;
         eventGenerators = new ArrayList<EventGenerator>();
         eventGenThreads = new ArrayList<Thread>();
         
@@ -43,7 +43,7 @@ public class SimulationRunner {
         for (WorkflowConfig workflowConfig : config.getWorkflowList()) {
             try {
                 Workflow w = JSONConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(workflowConfig.getWorkflowFilename()), Workflow.class);
-                final EventGenerator gen = new EventGenerator(w, workflowConfig.getWorkflowName(), eventLogger);
+                final EventGenerator gen = new EventGenerator(w, workflowConfig.getWorkflowName(), eventLoggers);
                 log.info("Adding EventGenerator for [ " + workflowConfig.getWorkflowName()+ "," + workflowConfig.getWorkflowFilename()+ " ]");
                 eventGenerators.add(gen);
                 eventGenThreads.add(new Thread(gen));
@@ -68,6 +68,9 @@ public class SimulationRunner {
         log.info("Stopping Simulation");
         for (Thread t : eventGenThreads) {
             t.interrupt();
+        }
+        for (EventLogger l : eventLoggers) {
+            l.shutdown();
         }
         running = false;
     }

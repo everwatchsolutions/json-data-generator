@@ -6,8 +6,8 @@
 
 package net.acesinc.data.json.generator.log;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,12 +22,19 @@ public class Log4JLogger implements EventLogger {
     private static final Logger dataLogger = LogManager.getLogger("data-logger");
     private ObjectMapper mapper = new ObjectMapper();
     
-    public void logEvent(Map<String, Object> event) {
+    @Override
+    public void logEvent(String event) {
         try {
-            dataLogger.info(mapper.writeValueAsString(event));
-        } catch (JsonProcessingException ex) {
-            log.error("Error processing SystemEvent into json string", ex);
+            Map<String, Object> eventMap = mapper.readValue(event, Map.class);
+            dataLogger.info(mapper.writeValueAsString(eventMap));
+        } catch (IOException ex) {
+            log.error("Error logging event", ex);
         }
+    }
+
+    @Override
+    public void shutdown() {
+        //nothing to shutdown
     }
     
 }

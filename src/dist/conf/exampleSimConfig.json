@@ -1,7 +1,7 @@
 {
     "workflowList": [{
             "workflowName": "test",
-            "workflowFilename": "normalUser1Workflow.json"
+            "workflowFilename": "exampleWorkflow.json"
         }],
     "producers": [{
             "type": "kafka",

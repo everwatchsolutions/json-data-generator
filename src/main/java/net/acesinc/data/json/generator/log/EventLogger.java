@@ -6,13 +6,12 @@
 
 package net.acesinc.data.json.generator.log;
 
-import java.util.Map;
-
 
 /**
  *
  * @author andrewserff
  */
 public interface EventLogger {
-    public void logEvent(Map<String, Object> event);
+    public void logEvent(String event);
+    public void shutdown();
 }

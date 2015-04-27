@@ -28,12 +28,12 @@ public class EventGenerator implements Runnable {
     private Workflow workflow;
     private String generatorName;
     private boolean running;
-    private EventLogger eventLogger;
+    private List<EventLogger> eventLoggers;
 
-    public EventGenerator(Workflow workflow, String generatorName, EventLogger logger) {
+    public EventGenerator(Workflow workflow, String generatorName, List<EventLogger> loggers) {
         this.workflow = workflow;
         this.generatorName = generatorName;
-        this.eventLogger = logger;
+        this.eventLoggers = loggers;
     }
 
     public void runWorkflow() {
@@ -47,8 +47,10 @@ public class EventGenerator implements Runnable {
                     Map<String, Object> wrapper = new LinkedHashMap<>();
                     wrapper.put(null, config);
                     try {
-                        Map<String, Object> event = generateEvent(wrapper);
-                        eventLogger.logEvent(event);
+                        String event = generateEvent(wrapper);
+                        for (EventLogger l : eventLoggers) {
+                            l.logEvent(event);
+                        }
                         try {
                             performEventSleep(workflow);
                         } catch (InterruptedException ie) {
@@ -68,8 +70,10 @@ public class EventGenerator implements Runnable {
                     try {
                         Map<String, Object> wrapper = new LinkedHashMap<>();
                         wrapper.put(null, configs.get(generateRandomNumber(0, configs.size() - 1)));
-                        Map<String, Object> event = generateEvent(wrapper);
-                        eventLogger.logEvent(event);
+                        String event = generateEvent(wrapper);
+                        for (EventLogger l : eventLoggers) {
+                            l.logEvent(event);
+                        }
                         try {
                             performEventSleep(workflow);
                         } catch (InterruptedException ie) {
@@ -90,8 +94,10 @@ public class EventGenerator implements Runnable {
                     try {
                         Map<String, Object> wrapper = new LinkedHashMap<>();
                         wrapper.put(null, configs.get(generateRandomNumber(0, configs.size() - 1)));
-                        Map<String, Object> event = generateEvent(wrapper);
-                        eventLogger.logEvent(event);
+                        String event = generateEvent(wrapper);
+                        for (EventLogger l : eventLoggers) {
+                            l.logEvent(event);
+                        }
                         try {
                             performEventSleep(workflow);
                         } catch (InterruptedException ie) {
@@ -139,9 +145,9 @@ public class EventGenerator implements Runnable {
         }
     }
 
-    public Map<String, Object> generateEvent(Map<String, Object> config) throws IOException {
+    public String generateEvent(Map<String, Object> config) throws IOException {
         RandomJsonGenerator generator = new RandomJsonGenerator(config);
-        return generator.generateJsonMap();
+        return generator.generateJson();
     }
 
     private int generateRandomNumber(int min, int max) {
