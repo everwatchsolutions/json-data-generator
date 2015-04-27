@@ -163,6 +163,7 @@ public class RandomJsonGenerator {
                 gen.writeEnd();
             } else {
                 //literals
+                generatedValues.put(currentContext + propName, value);
                 addValue(gen, propName, value);
             }
         }

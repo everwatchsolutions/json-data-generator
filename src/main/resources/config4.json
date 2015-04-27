@@ -17,5 +17,8 @@
     "sub-nest-ref": "this.nest.sub-nest.sub-nest1",
     "func-ref": "random(this.action,this.system)",
     "date": "date('2015/04/01')",
-    "newer-date": "date(this.date)"
+    "newer-date": "date(this.date)",
+    "min": 100,
+    "max": 200,
+    "between-min-max": "integer(this.min, this.max)"
 }
