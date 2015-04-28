@@ -14,21 +14,21 @@ import java.util.Map;
  * @author andrewserff
  */
 public class SimulationConfig {
-    private List<WorkflowConfig> workflowList;
+    private List<WorkflowConfig> workflows;
     private List<Map<String, Object>> producers;
     
     /**
-     * @return the workflowList
+     * @return the workflows
      */
-    public List<WorkflowConfig> getWorkflowList() {
-        return workflowList;
+    public List<WorkflowConfig> getWorkflows() {
+        return workflows;
     }
 
     /**
-     * @param workflowList the workflowList to set
+     * @param workflows the workflows to set
      */
-    public void setWorkflowList(List<WorkflowConfig> workflowList) {
-        this.workflowList = workflowList;
+    public void setWorkflows(List<WorkflowConfig> workflows) {
+        this.workflows = workflows;
     }
 
     /**

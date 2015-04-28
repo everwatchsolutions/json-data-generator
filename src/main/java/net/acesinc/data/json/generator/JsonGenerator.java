@@ -5,6 +5,7 @@
  */
 package net.acesinc.data.json.generator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -42,10 +43,11 @@ public class JsonGenerator {
     }
     
     public static void main(String... args) {
-        String config = "config4.json";
+        String config = "config1.json";
         try {
+            ObjectMapper mapper = new ObjectMapper();
             JsonGenerator gen = new JsonGenerator();
-            log.info("Generated json Map: " + gen.testMapGenerator(config));
+            log.info("Generated json Map: " + mapper.writeValueAsString(gen.testMapGenerator(config)));
             JsonGenerator gen2 = new JsonGenerator();
             log.info("Generated json List: " + gen2.testListGenerator("config3.json"));
         } catch (IOException ex) {

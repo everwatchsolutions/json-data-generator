@@ -1,5 +1,5 @@
 {
-    "workflowList": [{
+    "workflows": [{
             "workflowName": "test",
             "workflowFilename": "exampleWorkflow.json"
         }],
