@@ -207,6 +207,52 @@ exampleWorkflow.json:
 ```
 This workflow would output the defined json about every 4 seconds and then it will wait about 15 seconds before starting again.  
 
+## Running The Generator
+Now that you know how to configure the Generator, it's time to run it.  You will need maven to build the application until we put a release up to download. 
+
+First, clone/fork the repo:
+
+```
+git clone git@github.com:acesinc/json-data-generator.git
+cd json-data-generator
+```
+Now build it!
+```
+mvn clean package
+```
+Once this completes, a tar file will have been generated for you to use.  Unpack the tar file somewhere you want to run the application from:
+
+```
+cp target/json-data-generator-1.0.0-bin.tar your/directory
+cd your/directory
+tar xvf json-data-generator-1.0.0-bin.tar
+cd json-data-generator
+```
+In the `conf` directory, you will find an example `Simulation Configuration` and an example `Workflow Definition`.  You can change these or make your own configurations to run with, but for now, we will just run the examples.  This example simulates an auditing system that generates events when a user performs an action on a system.  To do so, do the following: 
+
+```
+java -jar json-data-generator-1.0.0.jar exampleSimConfig.json
+```
+You will start seeing output in your console and data will begin to be generated.  It will look something like this:
+
+```
+...
+2015-04-28 14:21:08,013 DEBUG n.a.d.j.g.t.TypeHandlerFactory [Thread-2] Discovered TypeHandler [ integer,net.acesinc.data.json.generator.types.IntegerType ]
+2015-04-28 14:21:08,013 DEBUG n.a.d.j.g.t.TypeHandlerFactory [Thread-2] Discovered TypeHandler [ timestamp,net.acesinc.data.json.generator.types.TimestampType ]
+2015-04-28 14:30:02,817 INFO data-logger [Thread-2] {"timestamp":1430253002793,"system":"BADGE","actor":"bob","action":"ENTER","objects":["Building 1"],"location":"45.5,44.3","message":"Entered Building 1"}
+2015-04-28 14:30:05,369 INFO data-logger [Thread-2] {"timestamp":1430253005368,"system":"AD","actor":"bob","action":"LOGIN","objects":["workstation1"],"location":null,"message":"Logged in to workstation 1"}
+2015-04-28 14:30:07,491 INFO data-logger [Thread-2] {"timestamp":1430253007481,"system":"AUDIT","actor":"bob","action":"COPY","objects":["/data/file1.txt","/share/mystuff/file2.txt"],"location":null,"message":"Printed /data/file1.txt"}
+2015-04-28 14:30:09,768 INFO data-logger [Thread-2] {"timestamp":1430253009767,"system":"AUDIT","actor":"bob","action":"COPY","objects":["/data/file1.txt","/share/mystuff/file2.txt"],"location":null,"message":"Printed /data/file1.txt"}
+```
+
+This example only outputs to the `Logger` Producer, so all the data is going to your console and it is also being written to `json-data-generator/logs/json-data.log`. The data written to json-data.log is a single event per line and does not contain the logging timestamps and other info like above.  
+
+If you were to create your own simulation config called `mySimConfig.json`, you would place that file and any workflow conigs into the `conf` directory and run the application again like so:
+
+```
+java -jar json-data-generator-1.0.0.jar mySimConfig.json
+```
+
 ## Supported Functions
 As you saw in the `Workflow Definition`, our Generator supports a number of different functions that allow you to generate random data for the values in your json documents.  Below is a list of all the currently supported `Functions` and the arguments they support/require.
 

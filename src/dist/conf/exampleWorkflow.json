@@ -32,7 +32,7 @@
                     "system": "AUDIT",
                     "actor": "bob",
                     "action": "random(\"PRINT\",\"OPEN\",\"COPY\")",
-                    "objects": ["random(\"/data/file1.txt\",\"/share/mystuff/file2.txt\")"],
+                    "objects": ["/data/file1.txt","/share/mystuff/file2.txt"],
                     "location": null,
                     "message": "Printed /data/file1.txt"
                 }],
