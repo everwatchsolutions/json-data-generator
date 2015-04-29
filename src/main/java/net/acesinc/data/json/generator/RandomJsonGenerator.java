@@ -5,11 +5,16 @@
  */
 package net.acesinc.data.json.generator;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.ValueNode;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +23,7 @@ import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 import net.acesinc.data.json.generator.types.TypeHandler;
 import net.acesinc.data.json.generator.types.TypeHandlerFactory;
+import net.acesinc.data.json.util.JsonUtils;
 import org.apache.commons.math3.random.RandomDataGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,9 +40,11 @@ public class RandomJsonGenerator {
     private Map<String, Object> config;
     private JsonGeneratorFactory factory = Json.createGeneratorFactory(null);
     private Map<String, Object> generatedValues;
+    private JsonUtils jsonUtils;
 
     public RandomJsonGenerator(Map<String, Object> config) {
         this.config = config;
+        jsonUtils = new JsonUtils();
     }
 
     public String generateJson() {
@@ -49,7 +57,12 @@ public class RandomJsonGenerator {
         gen.flush();
         return w.toString();
     }
-
+    
+    public String generateFlattnedJson() throws IOException {
+        String json = generateJson();
+        return jsonUtils.flattenJson(json);
+    }
+    
     public Map<String, Object> generateJsonMap() throws IOException {
         String json = generateJson();
         ObjectMapper mapper = new ObjectMapper();

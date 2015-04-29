@@ -5,9 +5,12 @@
  */
 package net.acesinc.data.json.generator.log;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import net.acesinc.data.json.util.JsonUtils;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -28,8 +31,10 @@ public class KafkaLogger implements EventLogger {
     private final KafkaProducer<String, String> producer;
     private final String topic;
     private final boolean sync;
+    private final boolean flatten;
     private final Properties props = new Properties();
-
+    private JsonUtils jsonUtils;
+    
     public KafkaLogger(Map<String, Object> props) {
         String brokerHost = (String) props.get(BROKER_SERVER_PROP_NAME);
         Integer brokerPort = (Integer) props.get(BROKER_PORT_PROP_NAME);
@@ -41,13 +46,25 @@ public class KafkaLogger implements EventLogger {
         producer = new KafkaProducer<>(props);
         this.topic = (String) props.get("topic");
         this.sync = (Boolean) props.get("sync");
+        this.flatten = (Boolean) props.get("flatten");
+        this.jsonUtils = new JsonUtils();
     }
 
     @Override
     public void logEvent(String event) {
         boolean sync = false;
         
-        ProducerRecord<String, String> producerRecord = new ProducerRecord<>(topic, event);
+        String output = event;
+        if (flatten) {
+            try {
+                output = jsonUtils.flattenJson(event);
+            } catch (IOException ex) {
+                log.error("Error flattening json. Unable to send event [ " + event + " ]", ex);
+                return;
+            }
+        }
+        
+        ProducerRecord<String, String> producerRecord = new ProducerRecord<>(topic, output);
         if (sync) {
             try {
                 producer.send(producerRecord).get();
@@ -56,7 +73,7 @@ public class KafkaLogger implements EventLogger {
                 log.warn("Thread interrupted while waiting for synchronous response from producer", ex);
             }
         } else {
-            log.debug("Sending event to Kafka: [ " + event + " ]");
+            log.debug("Sending event to Kafka: [ " + output + " ]");
             producer.send(producerRecord);
         }
     }

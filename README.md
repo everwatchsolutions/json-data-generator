@@ -76,10 +76,37 @@ A Kafka Producer sends json events to the specified Kafka broker and topic as a 
     "broker.server": "192.168.59.103",
     "broker.port": 9092,
     "topic": "logevent",
+    "flatten": false
     "sync": false
 }
 ```
-If `sync=false`, all events are sent asynchronously. If for some reason you would like to send events synchronously, set `sync=true`. 
+If `sync=false`, all events are sent asynchronously. If for some reason you would like to send events synchronously, set `sync=true`. If `flatten=true`, the Producer will flatten the json before sending it to the Kafka queue, meaning instead of having nested json objects, you will have all properties at the top level using dot notation like so:
+
+```
+{
+    "test": {
+    	"one": "one",
+    	"two": "two"
+   	},
+   	"array": [
+   		{
+   			"element1": "one"
+   		},{
+   			"element2": "two"
+   		}]
+}
+```
+
+Would become
+
+```
+{
+	"test.one": "one",
+	"test.two": "two",
+	"array[0].element1": "one",
+	"array[1].element2": "two"
+}
+```
 
 **Full Simulation Config Example**
 
