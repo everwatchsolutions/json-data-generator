@@ -65,7 +65,7 @@ public class TypeHandlerFactory {
         }
     }
 
-    public TypeHandler getTypeHandler(String name, Map<String, Object> knownValues) throws IllegalArgumentException {
+    public TypeHandler getTypeHandler(String name, Map<String, Object> knownValues, String currentContext) throws IllegalArgumentException {
         if (name.contains("(")) {
             String typeName = name.substring(0, name.indexOf("("));
             String args = name.substring(name.indexOf("(") + 1, name.indexOf(")"));
@@ -77,8 +77,13 @@ public class TypeHandlerFactory {
 
             List<String> resolvedArgs = new ArrayList<>();
             for (String arg : helperArgs) {
-                if (arg.startsWith("this.")) {
-                    String refPropName = arg.substring("this.".length(), arg.length());
+                if (arg.startsWith("this.") || arg.startsWith("cur.")) {
+                    String refPropName = null;
+                    if (arg.startsWith("this.")) {
+                        refPropName = arg.substring("this.".length(), arg.length());
+                    } else if (arg.startsWith("cur.")) {
+                        refPropName = currentContext + arg.substring("cur.".length(), arg.length());
+                    }
                     Object refPropValue = knownValues.get(refPropName);
                     if (refPropValue != null) {
                         if (Date.class.isAssignableFrom(refPropValue.getClass())) {
@@ -121,7 +126,6 @@ public class TypeHandlerFactory {
     public static String[] prepareStrings(String[] list) {
         List<String> newList = new ArrayList<>();
         for (String item : list) {
-//            newList.add(item.replaceAll("'", "").replaceAll("\"", "").trim());
             newList.add(item.trim());
         }
         return newList.toArray(new String[]{});
@@ -129,7 +133,7 @@ public class TypeHandlerFactory {
 
     public static void main(String[] args) {
         Map<String, Object> vals = new LinkedHashMap<>();
-        TypeHandler random = TypeHandlerFactory.getInstance().getTypeHandler("random('one', 'two', 'three')", vals);
+        TypeHandler random = TypeHandlerFactory.getInstance().getTypeHandler("random('one', 'two', 'three')", vals, "");
         if (random == null) {
             log.error("error getting handler");
         } else {

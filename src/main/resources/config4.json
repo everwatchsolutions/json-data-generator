@@ -11,7 +11,8 @@
         "nest-1": "alpha(2)",
         "sub-nest": {
             "sub-nest1": "integer(334, 4433)"
-        }
+        },
+        "cur-copy": "cur.nest-1"
     },
     "nest-ref": "this.nest.nest-1",
     "sub-nest-ref": "this.nest.sub-nest.sub-nest1",
@@ -20,5 +21,9 @@
     "newer-date": "date(this.date)",
     "min": 100,
     "max": 200,
-    "between-min-max": "integer(this.min, this.max)"
+    "between-min-max": "integer(this.min, this.max)",
+    "array" : [{
+            "start": "now('-5_d')",
+            "end": "date(cur.start)"
+    }]
 }

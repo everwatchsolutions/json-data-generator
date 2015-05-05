@@ -42,7 +42,7 @@ public abstract class BaseDateType extends TypeHandler {
             throw new IllegalArgumentException("Provided date is invalid. Please use the format [ yyyy/MM/dd ]", ex);
         }
 
-        if (!min.before(max)) {
+        if (!min.before(max) && !min.equals(max)) {
             throw new IllegalArgumentException("Min Date must be before Max Date");
         }
     }
@@ -82,9 +82,5 @@ public abstract class BaseDateType extends TypeHandler {
         gc.set(GregorianCalendar.DAY_OF_MONTH, day);
 
         return gc.getTime();
-    }
-
-    public static String stripQuotes(String s) {
-        return s.replaceAll("'", "").replaceAll("\"", "").trim();
     }
 }

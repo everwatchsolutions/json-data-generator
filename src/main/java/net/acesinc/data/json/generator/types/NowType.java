@@ -25,7 +25,7 @@ public class NowType extends TypeHandler {
         if (launchArguments.length == 0) {
             timeToAdd = 0;
         } else {
-            String arg = launchArguments[0];
+            String arg = stripQuotes(launchArguments[0]);
             String timeAmount = arg;
             boolean isNegative = false;
             if (arg.startsWith("-")) {

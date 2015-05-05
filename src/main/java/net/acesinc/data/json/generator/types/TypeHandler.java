@@ -49,4 +49,8 @@ public abstract class TypeHandler {
     public void setLaunchArguments(String[] launchArguments) {
         this.launchArguments = launchArguments;
     }
+    
+    public static String stripQuotes(String s) {
+        return s.replaceAll("'", "").replaceAll("\"", "").trim();
+    }
 }

@@ -86,8 +86,13 @@ public class RandomJsonGenerator {
             } else if (String.class.isAssignableFrom(value.getClass())) {
                 String type = (String) value;
 
-                if (type.startsWith("this.")) {
-                    String refPropName = type.substring("this.".length(), type.length());
+                if (type.startsWith("this.") || type.startsWith("cur.")) {
+                    String refPropName = null;
+                    if (type.startsWith("this.")) {
+                        refPropName = type.substring("this.".length(), type.length());
+                    } else if (type.startsWith("cur.")) {
+                        refPropName = currentContext + type.substring("cur.".length(), type.length());
+                    }
                     Object refPropValue = generatedValues.get(refPropName);
                     if (refPropValue != null) {
                         addValue(gen, propName, refPropValue);
@@ -96,7 +101,7 @@ public class RandomJsonGenerator {
                     }
                 } else {
                     try {
-                        TypeHandler th = TypeHandlerFactory.getInstance().getTypeHandler(type, generatedValues);
+                        TypeHandler th = TypeHandlerFactory.getInstance().getTypeHandler(type, generatedValues, currentContext);
 
                         if (th != null) {
                             Object val = th.getNextRandomValue();
@@ -134,8 +139,15 @@ public class RandomJsonGenerator {
             } else if (List.class.isAssignableFrom(value.getClass())) {
                 //array
                 List<Object> listOfItems = (List<Object>) value;
+                String newContext = "";
                 if (propName != null) {
                     gen.writeStartArray(propName);
+                    
+                    if (currentContext.isEmpty()) {
+                        newContext = propName;
+                    } else {
+                        newContext = currentContext + propName;
+                    }
                 } else {
                     gen.writeStartArray();
                 }
@@ -165,19 +177,19 @@ public class RandomJsonGenerator {
                                 }
                                 List<Object> subList = listOfItems.subList(1, listOfItems.size());
                                 for (int i = 0; i < timesToRepeat; i++) {
-                                    processList(subList, gen, currentContext);
+                                    processList(subList, gen, newContext);
                                 }
                                 break;
                             }
                             case "random": { //choose one of the items in the list at random
                                 List<Object> subList = listOfItems.subList(1, listOfItems.size());
-                                Object item = subList.get(new RandomDataGenerator().nextInt(0, subList.size()-1));
-                                processItem(item, gen, currentContext);
+                                Object item = subList.get(new RandomDataGenerator().nextInt(0, subList.size() - 1));
+                                processItem(item, gen, newContext + "[0]");
                                 break;
                             }
                         }
                     } else { //it's not a special function, so just add it
-                        processList(listOfItems, gen, currentContext);
+                        processList(listOfItems, gen, newContext);
                     }
                 }
                 gen.writeEnd();
@@ -192,8 +204,10 @@ public class RandomJsonGenerator {
     }
 
     protected void processList(List<Object> listOfItems, JsonGenerator gen, String currentContext) {
-        for (Object item : listOfItems) {
-            processItem(item, gen, currentContext);
+        for (int i = 0; i < listOfItems.size(); i++) {
+            Object item = listOfItems.get(i);
+            String newContext = currentContext + "[" + i + "]";
+            processItem(item, gen, newContext);
         }
     }
 
@@ -201,11 +215,12 @@ public class RandomJsonGenerator {
         if (String.class.isAssignableFrom(item.getClass())) {
             //literal string, just add it
             addValue(gen, null, (String) item);
+            generatedValues.put(currentContext, (String) item);
         } else if (Map.class.isAssignableFrom(item.getClass())) {
             Map<String, Object> nestedProps = (Map<String, Object>) item;
             gen.writeStartObject();
 
-            processProperties(gen, nestedProps, currentContext);
+            processProperties(gen, nestedProps, currentContext + ".");
             gen.writeEnd();
         }
     }
