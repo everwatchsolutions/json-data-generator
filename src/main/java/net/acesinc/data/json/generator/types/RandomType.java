@@ -5,6 +5,9 @@
  */
 package net.acesinc.data.json.generator.types;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  *
@@ -15,21 +18,39 @@ public class RandomType extends TypeHandler{
     public static final String TYPE_NAME = "random";
     public static final String TYPE_DISPLAY_NAME = "Random";
     
-    private String[] values;
+    private List<Object> typedValues;
+    
     
     @Override
     public void setLaunchArguments(String[] launchArguments) {
         super.setLaunchArguments(launchArguments);
-        this.values = launchArguments;
+        typedValues = new ArrayList<>();
+        for (String s : launchArguments) {
+            if (s.contains("\"") || s.contains("'")) {
+                typedValues.add(stripQuotes(s));
+            } else {
+                if (s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false")) {
+                    typedValues.add(Boolean.parseBoolean(s));
+                } else if (s.contains(".")) {
+                    typedValues.add(Double.parseDouble(s));
+                } else { 
+                    typedValues.add(Long.parseLong(s));
+                }
+            }
+        }
     }
     
     @Override
-    public String getNextRandomValue() {
-        return values[getRand().nextInt(0, values.length - 1)];
+    public Object getNextRandomValue() {
+        return typedValues.get(getRand().nextInt(0, typedValues.size() - 1));
     }
     
     @Override
     public String getName() {
         return TYPE_NAME;
+    }
+    
+    public static String stripQuotes(String s) {
+        return s.replaceAll("'", "").replaceAll("\"", "").trim();
     }
 }

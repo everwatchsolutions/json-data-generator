@@ -72,7 +72,7 @@ public class TypeHandlerFactory {
             String[] helperArgs = {};
             if (!args.isEmpty()) {
                 helperArgs = args.split(",");
-                helperArgs = stripQuotes(helperArgs);
+                helperArgs = prepareStrings(helperArgs);
             }
 
             List<String> resolvedArgs = new ArrayList<>();
@@ -118,10 +118,11 @@ public class TypeHandlerFactory {
         }
     }
 
-    public static String[] stripQuotes(String[] list) {
+    public static String[] prepareStrings(String[] list) {
         List<String> newList = new ArrayList<>();
         for (String item : list) {
-            newList.add(item.replaceAll("'", "").replaceAll("\"", "").trim());
+//            newList.add(item.replaceAll("'", "").replaceAll("\"", "").trim());
+            newList.add(item.trim());
         }
         return newList.toArray(new String[]{});
     }

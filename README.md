@@ -306,7 +306,6 @@ Will always generate:
 | `alphaNumeric(#)` | The number of characters to generate | Generates a random string of AlphaNumeric charaters with the length specified |
 | `firstName()` | n/a | Generates a random first names from a predefined list of names |
 | `lastName()` | n/a | Generates a random last names from a predefined list of names |
-| `random(val1,val2,...)` | Literal values to choose from | Randomly chooses from the specified values |
 | `uuid()` | n/a | Generates a random UUID |
 
 
@@ -336,11 +335,12 @@ Will always generate:
 
 | Function        | Arguments           | Description   |
 | --------------- |----------------| --------------|
+| `random(val1,val2,...)` | Literal values to choose from. Can be Strings, Integers, Longs, Doubles, or Booleans | Randomly chooses from the specified values |
 | `counter(name)` | The name of the counter to generate | Generates a one up number for a specific name. Specify different names for differnt counters. |
 | `this.propName` | propName = the name of another property | Allows you to reference other values that have already been generated (i.e. they must come before).  For example, this.test.nested-test will reference the value of test.nested-test in the previously generated json object. You can also specify a `this.` clause when calling other functions like `date(this.otherDate)` will generate a date after another generated date. |
 
 #### Arrays
-We have a super special `Function` for use with arrays only right now called `repeat()`.  This function is used to specify that you want the Generator to take the element in the array, and repeat its generator a certain number of times.  You can specify the number of times or if you provide no arguments, it will repeat it 0-10 times.  Use it like so:
+We have two super special `Functions` for use with arrays. They are `repeat()` and `random()`.  The `repeat()` function is used to specify that you want the Generator to take the elements in the array, and repeat its generator a certain number of times.  You can specify the number of times or if you provide no arguments, it will repeat it 0-10 times.  Use it like so:
 
 ```
 {
@@ -353,6 +353,23 @@ We have a super special `Function` for use with arrays only right now called `re
 }
 ```
 This will generate a json object that has 7 values each with different random values for `date` and `count`. 
+
+The `random()` function will tell the generator to pick a random element from the array and out put that element only. Use it like so:
+```
+```
+{
+    "values": [
+        "random()",
+        {
+        	"date": "date('2015/04/01', '2015/04/25')",
+        	"count": "integer(1, 10)"
+        },{
+        	"thing1": "random('red', 'blue')"
+        }]
+}
+```
+
+This will generate an array with one element that is either the element with `date` & `count` or the element with `thing1` in it. 
 
 ## Examples
 Here is a Kitchen Sink example to show you all the differnt ways you can generate data:

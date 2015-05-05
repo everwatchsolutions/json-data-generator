@@ -3,6 +3,10 @@
         "firstName": "firstName()",
         "lastName": "lastName()",
         "random": "random('one', \"two\", 'three')",
+        "random-int": "random(1, 5, 10)",
+        "random-long": "random(789789375894375, 345875847589789, 10985478547847578)",
+        "random-double": "random(10.22, 23.43)",
+        "random-types": "random('string', 10.554, true, false)",
         "alpha": "alpha(5)",
         "alphaNumeric": "alphaNumeric(10)",
         "uuid": "uuid()"
@@ -62,6 +66,15 @@
         {
             "thing1": "random('red','blue')",
             "thing2": "random('red', 'blue')"
+        }
+    ],
+    "random-array": [
+        "random()",
+        {
+            "thing1": "random('red', 'blue')"
+        },
+        {
+            "thing2": "random('orange','purple')"
         }
     ]
 }

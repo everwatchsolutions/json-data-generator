@@ -32,11 +32,11 @@ public abstract class BaseDateType extends TypeHandler {
                 max = new Date();
             } else if (launchArguments.length == 1) {
                 //min only
-                min = INPUT_DATE_FORMAT.parse(launchArguments[0]);
+                min = INPUT_DATE_FORMAT.parse(stripQuotes(launchArguments[0]));
                 max = new Date();
             } else if (launchArguments.length == 2) {
-                min = INPUT_DATE_FORMAT.parse(launchArguments[0]);
-                max = INPUT_DATE_FORMAT.parse(launchArguments[1]);
+                min = INPUT_DATE_FORMAT.parse(stripQuotes(launchArguments[0]));
+                max = INPUT_DATE_FORMAT.parse(stripQuotes(launchArguments[1]));
             }
         } catch (ParseException ex) {
             throw new IllegalArgumentException("Provided date is invalid. Please use the format [ yyyy/MM/dd ]", ex);
@@ -82,5 +82,9 @@ public abstract class BaseDateType extends TypeHandler {
         gc.set(GregorianCalendar.DAY_OF_MONTH, day);
 
         return gc.getTime();
+    }
+
+    public static String stripQuotes(String s) {
+        return s.replaceAll("'", "").replaceAll("\"", "").trim();
     }
 }

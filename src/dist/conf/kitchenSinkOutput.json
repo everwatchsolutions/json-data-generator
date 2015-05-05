@@ -3,6 +3,10 @@
         "firstName": "Bob",
         "lastName": "Doe",
         "random": "two",
+        "random-int": 5,
+        "random-long": 345875847589789,
+        "random-double": 10.22,
+        "random-types": "string",
         "alpha": "FItra",
         "alphaNumeric": "0sv2woSraQ",
         "uuid": "8e5ca0e9-dc3a-490f-b12a-410068069c12"
@@ -61,5 +65,8 @@
         }, {
             "thing1": "red",
             "thing2": "blue"
+        }],
+    "random-array": [{
+            "thing1": "red"
         }]
 }
