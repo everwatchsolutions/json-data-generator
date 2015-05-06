@@ -5,8 +5,6 @@
  */
 package net.acesinc.data.json.generator.types;
 
-import java.text.ParseException;
-
 /**
  *
  * @author andrewserff
