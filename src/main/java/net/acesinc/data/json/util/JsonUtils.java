@@ -49,7 +49,15 @@ public class JsonUtils {
             }
         } else if (jsonNode.isValueNode()) {
             ValueNode valueNode = (ValueNode) jsonNode;
-            map.put(currentPath, valueNode.asText());
+            Object value = null;
+            if (valueNode.isNumber()) {
+               value = valueNode.numberValue();
+            } else if (valueNode.isBoolean()) {
+                value = valueNode.asBoolean();
+            } else if (valueNode.isTextual()){
+                value = valueNode.asText();
+            }
+            map.put(currentPath, value);
         }
     }
 }
