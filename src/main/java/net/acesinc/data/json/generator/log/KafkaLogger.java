@@ -38,11 +38,12 @@ public class KafkaLogger implements EventLogger {
         String brokerHost = (String) props.get(BROKER_SERVER_PROP_NAME);
         Integer brokerPort = (Integer) props.get(BROKER_PORT_PROP_NAME);
         
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,brokerHost + ":" + brokerPort.toString());
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
+        this.props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,brokerHost + ":" + brokerPort.toString());
+        this.props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
+        this.props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class.getName());
         
-        producer = new KafkaProducer<>(props);
+        producer = new KafkaProducer<>(this.props);
+        
         this.topic = (String) props.get("topic");
         this.sync = (Boolean) props.get("sync");
         this.flatten = (Boolean) props.get("flatten");
