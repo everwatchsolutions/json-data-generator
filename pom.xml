@@ -5,7 +5,28 @@
     <groupId>net.acesinc.data</groupId>
     <artifactId>json-data-generator</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
+    
+    <scm>
+        <connection>scm:git:git://github.com/acesinc/json-data-generator.git</connection>
+        <developerConnection>scm:git:git@github.com:acesinc/json-data-generator.git</developerConnection>
+        <url>https://github.com/acesinc/json-data-generator</url>
+    </scm>
+  
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+    
+    <developers>
+        <developer>
+            <name>Andrew Serff</name>
+            <url>https://github.com/andrewserff</url>
+        </developer>
+    </developers>
+    
     <properties>
         <org.slf4j-version>1.7.1</org.slf4j-version>
         <java.version>1.7</java.version>
@@ -76,16 +97,16 @@
         <!-- These are set in the settings.xml to our nexus repo -->
     </pluginRepositories>
     <distributionManagement>
-        <repository>
-            <id>deployment</id>
-            <name>Internal Releases</name>
-            <url>http://ec2-107-21-105-62.compute-1.amazonaws.com:8081/nexus/content/repositories/releases/</url>
-        </repository>
         <snapshotRepository>
-            <id>deployment</id>
-            <name>Internal Releases</name>
-            <url>http://ec2-107-21-105-62.compute-1.amazonaws.com:8081/nexus/content/repositories/snapshots/</url>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus snapshot repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Sonatype Nexus release repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
     </distributionManagement>
     <build>
         <plugins>
@@ -144,6 +165,45 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.4</version>
+                        <configuration>
+                            <passphrase>${gpg.passphrase}</passphrase>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
