@@ -7,7 +7,6 @@
     "steps": [{
             "config": [{
                     "timestamp": "nowTimestamp()",
-                    "id": "counter('id')",
                     "system": "BADGE",
                     "actor": "bob",
                     "action": "ENTER",
@@ -19,8 +18,6 @@
         },{
             "config": [{
                     "timestamp": "nowTimestamp()",
-                    "id": "counter('id')",
-                    "subId": "counter('subId')",
                     "system": "AD",
                     "actor": "bob",
                     "action": "LOGIN",
@@ -32,11 +29,10 @@
         }, {
             "config": [{
                     "timestamp": "nowTimestamp()",
-                    "id": "counter('id')",
                     "system": "AUDIT",
                     "actor": "bob",
                     "action": "random(\"PRINT\",\"OPEN\",\"COPY\")",
-                    "objects": ["random(\"/data/file1.txt\",\"/share/mystuff/file2.txt\")"],
+                    "objects": ["/data/file1.txt","/share/mystuff/file2.txt"],
                     "location": null,
                     "message": "Printed /data/file1.txt"
                 }],
@@ -44,7 +40,6 @@
         }, {
             "config": [{
                     "timestamp": "nowTimestamp()",
-                    "id": "counter('id')",
                     "system": "AD",
                     "actor": "bob",
                     "action": "LOGOUT",
@@ -56,7 +51,6 @@
         }, {
             "config": [{
                     "timestamp": "nowTimestamp()",
-                    "id": "counter('id')",
                     "system": "BADGE",
                     "actor": "bob",
                     "action": "EXIT",
