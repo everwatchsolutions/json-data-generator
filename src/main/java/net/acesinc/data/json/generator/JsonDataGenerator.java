@@ -14,6 +14,7 @@ import net.acesinc.data.json.generator.config.JSONConfigReader;
 import net.acesinc.data.json.generator.log.EventLogger;
 import net.acesinc.data.json.generator.log.KafkaLogger;
 import net.acesinc.data.json.generator.log.Log4JLogger;
+import net.acesinc.data.json.generator.log.TranquilityLogger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,6 +46,11 @@ public class JsonDataGenerator {
                     case "kafka": { 
                         log.info("Adding Kafka Producer with properties: " + elProps);
                         loggers.add(new KafkaLogger(elProps));
+                        break;
+                    }
+                    case "tranquility": {
+                        log.info("Adding Tranqulity Logger with properties: " + elProps);
+                        loggers.add(new TranquilityLogger(elProps));
                         break;
                     }
                 }
