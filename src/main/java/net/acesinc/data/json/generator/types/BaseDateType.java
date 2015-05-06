@@ -81,6 +81,14 @@ public abstract class BaseDateType extends TypeHandler {
         }
         gc.set(GregorianCalendar.DAY_OF_MONTH, day);
 
+        //generate a random time too
+        int hour = getRand().nextInt(gc.getActualMinimum(GregorianCalendar.HOUR_OF_DAY), gc.getActualMaximum(GregorianCalendar.HOUR_OF_DAY));
+        gc.set(GregorianCalendar.HOUR_OF_DAY, hour);
+        int min = getRand().nextInt(gc.getActualMinimum(GregorianCalendar.MINUTE), gc.getActualMaximum(GregorianCalendar.MINUTE));
+        gc.set(GregorianCalendar.MINUTE, min);
+        int sec = getRand().nextInt(gc.getActualMinimum(GregorianCalendar.SECOND), gc.getActualMaximum(GregorianCalendar.SECOND));
+        gc.set(GregorianCalendar.SECOND, sec);
+        
         return gc.getTime();
     }
 }
