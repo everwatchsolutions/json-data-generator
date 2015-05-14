@@ -50,7 +50,7 @@ public class TranquilityLogger implements EventLogger {
     public static final String DISCOVERY_PATH_PROP_NAME = "discovery.path";
     public static final String DATASOURCE_NAME_PROP_NAME = "datasource.name";
     public static final String DIMENSIONS_PROP_NAME = "dimensions";
-    public static final String GEOSPATIAL_DIMENSIONS_PROP_NAME = "geospatial.dimensions";
+    public static final String GEOSPATIAL_DIMENSIONS_PROP_NAME = "geo.dimensions";
     public static final String TIMESTAMP_NAME_PROP_NAME = "timestamp.name";
     public static final String TIMESTAMP_FORMAT_PROP_NAME = "timestamp.format";
     public static final String SEGMENT_GRANULARITY_PROP_NAME = "segment.granularity";
@@ -138,7 +138,7 @@ public class TranquilityLogger implements EventLogger {
 
         aggregators = ImmutableList.<AggregatorFactory>of(
                 new CountAggregatorFactory(
-                        "cnt"
+                        "events"
                 )
         );
 
@@ -225,8 +225,10 @@ public class TranquilityLogger implements EventLogger {
     @Override
     public void shutdown() {
         try {
+            log.info("Shutting down Tranquility Logger");
             Await.result(druidService.close());
             curator.close();
+            log.info("Successfully Shutdown Tranquility Logger");
         } catch (Exception ex) {
             log.error("Error shutting down Tranquility Logger", ex);
         }
