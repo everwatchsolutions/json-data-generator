@@ -114,8 +114,10 @@ public class TranquilityLogger implements EventLogger {
             }
         }
         if (dimensions.isEmpty()) {
+            log.debug("Configuring Tranquility with Schemaless ingestion");
             druidDimensions = DruidDimensions.schemaless();
         } else {
+            log.debug("Configuring Tranqulity with the following dimensions: " + dimensions.toString());
             druidDimensions = DruidDimensions.specific(dimensions);
         }
 
@@ -127,6 +129,7 @@ public class TranquilityLogger implements EventLogger {
             }
         }
         if (!geoDims.isEmpty()) {
+            log.debug("Adding Geospatial Dimensions: " + geoDims.toString());
             druidDimensions = druidDimensions.withSpatialDimensions(
                     Lists.newArrayList(
                             DruidSpatialDimension.multipleField(
@@ -160,11 +163,13 @@ public class TranquilityLogger implements EventLogger {
 
         // The JSON serialization of your object must have a timestamp field in a format that Druid understands. By default,
         // Druid expects the field to be called "timestamp" and to be an ISO8601 timestamp.
+        log.debug("Confiuring Tranqulity Timestamp Spec with { name: " + timestampName + ", format: " + timestampFormat + " }");
         timestampSpec = new TimestampSpec(timestampName, timestampFormat);
 
         // Tranquility needs to be able to serialize your object type to JSON for transmission to Druid. By default this is
         // done with Jackson. If you want to provide an alternate serializer, you can provide your own via ```.objectWriter(...)```.
         // In this case, we won't provide one, so we're just using Jackson.
+        log.debug("Creating Druid Beam for DataSource [ " + dataSourceName + " ]");
         druidService = DruidBeams
                 .builder(timestamper)
                 .curator(curator)
