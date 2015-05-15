@@ -5,16 +5,11 @@
  */
 package net.acesinc.data.json.generator;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.node.ValueNode;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +30,7 @@ import org.apache.logging.log4j.Logger;
 public class RandomJsonGenerator {
 
     private static final Logger log = LogManager.getLogger(RandomJsonGenerator.class);
-    private SimpleDateFormat iso8601DF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+    private SimpleDateFormat iso8601DF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
     private Map<String, Object> config;
     private JsonGeneratorFactory factory = Json.createGeneratorFactory(null);
