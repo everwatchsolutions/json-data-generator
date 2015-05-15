@@ -5,19 +5,17 @@
  */
 package net.acesinc.data.json.generator.types;
 
-import java.util.Date;
-
 /**
  *
  * @author andrewserff
  */
-public class NowTimestampType extends TypeHandler {
+public class NowTimestampType extends NowBaseType {
     public static final String TYPE_NAME = "nowTimestamp";
     public static final String TYPE_DISPLAY_NAME = "Now Timestamp";
 
     @Override
     public Long getNextRandomValue() {
-        return new Date().getTime();
+        return getNextDate().getTime();
     }
             
     @Override
