@@ -1,0 +1,20 @@
+{
+    "eventFrequency": 400,
+    "varyEventFrequency": true,
+    "repeatWorkflow": true,
+    "timeBetweenRepeat": 1500,
+    "varyRepeatFrequency": true,
+    "steps": [{
+            "config": [{
+                    "timestamp": "now()",
+                    "style": "random('KUNG_FU','WUSHU','DRUNKEN_BOXING')",
+                    "action": "random('KICK','PUNCH','BLOCK','JUMP')",
+                    "weapon": "random('BROAD_SWORD','STAFF','CHAIR','ROPE')",
+                    "target": "random('HEAD','BODY','LEGS','ARMS')",
+                    "strength": "double(1.0,10.0)"
+                }
+            ],
+            "duration": 0
+        }]
+}
+

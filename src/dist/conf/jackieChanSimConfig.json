@@ -1,0 +1,15 @@
+{
+    "workflows": [{
+            "workflowName": "jackieChan",
+            "workflowFilename": "jackieChanWorkflow.json"
+        }],
+    "producers": [{
+        "type": "kafka",
+        "broker.server": "192.168.59.103",
+        "broker.port": 9092,
+        "topic": "jackieChanCommand",
+        "flatten": false,
+        "sync": false
+
+    }]
+}
