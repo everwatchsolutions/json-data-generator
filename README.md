@@ -76,7 +76,7 @@ A Kafka Producer sends json events to the specified Kafka broker and topic as a 
     "broker.server": "192.168.59.103",
     "broker.port": 9092,
     "topic": "logevent",
-    "flatten": false
+    "flatten": false,
     "sync": false
 }
 ```
@@ -107,6 +107,27 @@ Would become
 	"array[1].element2": "two"
 }
 ```
+
+**Tranquility**
+A Tranquility Producer sends json events using [Tranquility](https://github.com/metamx/tranquility) to a [Druid](http://druid.io) cluster. Druid is an Open Source Analytics data store and Tranquility is a realtime communication transport that druid supports for ingesting data.  Configure it like so:
+
+```
+{
+    "type": "tranquility",
+    "zookeeper.host": "localhost",
+    "zookeeper.port": 2181,
+    "overlord.name":"overlord",
+    "firehose.pattern":"druid:firehose:%s",
+    "discovery.path":"/druid/discovery",
+    "datasource.name":"test",
+    "timestamp.name":"startTime",
+    "sync": true,
+    "geo.dimensions": "where.latitude,where.longitude"  
+}
+```
+When sending data to Druid via Tranquility, we are sending a Task to the Druid Overlord node that will perform realtime ingestion. Our task implementation currently does not allow users to specifc the aggregators that are used. We create a single "events" metric that is a Count Aggregation. Everything else if configured though the properties. The `sync` and `flatten` properties behave exactly the same ast the Kafka Producer.  This works for us currently, but if you need more capability, please file an issue or submit a pull request!  
+
+When you start the Generator, it will contact the Druid Overlord and craete a task for your datasource and will then begin streaming data into Druid.  
 
 **Full Simulation Config Example**
 
