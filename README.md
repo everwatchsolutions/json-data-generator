@@ -1,5 +1,7 @@
 ## Json Data Generator
 
+<div style="text-align:center"><img src ="./src/design/logo.png" width="95%"/></div>
+
 Have you ever needed to generate a realtime stream of json data in order to test an application? When thinking about a good source of streaming data, we often look to the Twitter stream as a solution, but that only gets us so far in prototyping scenarios and we often fall short because Twitter data only fits a certain amount of use cases. There are plenty of json data generator online (like [json-generator](http://www.json-generator.com/), or [mockaroo](https://www.mockaroo.com/)), but we couldn't find an offline data generator for us to use in our testing and protyping, so we decided to build one.  We found it so useful, that we decided to open source it as well so other can make use of it in their own projects.  
 
 ### Features
