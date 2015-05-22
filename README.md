@@ -16,6 +16,10 @@ We had a couple of needs when it came to generating data for testing purposes. T
 
 We now have a data generator that supports all of these things that can be run on our own networks and produce streams of json data for applications to consume.  
 
+### License
+
+[Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
 ### Architecture
 The Generator has the following basic architecture:
 
