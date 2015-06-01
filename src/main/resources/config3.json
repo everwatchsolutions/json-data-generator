@@ -4,8 +4,8 @@
         "details": [
             "repeat(3)",
             {
-                "start": "timestamp(\"2015/03/01\")",
-                "stop" : "timestamp(\"2015/03/02\")",
+                "start": "timestamp(\"2015/03/01T00:00:00\")",
+                "stop" : "timestamp(\"2015/03/02T00:00:00\")",
                 "speed": "double(50.0, 100.0)"
             }
         ]

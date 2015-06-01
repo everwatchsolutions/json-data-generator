@@ -360,9 +360,9 @@ Will always generate:
 
 | Function        | Arguments           | Description   |
 | --------------- |----------------| --------------|
-| `date([yyyy/MM/dd,yyyy/MM/dd])` | Optional min date or date range | Generates a random date between the min and max specified.  If no args, generates a random date before today. If one arg, generates a date after the specified min.  If two args, generates a date between those dates. |
+| `date([yyyy/MM/ddTHH:mm:ss,yyyy/MM/ddTHH:mm:ss])` | Optional min date or date range | Generates a random date between the min and max specified.  If no args, generates a random date before today. If one arg, generates a date after the specified min.  If two args, generates a date between those dates. |
 | `now([#_unit])`| Optional number and unit to add to the now date | If no args, generates the date of now. If one arg, it will use the # portion as the amount of time and the unit portion (y=year,d=day,h=hour,m=minute) to convert the # to the time to add.  If you want to subtract time, make your number negative (i.e. -5_d). Generates date in iso8601 formatted string |
-| `timestamp([yyyy/MM/dd,yyyy/MM/dd])` | Optional min date or date range | Generates a timestamp (i.e. long value) of the specified range. Same rules as the date() Function apply |
+| `timestamp([yyyy/MM/ddTHH:mm:ss,yyyy/MM/ddTHH:mm:ss])` | Optional min date or date range | Generates a timestamp (i.e. long value) of the specified range. Same rules as the date() Function apply |
 | `nowTimestamp()` | n/a | Generates a timestamp (i.e. long value) of the now date. |
 
 
@@ -384,7 +384,7 @@ We have two super special `Functions` for use with arrays. They are `repeat()` a
     "values": [
         "repeat(7)",
         {
-        	"date": "date('2015/04/01', '2015/04/25')",
+        	"date": "date('2015/04/01T00:00:00', '2015/04/25T00:00:00')",
         	"count": "integer(1, 10)"
         }]
 }
@@ -392,13 +392,13 @@ We have two super special `Functions` for use with arrays. They are `repeat()` a
 This will generate a json object that has 7 values each with different random values for `date` and `count`. 
 
 The `random()` function will tell the generator to pick a random element from the array and out put that element only. Use it like so:
-```
+
 ```
 {
     "values": [
         "random()",
         {
-        	"date": "date('2015/04/01', '2015/04/25')",
+        	"date": "date('2015/04/01T00:00:00', '2015/04/25T00:00:00')",
         	"count": "integer(1, 10)"
         },{
         	"thing1": "random('red', 'blue')"
@@ -435,12 +435,12 @@ Here is a Kitchen Sink example to show you all the differnt ways you can generat
     },
     "dates": {
         "rand-date": "date()",
-        "min-date": "date(\"2015/03/01\")",
-        "range-date": "date(\"2015/03/01\",\"2015/03/30\")",
+        "min-date": "date(\"2015/03/01T00:00:00\")",
+        "range-date": "date(\"2015/03/01T00:00:00\",\"2015/03/30T00:00:00\")",
         "now": "now()",
         "nowTimestamp": "nowTimestamp()",
         "5days-ago": "now(-5_d)",
-        "timestamp": "timestamp(\"2015/03/01\",\"2015/03/30\")"
+        "timestamp": "timestamp(\"2015/03/01T00:00:00\",\"2015/03/30T00:00:00\")"
     },
     "literals": {
         "literal-bool": true,

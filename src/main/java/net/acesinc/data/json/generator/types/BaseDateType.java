@@ -18,7 +18,7 @@ public abstract class BaseDateType extends TypeHandler {
 
     private Date min;
     private Date max;
-    public static final SimpleDateFormat INPUT_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd");
+    public static final SimpleDateFormat INPUT_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss");
 
     public BaseDateType() {
     }
@@ -28,7 +28,7 @@ public abstract class BaseDateType extends TypeHandler {
         super.setLaunchArguments(launchArguments);
         try {
             if (launchArguments.length == 0) {
-                min = INPUT_DATE_FORMAT.parse("1970/01/01");
+                min = INPUT_DATE_FORMAT.parse("1970/01/01T00:00:00");
                 max = new Date();
             } else if (launchArguments.length == 1) {
                 //min only
@@ -36,7 +36,12 @@ public abstract class BaseDateType extends TypeHandler {
                 max = new Date();
             } else if (launchArguments.length == 2) {
                 min = INPUT_DATE_FORMAT.parse(stripQuotes(launchArguments[0]));
-                max = INPUT_DATE_FORMAT.parse(stripQuotes(launchArguments[1]));
+                try {
+                    max = INPUT_DATE_FORMAT.parse(stripQuotes(launchArguments[1]));
+                } catch (ParseException pe) {
+                    long timeOffset = NowBaseType.getTimeOffset(stripQuotes(launchArguments[1]));
+                    max = new Date(new Date().getTime() + timeOffset);
+                }
             }
         } catch (ParseException ex) {
             throw new IllegalArgumentException("Provided date is invalid. Please use the format [ yyyy/MM/dd ]", ex);
@@ -82,13 +87,34 @@ public abstract class BaseDateType extends TypeHandler {
         gc.set(GregorianCalendar.DAY_OF_MONTH, day);
 
         //generate a random time too
-        int hour = getRand().nextInt(gc.getActualMinimum(GregorianCalendar.HOUR_OF_DAY), gc.getActualMaximum(GregorianCalendar.HOUR_OF_DAY));
-        gc.set(GregorianCalendar.HOUR_OF_DAY, hour);
-        int min = getRand().nextInt(gc.getActualMinimum(GregorianCalendar.MINUTE), gc.getActualMaximum(GregorianCalendar.MINUTE));
-        gc.set(GregorianCalendar.MINUTE, min);
-        int sec = getRand().nextInt(gc.getActualMinimum(GregorianCalendar.SECOND), gc.getActualMaximum(GregorianCalendar.SECOND));
-        gc.set(GregorianCalendar.SECOND, sec);
+        int minHour = gc.getActualMinimum(GregorianCalendar.HOUR_OF_DAY);
+        int minMin = gc.getActualMinimum(GregorianCalendar.MINUTE);
+        int minSec = gc.getActualMinimum(GregorianCalendar.SECOND);
+        int maxHour = gc.getActualMaximum(GregorianCalendar.HOUR_OF_DAY);
+        int maxMin = gc.getActualMaximum(GregorianCalendar.MINUTE);
+        int maxSec = gc.getActualMaximum(GregorianCalendar.SECOND);
         
+        if (minCal.get(GregorianCalendar.YEAR) == gc.get(GregorianCalendar.YEAR) && minCal.get(GregorianCalendar.MONTH) == gc.get(GregorianCalendar.MONTH) && minCal.get(GregorianCalendar.DAY_OF_MONTH) == gc.get(GregorianCalendar.DAY_OF_MONTH)) {
+            //same day as min.  Must be after the min hour, min, sec
+            minHour = minCal.get(GregorianCalendar.HOUR_OF_DAY);
+            minMin = minCal.get(GregorianCalendar.MINUTE);
+            minSec = minCal.get(GregorianCalendar.SECOND);
+        } else if (maxCal.get(GregorianCalendar.YEAR) == gc.get(GregorianCalendar.YEAR) && maxCal.get(GregorianCalendar.MONTH) == gc.get(GregorianCalendar.MONTH) && maxCal.get(GregorianCalendar.DAY_OF_MONTH) == gc.get(GregorianCalendar.DAY_OF_MONTH)) {
+            //same day as max. Must be before max hour, min, sec
+            maxHour = maxCal.get(GregorianCalendar.HOUR_OF_DAY);
+            maxMin = maxCal.get(GregorianCalendar.MINUTE);
+            maxSec = maxCal.get(GregorianCalendar.SECOND);
+        } else {
+            //different day than either min or max. Time doesn't matter. 
+        }
+        
+        int hour = getRand().nextInt(minHour, maxHour);
+        gc.set(GregorianCalendar.HOUR_OF_DAY, hour);
+        int minute = getRand().nextInt(minMin, maxMin);
+        gc.set(GregorianCalendar.MINUTE, minute);
+        int sec = getRand().nextInt(minSec, maxSec);
+        gc.set(GregorianCalendar.SECOND, sec);
+
         return gc.getTime();
     }
 }

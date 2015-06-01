@@ -25,12 +25,12 @@
     },
     "dates": {
         "rand-date": "date()",
-        "min-date": "date(\"2015/03/01\")",
-        "range-date": "date(\"2015/03/01\",\"2015/03/30\")",
+        "min-date": "date(\"2015/03/01T00:00:00\")",
+        "range-date": "date(\"2015/03/01T00:00:00\",\"2015/03/30T00:00:00\")",
         "now": "now()",
         "nowTimestamp": "nowTimestamp()",
         "5days-ago": "now(-5_d)",
-        "timestamp": "timestamp(\"2015/03/01\",\"2015/03/30\")"
+        "timestamp": "timestamp(\"2015/03/01T00:00:00\",\"2015/03/30T00:00:00\")"
     },
     "literals": {
         "literal-bool": true,
