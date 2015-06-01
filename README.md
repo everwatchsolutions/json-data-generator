@@ -170,14 +170,21 @@ The `Workflow` is defined in seperate files to allow you to have and run multipl
 | varyEventFrequency | boolean | If true, a random amount (between 0 and half the eventFrequency) of time will be added/subtracted to the eventFrequency |
 | repeatWorkflow | boolean | If true, the workflow will repeat after it finishes |
 | timeBetweenRepeat | integer | The time in milliseconds to wait before the Workflow is restarted |  
-| varyRepeatFrequency | boolean | If true, a random amount (between 0 and half the eventFrequency) of time will be added/subtracted to the timeBewteenRepeat  |  
+| varyRepeatFrequency | boolean | If true, a random amount (between 0 and half the eventFrequency) of time will be added/subtracted to the timeBewteenRepeat  |
+| stepRunMode | string | Possible values: sequential, random, random-pick-one. Default is sequential |  
 | steps | Array | A list of Workflow Steps to be run in this Workflow |
 
 **Workflow Steps**
 
-Workflow Steps are meat of your generated json events. They specify what your json will look like and how they will be generated. They are defined like so:
+Workflow Steps are meat of your generated json events. They specify what your json will look like and how they will be generated. Depending on the `stepRunMode` you have chosen, the Generator will execute your steps in different orders. The possibilities are as follows:
+
+* sequential - Steps will be run in the order they are specified in the array. 
+* random - Steps will be shuffled and run in a random order.  Steps will be reshuffled each time the workflow is repeated
+* random-pick-one - A random step will be chosen from your config and will be run.  No other steps will be run until the workflow repeats.  When the workflow repeats, a different random step will be picked. 
 
 **Step**
+
+Now that you know how Steps are executed, let's take a look at how they are defined. 
 
 | Property        | Type           | Description   |
 | --------------- |----------------| --------------|

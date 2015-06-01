@@ -24,6 +24,7 @@ public class Workflow {
     private boolean repeatWorkflow;
     private long timeBetweenRepeat;
     private boolean varyRepeatFrequency;
+    private String stepRunMode;
     
     public Workflow() {
         steps = new ArrayList<>();
@@ -37,6 +38,9 @@ public class Workflow {
                 return false;
             } 
             if (w.isVaryEventFrequency() != varyEventFrequency) {
+                return false;
+            }
+            if (!w.getStepRunMode().equals(stepRunMode)) {
                 return false;
             }
             
@@ -175,6 +179,20 @@ public class Workflow {
      */
     public void setVaryRepeatFrequency(boolean varyRepeatFrequency) {
         this.varyRepeatFrequency = varyRepeatFrequency;
+    }
+
+    /**
+     * @return the stepRunMode
+     */
+    public String getStepRunMode() {
+        return stepRunMode;
+    }
+
+    /**
+     * @param stepRunMode the stepRunMode to set
+     */
+    public void setStepRunMode(String stepRunMode) {
+        this.stepRunMode = stepRunMode;
     }
     
 }
