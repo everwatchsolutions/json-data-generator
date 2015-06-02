@@ -111,6 +111,7 @@ public class RandomJsonGenerator {
                         }
                     } catch (IllegalArgumentException iae) {
                         log.warn("Error creating type [ " + type + " ]. Prop [ " + propName + " ] being ignored in output.  Reason: " + iae.getMessage());
+                        log.debug("Error creating type [ " + type + " ]. Prop [ " + propName + " ] being ignored in output.", iae);
                     }
                 }
             } else if (Map.class.isAssignableFrom(value.getClass())) {

@@ -87,7 +87,7 @@ public class TypeHandlerFactory {
                     Object refPropValue = knownValues.get(refPropName);
                     if (refPropValue != null) {
                         if (Date.class.isAssignableFrom(refPropValue.getClass())) {
-                            resolvedArgs.add(BaseDateType.INPUT_DATE_FORMAT.format((Date)refPropValue));
+                            resolvedArgs.add(BaseDateType.INPUT_DATE_FORMAT.get().format((Date)refPropValue));
                         } else {
                             resolvedArgs.add(refPropValue.toString());
                         }

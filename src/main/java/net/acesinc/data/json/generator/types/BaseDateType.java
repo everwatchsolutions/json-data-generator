@@ -5,6 +5,7 @@
  */
 package net.acesinc.data.json.generator.types;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,7 +19,13 @@ public abstract class BaseDateType extends TypeHandler {
 
     private Date min;
     private Date max;
-    public static final SimpleDateFormat INPUT_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss");
+//    public static final SimpleDateFormat INPUT_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss");
+    public static final ThreadLocal<DateFormat> INPUT_DATE_FORMAT = new ThreadLocal<DateFormat>() {
+        @Override
+        protected DateFormat initialValue() {
+            return new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss");
+        }
+    };
 
     public BaseDateType() {
     }
@@ -28,16 +35,27 @@ public abstract class BaseDateType extends TypeHandler {
         super.setLaunchArguments(launchArguments);
         try {
             if (launchArguments.length == 0) {
-                min = INPUT_DATE_FORMAT.parse("1970/01/01T00:00:00");
+                min = INPUT_DATE_FORMAT.get().parse("1970/01/01T00:00:00");
                 max = new Date();
             } else if (launchArguments.length == 1) {
                 //min only
-                min = INPUT_DATE_FORMAT.parse(stripQuotes(launchArguments[0]));
+                try {
+                    min = INPUT_DATE_FORMAT.get().parse(stripQuotes(launchArguments[0]));
+                } catch (ParseException pe) {
+                    long timeOffset = NowBaseType.getTimeOffset(stripQuotes(launchArguments[0]));
+                    min = new Date(new Date().getTime() + timeOffset);
+                }
                 max = new Date();
             } else if (launchArguments.length == 2) {
-                min = INPUT_DATE_FORMAT.parse(stripQuotes(launchArguments[0]));
                 try {
-                    max = INPUT_DATE_FORMAT.parse(stripQuotes(launchArguments[1]));
+                    min = INPUT_DATE_FORMAT.get().parse(stripQuotes(launchArguments[0]));
+                } catch (ParseException pe) {
+                    long timeOffset = NowBaseType.getTimeOffset(stripQuotes(launchArguments[0]));
+                    min = new Date(new Date().getTime() + timeOffset);
+                }
+
+                try {
+                    max = INPUT_DATE_FORMAT.get().parse(stripQuotes(launchArguments[1]));
                 } catch (ParseException pe) {
                     long timeOffset = NowBaseType.getTimeOffset(stripQuotes(launchArguments[1]));
                     max = new Date(new Date().getTime() + timeOffset);
@@ -93,27 +111,46 @@ public abstract class BaseDateType extends TypeHandler {
         int maxHour = gc.getActualMaximum(GregorianCalendar.HOUR_OF_DAY);
         int maxMin = gc.getActualMaximum(GregorianCalendar.MINUTE);
         int maxSec = gc.getActualMaximum(GregorianCalendar.SECOND);
-        
+
         if (minCal.get(GregorianCalendar.YEAR) == gc.get(GregorianCalendar.YEAR) && minCal.get(GregorianCalendar.MONTH) == gc.get(GregorianCalendar.MONTH) && minCal.get(GregorianCalendar.DAY_OF_MONTH) == gc.get(GregorianCalendar.DAY_OF_MONTH)) {
             //same day as min.  Must be after the min hour, min, sec
             minHour = minCal.get(GregorianCalendar.HOUR_OF_DAY);
-            minMin = minCal.get(GregorianCalendar.MINUTE);
-            minSec = minCal.get(GregorianCalendar.SECOND);
-        } else if (maxCal.get(GregorianCalendar.YEAR) == gc.get(GregorianCalendar.YEAR) && maxCal.get(GregorianCalendar.MONTH) == gc.get(GregorianCalendar.MONTH) && maxCal.get(GregorianCalendar.DAY_OF_MONTH) == gc.get(GregorianCalendar.DAY_OF_MONTH)) {
+        }
+        if (maxCal.get(GregorianCalendar.YEAR) == gc.get(GregorianCalendar.YEAR) && maxCal.get(GregorianCalendar.MONTH) == gc.get(GregorianCalendar.MONTH) && maxCal.get(GregorianCalendar.DAY_OF_MONTH) == gc.get(GregorianCalendar.DAY_OF_MONTH)) {
             //same day as max. Must be before max hour, min, sec
             maxHour = maxCal.get(GregorianCalendar.HOUR_OF_DAY);
-            maxMin = maxCal.get(GregorianCalendar.MINUTE);
-            maxSec = maxCal.get(GregorianCalendar.SECOND);
-        } else {
-            //different day than either min or max. Time doesn't matter. 
         }
-        
+//        else {
+//            //different day than either min or max. Time doesn't matter. 
+//        }
+
         int hour = getRand().nextInt(minHour, maxHour);
         gc.set(GregorianCalendar.HOUR_OF_DAY, hour);
+        if (minHour == maxHour) {
+            minMin = minCal.get(GregorianCalendar.MINUTE);
+            maxMin = maxCal.get(GregorianCalendar.MINUTE);
+        } else if (hour == minHour) {
+            minMin = minCal.get(GregorianCalendar.MINUTE);
+        } else if (hour == maxHour) {
+            maxMin = maxCal.get(GregorianCalendar.MINUTE);
+        }
+        
         int minute = getRand().nextInt(minMin, maxMin);
         gc.set(GregorianCalendar.MINUTE, minute);
+        
+        if (minHour == maxHour && minMin == maxMin) {
+            minSec = minCal.get(GregorianCalendar.SECOND);
+            maxSec = maxCal.get(GregorianCalendar.SECOND);
+        } else if (hour == minHour && minute == minMin) {
+            minSec = minCal.get(GregorianCalendar.SECOND);
+        } else if (hour == maxHour && minute == maxMin) {
+            maxSec = maxCal.get(GregorianCalendar.SECOND);
+        }
         int sec = getRand().nextInt(minSec, maxSec);
         gc.set(GregorianCalendar.SECOND, sec);
+
+        //clear MS because we don't care about that much precision
+        gc.set(GregorianCalendar.MILLISECOND, 0);
 
         return gc.getTime();
     }
