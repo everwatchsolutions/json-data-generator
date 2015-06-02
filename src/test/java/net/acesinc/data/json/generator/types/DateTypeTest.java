@@ -66,9 +66,10 @@ public class DateTypeTest {
 
         //test it 1000 times
         for (int i = 0; i < 1000; i++) {
+            Date now = new Date();
             Date result = instance.getNextRandomValue();
-            assertTrue(result.after(min));
-            assertTrue(result.before(new Date()));
+            assertTrue("Testing that " + result + " is after " + min, result.after(min) || result.equals(min));
+            assertTrue("Testing that " + result + " is before " + now, result.before(now) || result.equals(now));
         }
     }
     
@@ -82,8 +83,8 @@ public class DateTypeTest {
         //test it 1000 times
         for (int i = 0; i < 1000; i++) {
             Date result = instance.getNextRandomValue();
-            assertTrue(result.after(min));
-            assertTrue(result.before(max));
+            assertTrue(result.after(min) || result.equals(min));
+            assertTrue(result.before(max) || result.equals(max));
         }
     }
 
