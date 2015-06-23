@@ -4,7 +4,7 @@
     <groupId>net.acesinc.data</groupId>
     <artifactId>json-data-generator</artifactId>
     <packaging>jar</packaging>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.2.1-SNAPSHOT</version>
     
     <scm>
         <connection>scm:git:git://github.com/acesinc/json-data-generator.git</connection>
