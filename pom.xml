@@ -102,6 +102,11 @@
     </dependencies>
     <repositories>
         <!-- These are set in the settings.xml to our nexus repo -->
+        <repository>
+            <id>jboss</id>
+            <name>Jboss Repository</name>
+            <url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+        </repository>
     </repositories>
     <pluginRepositories>
         <!-- These are set in the settings.xml to our nexus repo -->
