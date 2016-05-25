@@ -66,6 +66,7 @@ A `Producer` is defined with the following properties:
 Currenty supported `Producers` and their configuration properties are:
 
 **Logger**
+
 A Logger Producer sends json events to a log file in the `logs` directory into a file called json-data.log. The logs roll based on time and size. Configure it like so:
 
 ```
@@ -75,7 +76,23 @@ A Logger Producer sends json events to a log file in the `logs` directory into a
 ```
 No configuration options exist for the Logger Producer at this time. 
 
+**File**
+
+A File Producer sends json events to a file. One event will be written to each file in the specified directory. Configure it like so:
+
+```
+{
+    "type": "file",
+    "output.directory": "/tmp/dropbox/test2",
+    "file.prefix": "MYPREFIX_",
+    "file.extension":".json"
+}
+```
+
+The File Logger will attempt to create the directory specified by `output.directory`. 
+
 **Kafka**
+
 A Kafka Producer sends json events to the specified Kafka broker and topic as a String. Configure it like so:
 
 ```
@@ -117,6 +134,7 @@ Would become
 ```
 
 **Tranquility**
+
 A Tranquility Producer sends json events using [Tranquility](https://github.com/metamx/tranquility) to a [Druid](http://druid.io) cluster. Druid is an Open Source Analytics data store and Tranquility is a realtime communication transport that druid supports for ingesting data.  Configure it like so:
 
 ```
@@ -343,6 +361,7 @@ Will always generate:
 | `firstName()` | n/a | Generates a random first names from a predefined list of names |
 | `lastName()` | n/a | Generates a random last names from a predefined list of names |
 | `uuid()` | n/a | Generates a random UUID |
+| `stringMerge()` | Delimiter and then the string values to merge | Takes the input arguments and merges them together using the delimiter. This can be used with the `this.prop` or `cur.prop` keywords to merge generated values like: `stringMerge(_, this.firstName, this.lastName)` which would output something like `Bilbo_Baggins` |
 
 
 
