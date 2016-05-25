@@ -5,6 +5,9 @@
     <artifactId>json-data-generator</artifactId>
     <packaging>jar</packaging>
     <version>1.2.2-SNAPSHOT</version>
+    <name>${project.artifactId}</name>
+    <description>A robust, generic, streaming random json data generator for your data</description>
+    <url>https://github.com/acesinc/json-data-generator</url>
     
     <scm>
         <connection>scm:git:git://github.com/acesinc/json-data-generator.git</connection>
