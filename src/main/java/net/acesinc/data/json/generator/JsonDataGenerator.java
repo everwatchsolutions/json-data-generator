@@ -12,6 +12,7 @@ import java.util.Map;
 import net.acesinc.data.json.generator.config.SimulationConfig;
 import net.acesinc.data.json.generator.config.JSONConfigReader;
 import net.acesinc.data.json.generator.log.EventLogger;
+import net.acesinc.data.json.generator.log.FileLogger;
 import net.acesinc.data.json.generator.log.KafkaLogger;
 import net.acesinc.data.json.generator.log.Log4JLogger;
 import net.acesinc.data.json.generator.log.TranquilityLogger;
@@ -43,6 +44,11 @@ public class JsonDataGenerator {
                         loggers.add(new Log4JLogger());
                         break;
                     }
+                    case "file": {
+                        log.info("Adding File Logger with properties: " + elProps);
+                        loggers.add(new FileLogger(elProps));
+                        break;
+                    }
                     case "kafka": { 
                         log.info("Adding Kafka Producer with properties: " + elProps);
                         loggers.add(new KafkaLogger(elProps));
@@ -60,7 +66,7 @@ public class JsonDataGenerator {
             }
             simRunner = new SimulationRunner(simConfig, loggers);
         } catch (IOException ex) {
-            log.error("Error getting Simulation Config [ " + simConfigString + " ]");
+            log.error("Error getting Simulation Config [ " + simConfigString + " ]", ex);
         }
     }
 
