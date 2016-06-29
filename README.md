@@ -133,6 +133,7 @@ Would become
 }
 ```
 **NATS**
+
 A nats logger sends json events to gnatsd broker specifed in the config. The following example shows a sample config that sends json events to a locally running NATS broker listening on the default NATS port.
 
 ```
