@@ -95,6 +95,11 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>com.github.cloudfoundry-community</groupId>
+            <artifactId>nats-client</artifactId>
+            <version>0.6.4</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>18.0</version>
@@ -105,6 +110,7 @@
             <version>4.10</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
     <repositories>
         <!-- These are set in the settings.xml to our nexus repo -->

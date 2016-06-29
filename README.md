@@ -132,6 +132,19 @@ Would become
 	"array[1].element2": "two"
 }
 ```
+**NATS**
+A nats logger sends json events to gnatsd broker specifed in the config. The following example shows a sample config that sends json events to a locally running NATS broker listening on the default NATS port.
+
+```
+{
+    "type": "nats",
+    "broker.server": "127.0.0.1",
+    "broker.port": 4222,
+    "topic": "logevent",
+    "flatten": false
+}
+```
+Note that `flatten` has the same effect as the option in the kafka producer.
 
 **Tranquility**
 
