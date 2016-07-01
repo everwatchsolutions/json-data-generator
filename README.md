@@ -46,6 +46,7 @@ A `Workflow` is defined with the following properties:
 | --------------- |----------------| --------------|
 | workflowName | String | A name for the workflow |
 | workflowFilename | String | The filename of the workflow config file to run |
+| instances | Integer | the number of identical copies of instances to run  (optional, default value is 1)|
 
 Here is an example of a Workflow configuration:
 
@@ -53,6 +54,7 @@ Here is an example of a Workflow configuration:
 "workflows": [{
             "workflowName": "test",
             "workflowFilename": "exampleWorkflow.json"
+            "instances": 1
         }]
 ```
 
@@ -178,7 +180,8 @@ exampleSimConfig.json:
 {
     "workflows": [{
             "workflowName": "test",
-            "workflowFilename": "exampleWorkflow.json"
+            "workflowFilename": "exampleWorkflow.json",
+            "instances" : 4
         }],
     "producers": [{
             "type": "kafka",
@@ -191,7 +194,8 @@ exampleSimConfig.json:
     }]
 }
 ```
-This simulation will run a single `Workflow` and send all the events to both the defined Kafka topic and to the Logger producer that put the events in to a log file.  
+This simulation will run four instances (same workflow rules but on different threads) of `Workflow` and send all the events to both the defined Kafka topic and to the Logger producer that put the events in to a log file.
+  Use instances to create multiple traffic of the same workflow.
 
 ##### Workflow Definition
 The `Workflow` is defined in seperate files to allow you to have and run multiple `Workflows` within your Simulation.  A Workflow contains the following properties:
