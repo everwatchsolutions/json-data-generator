@@ -11,11 +11,7 @@ import java.util.List;
 import java.util.Map;
 import net.acesinc.data.json.generator.config.SimulationConfig;
 import net.acesinc.data.json.generator.config.JSONConfigReader;
-import net.acesinc.data.json.generator.log.EventLogger;
-import net.acesinc.data.json.generator.log.FileLogger;
-import net.acesinc.data.json.generator.log.KafkaLogger;
-import net.acesinc.data.json.generator.log.Log4JLogger;
-import net.acesinc.data.json.generator.log.TranquilityLogger;
+import net.acesinc.data.json.generator.log.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -57,6 +53,11 @@ public class JsonDataGenerator {
                     case "tranquility": {
                         log.info("Adding Tranqulity Logger with properties: " + elProps);
                         loggers.add(new TranquilityLogger(elProps));
+                        break;
+                    }
+                    case "nats": {
+                        log.info("Adding NATS Logger with properties: " + elProps);
+                        loggers.add(new NatsLogger(elProps));
                         break;
                     }
                 }
