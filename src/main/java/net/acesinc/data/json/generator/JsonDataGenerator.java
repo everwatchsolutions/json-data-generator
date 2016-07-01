@@ -60,6 +60,11 @@ public class JsonDataGenerator {
                         loggers.add(new NatsLogger(elProps));
                         break;
                     }
+                    case "http-post": {
+                        log.info("Adding HTTP Post Logger with properties: " + elProps);
+                        loggers.add(new HttpPostLogger(elProps));
+                        break;
+                    }
                 }
             }
             if (loggers.isEmpty()) {

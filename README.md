@@ -91,6 +91,17 @@ A File Producer sends json events to a file. One event will be written to each f
 
 The File Logger will attempt to create the directory specified by `output.directory`. 
 
+**HTTP POST**
+
+A HTTP POST Producer sends json events to a URL as the Request Body. Configure it like so:
+
+```
+{
+    "type": "http-post",
+    "url": "http://localhost:8050/ingest"
+}
+```
+
 **Kafka**
 
 A Kafka Producer sends json events to the specified Kafka broker and topic as a String. Configure it like so:
