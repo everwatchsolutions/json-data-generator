@@ -38,7 +38,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <logger name="net.acesinc" level="DEBUG">
+        <logger name="net.acesinc" level="TRACE">
             <AppenderRef ref="RollingFile"/>
             <AppenderRef ref="STDOUT"/>
         </logger>

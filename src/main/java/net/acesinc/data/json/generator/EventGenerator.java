@@ -32,6 +32,8 @@ public class EventGenerator implements Runnable {
     private String generatorName;
     private boolean running;
     private List<EventLogger> eventLoggers;
+    private long startTime;
+    private long generatedEvents = 0;
 
     public EventGenerator(Workflow workflow, String generatorName, List<EventLogger> loggers) {
         this.workflow = workflow;
@@ -44,6 +46,8 @@ public class EventGenerator implements Runnable {
         if (workflow.getStepRunMode() != null) {
             runMode = workflow.getStepRunMode();
         }
+        
+        startTime = System.currentTimeMillis();
         switch (runMode) {
             case "sequential":
                 runSequential();
@@ -189,6 +193,21 @@ public class EventGenerator implements Runnable {
                 } catch (IOException ioe) {
                     log.error("Error generating json event", ioe);
                 }
+            }
+        }
+        
+        if (log.isTraceEnabled()) {
+            generatedEvents++; 
+
+            long elapsed = System.currentTimeMillis() - startTime;
+            if (elapsed > 1000) { //1sec
+
+                double recordsPerSec = generatedEvents / (elapsed / 1000);
+
+                log.trace("Generator( " + generatorName + " ) generated " + recordsPerSec + " events/sec");
+
+                startTime = System.currentTimeMillis();
+                generatedEvents = 0;
             }
         }
     }
