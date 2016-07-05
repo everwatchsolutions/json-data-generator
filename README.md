@@ -102,6 +102,12 @@ A HTTP POST Producer sends json events to a URL as the Request Body. Configure i
 }
 ```
 
+If you need to send data to an HTTPS endpoint that required client certificates, you can provide the configuration of those certificates on the commandline using the `javax.net.ssl.*` properties. An example might be:
+
+```
+java -Djavax.net.ssl.trustStore=/path/to/trustsore.jks -Djavax.net.ssl.keyStore=/path/to/user/cert/mycert.p12 -Djavax.net.ssl.keyStoreType=PKCS12 -Djavax.net.ssl.keyStorePassword=password -jar json-data-generator-1.2.2-SNAPSHOT.jar mySimConfig.json
+```
+
 **Kafka**
 
 A Kafka Producer sends json events to the specified Kafka broker and topic as a String. Configure it like so:
