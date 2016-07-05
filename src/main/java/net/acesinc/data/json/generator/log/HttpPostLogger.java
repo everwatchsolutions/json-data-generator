@@ -81,47 +81,4 @@ public class HttpPostLogger implements EventLogger {
             //oh well
         }
     }
-    
-    public static void main(String[] args) {
-        Map<String, Object> conf = new HashMap<>();
-        conf.put(URL_PROP_NAME, "http://localhost:8050/ingest");
-        HttpPostLogger l = new HttpPostLogger(conf);
-        
-        String json = "{\n" +
-"    \"transmissionId\": \"123\",\n" +
-"    \"upDate\": {\n" +
-"        \"$date\": \"2016-03-17T14:34:27.227Z\"\n" +
-"    },\n" +
-"    \"downDate\": {\n" +
-"        \"$date\": \"2016-03-17T14:35:27.227Z\"\n" +
-"    },\n" +
-"    \"lastUpdated\": {\n" +
-"        \"$date\": \"2016-03-17T14:35:27.227Z\"\n" +
-"    },\n" +
-"    \"df\": {\n" +
-"        \"depressionAngle\": 10.2,\n" +
-"        \"platformLocation\": {\n" +
-"            \"lat\": 45.9,\n" +
-"            \"lon\": 43.2,\n" +
-"            \"roll\": 34.5,\n" +
-"            \"pitch\": 2.2,\n" +
-"            \"yaw\": 34.5\n" +
-"        },\n" +
-"        \"targetLocation\": {\n" +
-"            \"lat\": 44.9,\n" +
-"            \"lon\": 44.2\n" +
-"        }\n" +
-"    },\n" +
-"    \"freq\": 445.5,\n" +
-"    \"bw\": 10.0,\n" +
-"    \"modType\": \"mod1\",\n" +
-"    \"quality\": 23.3,\n" +
-"    \"priority\": 3,\n" +
-"    \"originatorId\": \"324554\",\n" +
-"    \"snr\": 33\n" +
-"}";
-        
-        l.logEvent(json);
-    }
-
 }
