@@ -6,6 +6,7 @@
 package net.acesinc.data.json.generator;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class JsonDataGenerator {
                         loggers.add(new FileLogger(elProps));
                         break;
                     }
-                    case "kafka": { 
+                    case "kafka": {
                         log.info("Adding Kafka Producer with properties: " + elProps);
                         loggers.add(new KafkaLogger(elProps));
                         break;
@@ -62,7 +63,13 @@ public class JsonDataGenerator {
                     }
                     case "http-post": {
                         log.info("Adding HTTP Post Logger with properties: " + elProps);
-                        loggers.add(new HttpPostLogger(elProps));
+
+                        try {
+                            loggers.add(new HttpPostLogger(elProps));
+                        } catch (NoSuchAlgorithmException ex) {
+                            log.error("Error creating HTTP POST Logger", ex);
+                            return;
+                        }
                         break;
                     }
                 }
@@ -79,6 +86,7 @@ public class JsonDataGenerator {
     public void startRunning() {
         simRunner.startSimulation();
     }
+
     public void stopRunning() {
         simRunner.stopSimulation();
     }
