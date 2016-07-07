@@ -56,7 +56,7 @@ public class NatsLogger implements EventLogger {
             }
         }
 
-        log.debug("Sending event to gnatsd: [ " + output + " ]");
+        log.debug("Sending event to ["+ topic +"] on gnatsd: [ " + output + " ]");
         nats.publish(topic,output);
     }
 
