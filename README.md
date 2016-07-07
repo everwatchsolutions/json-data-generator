@@ -53,7 +53,7 @@ Here is an example of a Workflow configuration:
 ```
 "workflows": [{
             "workflowName": "test",
-            "workflowFilename": "exampleWorkflow.json"
+            "workflowFilename": "exampleWorkflow.json",
             "instances": 1
         }]
 ```
