@@ -87,7 +87,7 @@ public class JsonDataGenerator {
     }
 
     public static void main(String[] args) {
-        String simConfig = "defualtSimConfig.json";
+        String simConfig = "defaultSimConfig.json";
         if (args.length > 0) {
             simConfig = args[0];
             log.info("Overriding Simulation Config file from command line to use [ " + simConfig + " ]");
