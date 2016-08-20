@@ -8,28 +8,28 @@
     <name>${project.artifactId}</name>
     <description>A robust, generic, streaming random json data generator for your data</description>
     <url>https://github.com/acesinc/json-data-generator</url>
-    
+
     <scm>
         <connection>scm:git:git://github.com/acesinc/json-data-generator.git</connection>
         <developerConnection>scm:git:git@github.com:acesinc/json-data-generator.git</developerConnection>
         <url>https://github.com/acesinc/json-data-generator</url>
         <tag>HEAD</tag>
     </scm>
-  
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0</url>
         </license>
     </licenses>
-    
+
     <developers>
         <developer>
             <name>Andrew Serff</name>
             <url>https://github.com/andrewserff</url>
         </developer>
     </developers>
-    
+
     <properties>
         <org.slf4j-version>1.7.1</org.slf4j-version>
         <java.version>1.7</java.version>
@@ -75,17 +75,17 @@
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
         </dependency>
-        <dependency> 
-            <groupId>javax.json</groupId> 
-            <artifactId>javax.json-api</artifactId> 
-            <version>1.0</version> 
+        <dependency>
+            <groupId>javax.json</groupId>
+            <artifactId>javax.json-api</artifactId>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.json</artifactId>
             <version>1.0.4</version>
             <scope>runtime</scope>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
@@ -148,6 +148,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
