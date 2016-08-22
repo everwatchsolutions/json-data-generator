@@ -6,6 +6,10 @@ Have you ever needed to generate a realtime stream of json data in order to test
 
 For more infomation, check out the [announcement blog post](http://acesinc.net/introducing-a-streaming-json-data-generator/). 
 
+### Project Status 
+
+[![Build Status](https://travis-ci.org/acesinc/json-data-generator.svg?branch=master)](https://travis-ci.org/acesinc/json-data-generator)
+
 ### Features
 We had a couple of needs when it came to generating data for testing purposes. They were as follows:
 
