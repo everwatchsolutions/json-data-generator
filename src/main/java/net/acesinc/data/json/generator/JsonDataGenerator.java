@@ -63,12 +63,10 @@ public class JsonDataGenerator {
                     }
                     case "http-post": {
                         log.info("Adding HTTP Post Logger with properties: " + elProps);
-
                         try {
                             loggers.add(new HttpPostLogger(elProps));
                         } catch (NoSuchAlgorithmException ex) {
-                            log.error("Error creating HTTP POST Logger", ex);
-                            return;
+                            log.error("http-post Logger unable to initialize", ex);
                         }
                         break;
                     }
