@@ -190,6 +190,21 @@ When sending data to Druid via Tranquility, we are sending a Task to the Druid O
 
 When you start the Generator, it will contact the Druid Overlord and craete a task for your datasource and will then begin streaming data into Druid.  
 
+**MQTT**
+
+An MQTT Producer sends json events to the MQTT broker specified in the config. The following example shows a sample config that sends json events to a locally running MQTT broker listening on the default MQTT port.
+
+```
+{
+    "type": "mqtt",
+    "broker.server": "tcp://localhost",
+    "broker.port": 1883,
+    "topic": "logevent",
+    "clientId": "LogEvent",
+    "qos": 2
+}
+```
+
 **Full Simulation Config Example**
 
 Here is a full example of a `Simulation Configuration` file:

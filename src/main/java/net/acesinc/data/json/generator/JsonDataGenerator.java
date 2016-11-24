@@ -15,6 +15,7 @@ import net.acesinc.data.json.generator.config.JSONConfigReader;
 import net.acesinc.data.json.generator.log.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.paho.client.mqttv3.MqttException;
 
 /**
  *
@@ -67,6 +68,15 @@ public class JsonDataGenerator {
                             loggers.add(new HttpPostLogger(elProps));
                         } catch (NoSuchAlgorithmException ex) {
                             log.error("http-post Logger unable to initialize", ex);
+                        }
+                        break;
+                    }
+                    case "mqtt": {
+                        log.info("Adding MQTT Logger with properties: " + elProps);
+                        try {
+                            loggers.add(new MqttLogger(elProps));
+                        } catch (MqttException ex) {
+                            log.error("mqtt Logger unable to initialize", ex);
                         }
                         break;
                     }
