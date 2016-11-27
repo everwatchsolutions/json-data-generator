@@ -444,6 +444,7 @@ Will always generate:
 | `counter(name)` | The name of the counter to generate | Generates a one up number for a specific name. Specify different names for differnt counters. |
 | `this.propName` | propName = the name of another property | Allows you to reference other values that have already been generated (i.e. they must come before).  For example, this.test.nested-test will reference the value of test.nested-test in the previously generated json object. You can also specify a `this.` clause when calling other functions like `date(this.otherDate)` will generate a date after another generated date. |
 | `cur.propName` | propName = the name of another property at the same level as this property | Allows you to reference other values at the same level as the current property being generated. This is useful when you want to reference properties within a generated array and you don't know the index of the arrary. |
+| `randomIncrementLong(name, baseValue, minStep, maxStep)` | The name of the value to generate, its base value and boundries for the step | Generates a random step number for a specific name. Specify different names for differnt counters. |
 
 #### Arrays
 We have two super special `Functions` for use with arrays. They are `repeat()` and `random()`.  The `repeat()` function is used to specify that you want the Generator to take the elements in the array, and repeat its generator a certain number of times.  You can specify the number of times or if you provide no arguments, it will repeat it 0-10 times.  Use it like so:
@@ -526,6 +527,10 @@ Here is a Kitchen Sink example to show you all the differnt ways you can generat
         "counter2": "counter('two')",
         "counter2-inc": "counter('two')"
     },
+    "randomIncrementLongs": {
+        "randomIncrementLong1": "randomIncrementLong('one', 1, 1, 10)"
+        "randomIncrementLong2": "randomIncrementLong('two', 0, 0, 5000)"
+    },
     "array": [
         {
             "thing": "alpha(3)"
@@ -596,6 +601,10 @@ Which generates the following json:
         "counter1": 0,
         "counter2": 0,
         "counter2-inc": 1
+    },
+    "randomIncrementLongs": {
+        "randomIncrementLong1": "1"
+        "randomIncrementLong2": "0"
     },
     "array": [{
             "thing": "Psu"
