@@ -20,6 +20,7 @@ public class MqttLogger implements EventLogger {
     private static final Logger log = LogManager.getLogger(MqttLogger.class);
     
     /* Constants fpr Properties names */
+    private static final String PRODUCER_TYPE_NAME = "mqtt";
     private static final String BROKER_SERVER_PROP_NAME = "broker.server";
     private static final String BROKER_PORT_PROP_NAME = "broker.port";
     private static final String TOPIC_PROP_NAME = "topic";
@@ -55,10 +56,24 @@ public class MqttLogger implements EventLogger {
 
     @Override
     public void logEvent(String event, Map<String, Object> producerConfig) {
-        logEvent(event);
+        String _topic = null;
+        Integer _qos = null;
+        Object value = producerConfig.get(PRODUCER_TYPE_NAME);
+        if (null != value && Map.class.isAssignableFrom(value.getClass())) {
+            Map<String, Object> config = (Map<String, Object>) value;
+            _topic = (String) config.get(TOPIC_PROP_NAME);
+            _qos = (Integer) config.get(QOS_PROP_NAME);
+        }
+        logEvent(event, null == _topic ? topic : _topic, null == _qos ? qos : _qos);
     }
     
-    private void logEvent(String event) {
+    /**
+     *
+     * @param event the value of event
+     * @param qos the value of qos
+     * @param topic the value of topic
+     */
+    private void logEvent(String event, String topic, int qos) {
         MqttMessage message = new MqttMessage(event.getBytes());
         message.setQos(qos);
         try {

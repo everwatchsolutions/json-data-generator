@@ -199,9 +199,16 @@ An MQTT Producer sends json events to the MQTT broker specified in the config. T
     "type": "mqtt",
     "broker.server": "tcp://localhost",
     "broker.port": 1883,
-    "topic": "logevent",
+    "topic": "/logevent",
     "clientId": "LogEvent",
     "qos": 2
+}
+```
+The MQTT producer support step specific configuration for QOS and Topic. The entire configuration and each item in it are optional. Add an "mqtt" item to the "producerConfig" map:
+```
+"mqtt" : {
+    "topic": "/elsewhere",
+    "qos": 1
 }
 ```
 
