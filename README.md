@@ -258,6 +258,7 @@ Now that you know how Steps are executed, let's take a look at how they are defi
 | --------------- |----------------| --------------|
 | config | array of objects | The json objects to be generated during this step |
 | duration | integer | If 0, this step will run once. If -1, this step will run forever. Any of number is the time in milliseconds to run this step for. |
+| producerConfig | map of objects | Optional: producer configuraion for this step - optional and specific for each producer. (See producer documentation) |
 
 **Step Config**
 
@@ -318,6 +319,8 @@ exampleWorkflow.json:
 		    },
 		    "message": "Entered Building 1"
 		}],
+        "producerConfig" {
+        },
         "duration": 0
     },{
         "config": [{

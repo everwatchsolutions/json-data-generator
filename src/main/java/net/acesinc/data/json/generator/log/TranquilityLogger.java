@@ -197,7 +197,11 @@ public class TranquilityLogger implements EventLogger {
     }
 
     @Override
-    public void logEvent(String event) {
+    public void logEvent(String event, Map<String, Object> producerConfig) {
+        logEvent(event);
+    }
+    
+    private void logEvent(String event) {
         try {
             String output = event;
             if (flatten) {

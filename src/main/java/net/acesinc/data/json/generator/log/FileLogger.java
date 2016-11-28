@@ -42,7 +42,11 @@ public class FileLogger implements EventLogger {
     }
 
     @Override
-    public void logEvent(String event) {
+    public void logEvent(String event, Map<String, Object> producerConfig) {
+        logEvent(event);
+    }
+    
+    private void logEvent(String event) {
         try {
             File f = File.createTempFile(filePrefix, fileExtension, outputDirectory);
             FileUtils.writeStringToFile(f, event, "UTF-8");

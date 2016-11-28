@@ -6,7 +6,6 @@
 package net.acesinc.data.json.generator.log;
 
 import java.util.Map;
-import java.util.logging.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -55,7 +54,11 @@ public class MqttLogger implements EventLogger {
     }
 
     @Override
-    public void logEvent(String event) {
+    public void logEvent(String event, Map<String, Object> producerConfig) {
+        logEvent(event);
+    }
+    
+    private void logEvent(String event) {
         MqttMessage message = new MqttMessage(event.getBytes());
         message.setQos(qos);
         try {
