@@ -123,10 +123,18 @@
             <version>4.10</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.eclipse.paho</groupId>
+            <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+            <version>1.0.2</version>
+        </dependency>
     </dependencies>
     <repositories>
         <!-- These are set in the settings.xml to our nexus repo -->
+        <repository>
+            <id>Eclipse Paho Repo</id>
+            <url>https://repo.eclipse.org/content/repositories/paho-releases</url>
+        </repository>
     </repositories>
     <pluginRepositories>
         <!-- These are set in the settings.xml to our nexus repo -->

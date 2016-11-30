@@ -134,7 +134,7 @@ public class EventGenerator implements Runnable {
                 try {
                     String event = generateEvent(wrapper);
                     for (EventLogger l : eventLoggers) {
-                        l.logEvent(event);
+                        l.logEvent(event, step.getProducerConfig());
                     }
                     try {
                         performEventSleep(workflow);
@@ -157,7 +157,7 @@ public class EventGenerator implements Runnable {
                     wrapper.put(null, configs.get(generateRandomNumber(0, configs.size() - 1)));
                     String event = generateEvent(wrapper);
                     for (EventLogger l : eventLoggers) {
-                        l.logEvent(event);
+                        l.logEvent(event, step.getProducerConfig());
                     }
                     try {
                         performEventSleep(workflow);
@@ -181,7 +181,7 @@ public class EventGenerator implements Runnable {
                     wrapper.put(null, configs.get(generateRandomNumber(0, configs.size() - 1)));
                     String event = generateEvent(wrapper);
                     for (EventLogger l : eventLoggers) {
-                        l.logEvent(event);
+                        l.logEvent(event, step.getProducerConfig());
                     }
                     try {
                         performEventSleep(workflow);
