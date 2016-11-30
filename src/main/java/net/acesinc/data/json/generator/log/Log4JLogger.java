@@ -23,7 +23,11 @@ public class Log4JLogger implements EventLogger {
     private ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public void logEvent(String event) {
+    public void logEvent(String event, Map<String, Object> producerConfig) {
+        logEvent(event);
+    }
+    
+    private void logEvent(String event) {
         try {
             Object theValue = null;
             if (event.startsWith("{")) { //plain json object = Map

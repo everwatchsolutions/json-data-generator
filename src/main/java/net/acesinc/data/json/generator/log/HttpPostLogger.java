@@ -42,7 +42,11 @@ public class HttpPostLogger implements EventLogger {
     }
 
     @Override
-    public void logEvent(String event) {
+    public void logEvent(String event, Map<String, Object> producerConfig) {
+        logEvent(event);
+    }
+    
+    private void logEvent(String event) {
         try {
             HttpPost request = new HttpPost(url);
             StringEntity input = new StringEntity(event);

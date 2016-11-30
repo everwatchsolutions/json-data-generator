@@ -190,6 +190,28 @@ When sending data to Druid via Tranquility, we are sending a Task to the Druid O
 
 When you start the Generator, it will contact the Druid Overlord and craete a task for your datasource and will then begin streaming data into Druid.  
 
+**MQTT**
+
+An MQTT Producer sends json events to the MQTT broker specified in the config. The following example shows a sample config that sends json events to a locally running MQTT broker listening on the default MQTT port.
+
+```
+{
+    "type": "mqtt",
+    "broker.server": "tcp://localhost",
+    "broker.port": 1883,
+    "topic": "/logevent",
+    "clientId": "LogEvent",
+    "qos": 2
+}
+```
+The MQTT producer support step specific configuration for QOS and Topic. The entire configuration and each item in it are optional. Add an "mqtt" item to the "producerConfig" map:
+```
+"mqtt" : {
+    "topic": "/elsewhere",
+    "qos": 1
+}
+```
+
 **Full Simulation Config Example**
 
 Here is a full example of a `Simulation Configuration` file:
@@ -243,6 +265,7 @@ Now that you know how Steps are executed, let's take a look at how they are defi
 | --------------- |----------------| --------------|
 | config | array of objects | The json objects to be generated during this step |
 | duration | integer | If 0, this step will run once. If -1, this step will run forever. Any of number is the time in milliseconds to run this step for. |
+| producerConfig | map of objects | Optional: producer configuraion for this step - optional and specific for each producer. (See producer documentation) |
 
 **Step Config**
 
@@ -303,6 +326,8 @@ exampleWorkflow.json:
 		    },
 		    "message": "Entered Building 1"
 		}],
+        "producerConfig" {
+        },
         "duration": 0
     },{
         "config": [{
@@ -429,6 +454,7 @@ Will always generate:
 | `counter(name)` | The name of the counter to generate | Generates a one up number for a specific name. Specify different names for differnt counters. |
 | `this.propName` | propName = the name of another property | Allows you to reference other values that have already been generated (i.e. they must come before).  For example, this.test.nested-test will reference the value of test.nested-test in the previously generated json object. You can also specify a `this.` clause when calling other functions like `date(this.otherDate)` will generate a date after another generated date. |
 | `cur.propName` | propName = the name of another property at the same level as this property | Allows you to reference other values at the same level as the current property being generated. This is useful when you want to reference properties within a generated array and you don't know the index of the arrary. |
+| `randomIncrementLong(name, baseValue, minStep, maxStep)` | The name of the value to generate, its base value and boundries for the step | Generates a random step number for a specific name. Specify different names for differnt counters. |
 
 #### Arrays
 We have two super special `Functions` for use with arrays. They are `repeat()` and `random()`.  The `repeat()` function is used to specify that you want the Generator to take the elements in the array, and repeat its generator a certain number of times.  You can specify the number of times or if you provide no arguments, it will repeat it 0-10 times.  Use it like so:
@@ -511,6 +537,10 @@ Here is a Kitchen Sink example to show you all the differnt ways you can generat
         "counter2": "counter('two')",
         "counter2-inc": "counter('two')"
     },
+    "randomIncrementLongs": {
+        "randomIncrementLong1": "randomIncrementLong('one', 1, 1, 10)"
+        "randomIncrementLong2": "randomIncrementLong('two', 0, 0, 5000)"
+    },
     "array": [
         {
             "thing": "alpha(3)"
@@ -581,6 +611,10 @@ Which generates the following json:
         "counter1": 0,
         "counter2": 0,
         "counter2-inc": 1
+    },
+    "randomIncrementLongs": {
+        "randomIncrementLong1": "1"
+        "randomIncrementLong2": "0"
     },
     "array": [{
             "thing": "Psu"

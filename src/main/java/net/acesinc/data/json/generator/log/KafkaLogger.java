@@ -51,7 +51,11 @@ public class KafkaLogger implements EventLogger {
     }
 
     @Override
-    public void logEvent(String event) {
+    public void logEvent(String event, Map<String, Object> producerConfig) {
+        logEvent(event);
+    }
+    
+    private void logEvent(String event) {
         boolean sync = false;
         
         String output = event;
