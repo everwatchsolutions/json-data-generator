@@ -193,6 +193,7 @@ When you start the Generator, it will contact the Druid Overlord and craete a ta
 **MQTT**
 
 An MQTT Producer sends json events to the MQTT broker specified in the config. The following example shows a sample config that sends json events to a locally running MQTT broker listening on the default MQTT port.
+The example also includes the two optional fields: username and password
 
 ```
 {
@@ -201,7 +202,9 @@ An MQTT Producer sends json events to the MQTT broker specified in the config. T
     "broker.port": 1883,
     "topic": "/logevent",
     "clientId": "LogEvent",
-    "qos": 2
+    "qos": 2,
+    "username": "whoami",
+    "password": "whatsmypassword"
 }
 ```
 The MQTT producer support step specific configuration for QOS and Topic. The entire configuration and each item in it are optional. Add an "mqtt" item to the "producerConfig" map:

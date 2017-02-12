@@ -26,6 +26,8 @@ public class MqttLogger implements EventLogger {
     private static final String TOPIC_PROP_NAME = "topic";
     private static final String CLIENT_ID_PROP_NAME = "clientId";
     private static final String QOS_PROP_NAME = "qos";
+    private static final String USERNAME_PROP_NAME = "username";
+    private static final String PASSWORD_PROP_NAME = "password";
 
     /* Constants for default values */
     private static final String DEFAULT_CLIENT_ID     = "JsonGenerator";
@@ -41,14 +43,25 @@ public class MqttLogger implements EventLogger {
         Integer brokerPort = (Integer) props.get(BROKER_PORT_PROP_NAME);
         String brokerAddress = brokerHost + ":" + brokerPort.toString();
         
-        topic = (String) props.get(TOPIC_PROP_NAME);
         String clientId = (String) props.get(CLIENT_ID_PROP_NAME);
+        String username = (String)props.get(USERNAME_PROP_NAME);
+        String password = (String)props.get(PASSWORD_PROP_NAME);
+
+        topic = (String) props.get(TOPIC_PROP_NAME);
         Integer _qos = (Integer) props.get(QOS_PROP_NAME);
         qos = null == _qos ? DEFAULT_QOS : _qos;
         
-        mqttClient = new MqttClient(brokerAddress, null == clientId ? DEFAULT_CLIENT_ID : clientId);
+        mqttClient = new MqttClient(brokerAddress,
+                null == clientId ? DEFAULT_CLIENT_ID : clientId);
         MqttConnectOptions connOpts = new MqttConnectOptions();
         connOpts.setCleanSession(true);
+        if (null != username) {
+            connOpts.setUserName(username);
+            if (null != password) {
+                connOpts.setPassword(password.toCharArray());
+            }
+        }
+
         log.debug("Connecting to broker: "+brokerAddress);
         mqttClient.connect(connOpts);
         log.debug("Connected");
