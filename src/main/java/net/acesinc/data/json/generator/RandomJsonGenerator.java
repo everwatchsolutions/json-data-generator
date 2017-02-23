@@ -33,7 +33,7 @@ public class RandomJsonGenerator {
     private SimpleDateFormat iso8601DF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
     private Map<String, Object> config;
-    private JsonGeneratorFactory factory = Json.createGeneratorFactory(null);
+    private static JsonGeneratorFactory factory = Json.createGeneratorFactory(null);
     private Map<String, Object> generatedValues;
     private JsonUtils jsonUtils;
 
