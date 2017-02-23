@@ -30,6 +30,12 @@ public class TypeHandlerFactory {
     private Map<String, Class> typeHandlerNameMap;
     private Map<String, TypeHandler> typeHandlerCache;
 
+    private static final ThreadLocal<TypeHandlerFactory> localInstance = new ThreadLocal<TypeHandlerFactory>(){
+        protected TypeHandlerFactory initialValue() {
+            return new TypeHandlerFactory();
+        }
+    };
+    
     private TypeHandlerFactory() {
         typeHandlerNameMap = new LinkedHashMap<>();
         typeHandlerCache = new LinkedHashMap<>();
@@ -37,10 +43,7 @@ public class TypeHandlerFactory {
     }
 
     public static TypeHandlerFactory getInstance() {
-        if (instance == null) {
-            instance = new TypeHandlerFactory();
-        }
-        return instance;
+        return localInstance.get();
     }
 
     private void scanForTypeHandlers() {
