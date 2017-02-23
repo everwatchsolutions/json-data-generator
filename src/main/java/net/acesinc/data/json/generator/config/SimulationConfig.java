@@ -6,6 +6,7 @@
 
 package net.acesinc.data.json.generator.config;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,16 @@ public class SimulationConfig {
      * @return the workflows
      */
     public List<WorkflowConfig> getWorkflows() {
-        return workflows;
+        List<WorkflowConfig> allWorkflows = new ArrayList<>();
+        for (WorkflowConfig workflowConfig: workflows) {
+            int instanceCounter = workflowConfig.getInstances();
+            if(instanceCounter > 0) {
+                for(int i = 0 ; i<instanceCounter ; i++) {
+                    allWorkflows.add(workflowConfig);
+                }
+            }
+        }
+        return allWorkflows;
     }
 
     /**

@@ -13,7 +13,7 @@ package net.acesinc.data.json.generator.config;
 public class WorkflowConfig {
     private String workflowName;
     private String workflowFilename;
-
+    private int instances = 1;
     /**
      * @return the workflowName
      */
@@ -40,5 +40,13 @@ public class WorkflowConfig {
      */
     public void setWorkflowFilename(String workflowFilename) {
         this.workflowFilename = workflowFilename;
+    }
+
+    public int getInstances() {
+        return instances;
+    }
+
+    public void setInstances(int instances) {
+        this.instances = instances;
     }
 }

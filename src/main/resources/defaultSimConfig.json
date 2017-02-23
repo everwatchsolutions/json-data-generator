@@ -1,13 +1,16 @@
 {
     "workflows": [{
             "workflowName": "test",
-            "workflowFilename": "normalUser1Workflow.json"
-        }],
+            "workflowFilename": "normalUser1Workflow.json",
+            "instances": 4
+        }
+   ],
     "producers": [{
-            "type": "kafka",
-            "broker.server": "192.168.59.103",
-            "broker.port": 9092,
-            "topic": "logevent",
+            "type": "nats",
+            "broker.server": "127.0.0.1",
+            "broker.port": 4222,
+            "topic": "vehicle",
+            "flatten": false,
             "sync": false
     },{
         "type":"logger"
