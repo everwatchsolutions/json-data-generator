@@ -6,6 +6,7 @@
 package net.acesinc.data.json.generator.types;
 
 import java.util.Random;
+import org.apache.commons.math3.util.Precision;
 
 /**
  *
@@ -19,7 +20,7 @@ public class DoubleType extends TypeHandler {
     private double min;
     private double max;
     private Random rand;
-    private int decimalPlaces = 4;
+    private static final int decimalPlaces = 4;
 
     public DoubleType() {
         super();
@@ -47,8 +48,8 @@ public class DoubleType extends TypeHandler {
         double range = max - min;
         double scaled = rand.nextDouble() * range;
         double shifted = scaled + min;
-//        return shifted; // == (rand.nextDouble() * (max-min)) + min;
-        return Double.parseDouble(String.format("%." + decimalPlaces + "f", shifted));
+
+        return Precision.round(shifted, decimalPlaces);
 
     }
 
