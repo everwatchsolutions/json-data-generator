@@ -14,7 +14,7 @@ For more information, check out the [announcement blog post](http://acesinc.net/
 We had a couple of needs when it came to generating data for testing purposes. They were as follows:
 
 * **Generate json documents that are defined in json themselves**. This would allow us to take existing schemas, drop them in to the generator, modify them a bit and start generating data that looks like what we expect in our application
-* **Generate json with random data as values**. This includes different types of random data, not just random characters, but things like random names, counters, dates, primitave types, etc.
+* **Generate json with random data as values**. This includes different types of random data, not just random characters, but things like random names, counters, dates, primitive types, etc.
 * **Generate a constant stream of json events that are sent somewhere**. We might need to send the data to a log file or to a Kafka topic or something else.  
 * **Generate events in a defined order, at defined or random time periods** in order to act like a real system. 
 
@@ -31,7 +31,7 @@ The Generator has the following basic architecture:
 * `Simulation Configuration` - A json file that represents your over all simulation you would like to run. 
 * `Workflow Definitions` - Json files that define a workflow that is run by your Simulation.  
 
-When you start the `JsonDataGenerator`, you specify your `Simulation Configuration` which also references one or many `Workflow Definitions.`  The Simulation is loaded and the Workflows are created within the application and each workflow is started within it's own thread. Json events are generated and sent on to the defined `Producers`.  
+When you start the `JsonDataGenerator`, you specify your `Simulation Configuration` which also references one or many `Workflow Definitions.`  The Simulation is loaded and the Workflows are created within the application and each workflow is started within its own thread. Json events are generated and sent to the defined `Producers`.  
 
 #### What's defined Where
 There are multiple pieces of information that you as a developer/integrator need to define within your configuration files. We'll break down what goes where in this section. 
@@ -261,7 +261,7 @@ The `Workflow` is defined in seperate files to allow you to have and run multipl
 Workflow Steps are meat of your generated json events. They specify what your json will look like and how they will be generated. Depending on the `stepRunMode` you have chosen, the Generator will execute your steps in different orders. The possibilities are as follows:
 
 * sequential - Steps will be run in the order they are specified in the array. 
-* random - Steps will be shuffled and run in a random order.  Steps will be reshuffled each time the workflow is repeated
+* random - Steps will be shuffled and run in a random order.  Steps will be reshuffled each time the workflow is repeated.
 * random-pick-one - A random step will be chosen from your config and will be run.  No other steps will be run until the workflow repeats.  When the workflow repeats, a different random step will be picked. 
 
 **Step**
@@ -425,14 +425,14 @@ Will always generate:
 | --------------- |----------------| --------------|
 | `alpha(#)` | The number of characters to generate | Generates a random string of Alphabetic charaters with the length specified|
 | `alphaNumeric(#)` | The number of characters to generate | Generates a random string of AlphaNumeric charaters with the length specified |
-| `firstName()` | n/a | Generates a random first names from a predefined list of names |
-| `lastName()` | n/a | Generates a random last names from a predefined list of names |
+| `firstName()` | n/a | Generates a random first name from a predefined list of names |
+| `lastName()` | n/a | Generates a random last name from a predefined list of names |
 | `uuid()` | n/a | Generates a random UUID |
 | `stringMerge()` | Delimiter and then the string values to merge | Takes the input arguments and merges them together using the delimiter. This can be used with the `this.prop` or `cur.prop` keywords to merge generated values like: `stringMerge(_, this.firstName, this.lastName)` which would output something like `Bilbo_Baggins` |
 
 
 
-### Primitave Functions
+### Primitive Functions
 | Function        | Arguments           | Description   |
 | --------------- |----------------| --------------|
 | `boolean()` | n/a | Random true/false |
