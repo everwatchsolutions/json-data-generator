@@ -2,9 +2,9 @@
 
 <div style="text-align:center"><img src ="./src/design/logo.png" width="95%"/></div>
 
-Have you ever needed to generate a realtime stream of json data in order to test an application? When thinking about a good source of streaming data, we often look to the Twitter stream as a solution, but that only gets us so far in prototyping scenarios and we often fall short because Twitter data only fits a certain amount of use cases. There are plenty of json data generator online (like [json-generator](http://www.json-generator.com/), or [mockaroo](https://www.mockaroo.com/)), but we couldn't find an offline data generator for us to use in our testing and protyping, so we decided to build one.  We found it so useful, that we decided to open source it as well so other can make use of it in their own projects.  
+Have you ever needed to generate a realtime stream of json data in order to test an application? When thinking about a good source of streaming data, we often look to the Twitter stream as a solution, but that only gets us so far in prototyping scenarios and we often fall short because Twitter data only fits a certain amount of use cases. There are plenty of json data generator online (like [json-generator](http://www.json-generator.com/), or [mockaroo](https://www.mockaroo.com/)), but we couldn't find an offline data generator for us to use in our testing and prototyping, so we decided to build one.  We found it so useful, that we decided to open source it as well so other can make use of it in their own projects.  
 
-For more infomation, check out the [announcement blog post](http://acesinc.net/introducing-a-streaming-json-data-generator/). 
+For more information, check out the [announcement blog post](http://acesinc.net/introducing-a-streaming-json-data-generator/). 
 
 ### Project Status 
 
@@ -14,7 +14,7 @@ For more infomation, check out the [announcement blog post](http://acesinc.net/i
 We had a couple of needs when it came to generating data for testing purposes. They were as follows:
 
 * **Generate json documents that are defined in json themselves**. This would allow us to take existing schemas, drop them in to the generator, modify them a bit and start generating data that looks like what we expect in our application
-* **Generate json with random data as values**. This includes differnt types of random data, not just random characters, but things like random names, counters, dates, primitave types, etc.
+* **Generate json with random data as values**. This includes different types of random data, not just random characters, but things like random names, counters, dates, primitive types, etc.
 * **Generate a constant stream of json events that are sent somewhere**. We might need to send the data to a log file or to a Kafka topic or something else.  
 * **Generate events in a defined order, at defined or random time periods** in order to act like a real system. 
 
@@ -31,7 +31,7 @@ The Generator has the following basic architecture:
 * `Simulation Configuration` - A json file that represents your over all simulation you would like to run. 
 * `Workflow Definitions` - Json files that define a workflow that is run by your Simulation.  
 
-When you start the `JsonDataGenerator`, you specify your `Simulation Configuration` which also references one or many `Workflow Definitions.`  The Simulation is loaded and the Workflows are created within the application and each workflow is started within it's own thread. Json events are generated and sent on to the defined `Producers`.  
+When you start the `JsonDataGenerator`, you specify your `Simulation Configuration` which also references one or many `Workflow Definitions.`  The Simulation is loaded and the Workflows are created within the application and each workflow is started within its own thread. Json events are generated and sent to the defined `Producers`.  
 
 #### What's defined Where
 There are multiple pieces of information that you as a developer/integrator need to define within your configuration files. We'll break down what goes where in this section. 
@@ -168,11 +168,11 @@ A nats logger sends json events to gnatsd broker specifed in the config. The fol
     "flatten": false
 }
 ```
-Note that `flatten` has the same effect as the option in the kafka producer.
+Note that `flatten` has the same effect as the option in the Kafka producer.
 
 **Tranquility**
 
-A Tranquility Producer sends json events using [Tranquility](https://github.com/metamx/tranquility) to a [Druid](http://druid.io) cluster. Druid is an Open Source Analytics data store and Tranquility is a realtime communication transport that druid supports for ingesting data.  Configure it like so:
+A Tranquility Producer sends json events using [Tranquility](https://github.com/metamx/tranquility) to a [Druid](http://druid.io) cluster. Druid is an Open Source Analytics data store and Tranquility is a realtime communication transport that Druid supports for ingesting data.  Configure it like so:
 
 ```
 {
@@ -190,7 +190,7 @@ A Tranquility Producer sends json events using [Tranquility](https://github.com/
 ```
 When sending data to Druid via Tranquility, we are sending a Task to the Druid Overlord node that will perform realtime ingestion. Our task implementation currently does not allow users to specifc the aggregators that are used. We create a single "events" metric that is a Count Aggregation. Everything else if configured though the properties. The `sync` and `flatten` properties behave exactly the same ast the Kafka Producer.  This works for us currently, but if you need more capability, please file an issue or submit a pull request!  
 
-When you start the Generator, it will contact the Druid Overlord and craete a task for your datasource and will then begin streaming data into Druid.  
+When you start the Generator, it will contact the Druid Overlord and create a task for your datasource and will then begin streaming data into Druid.  
 
 **MQTT**
 
@@ -261,7 +261,7 @@ The `Workflow` is defined in seperate files to allow you to have and run multipl
 Workflow Steps are meat of your generated json events. They specify what your json will look like and how they will be generated. Depending on the `stepRunMode` you have chosen, the Generator will execute your steps in different orders. The possibilities are as follows:
 
 * sequential - Steps will be run in the order they are specified in the array. 
-* random - Steps will be shuffled and run in a random order.  Steps will be reshuffled each time the workflow is repeated
+* random - Steps will be shuffled and run in a random order.  Steps will be reshuffled each time the workflow is repeated.
 * random-pick-one - A random step will be chosen from your config and will be run.  No other steps will be run until the workflow repeats.  When the workflow repeats, a different random step will be picked. 
 
 **Step**
@@ -272,7 +272,7 @@ Now that you know how Steps are executed, let's take a look at how they are defi
 | --------------- |----------------| --------------|
 | config | array of objects | The json objects to be generated during this step |
 | duration | integer | If 0, this step will run once. If -1, this step will run forever. Any of number is the time in milliseconds to run this step for. |
-| producerConfig | map of objects | Optional: producer configuraion for this step - optional and specific for each producer. (See producer documentation) |
+| producerConfig | map of objects | Optional: producer configuration for this step - optional and specific for each producer. (See producer documentation) |
 
 **Step Config**
 
@@ -356,7 +356,7 @@ exampleWorkflow.json:
 This workflow would output the defined json about every 4 seconds and then it will wait about 15 seconds before starting again.  
 
 ## Running The Generator
-Now that you know how to configure the Generator, it's time to run it.  You will need maven to build the application until we put a release up to download. 
+Now that you know how to configure the Generator, it's time to run it.  You will need Maven to build the application until we put a release up to download. 
 
 First, clone/fork the repo:
 
@@ -368,7 +368,7 @@ Now build it!
 ```
 mvn clean package
 ```
-Once this completes, a tar file will have been generated for you to use.  Unpack the tar file somewhere you want to run the application from:
+Once this completes, a tar file will have been generated for you to use. Unpack the tar file somewhere you want to run the application from:
 
 ```
 cp target/json-data-generator-1.0.0-bin.tar your/directory
@@ -393,7 +393,7 @@ You will start seeing output in your console and data will begin to be generated
 2015-04-28 14:30:09,768 INFO data-logger [Thread-2] {"timestamp":1430253009767,"system":"AUDIT","actor":"bob","action":"COPY","objects":["/data/file1.txt","/share/mystuff/file2.txt"],"location":null,"message":"Printed /data/file1.txt"}
 ```
 
-This example only outputs to the `Logger` Producer, so all the data is going to your console and it is also being written to `json-data-generator/logs/json-data.log`. The data written to json-data.log is a single event per line and does not contain the logging timestamps and other info like above.  
+This example only outputs to the `Logger` Producer, so all the data is going to your console and it is also being written to `json-data-generator/logs/json-data.log`. The data written to `json-data.log` is a single event per line and does not contain the logging timestamps and other info like above.  
 
 If you were to create your own simulation config called `mySimConfig.json`, you would place that file and any workflow conigs into the `conf` directory and run the application again like so:
 
@@ -425,14 +425,14 @@ Will always generate:
 | --------------- |----------------| --------------|
 | `alpha(#)` | The number of characters to generate | Generates a random string of Alphabetic charaters with the length specified|
 | `alphaNumeric(#)` | The number of characters to generate | Generates a random string of AlphaNumeric charaters with the length specified |
-| `firstName()` | n/a | Generates a random first names from a predefined list of names |
-| `lastName()` | n/a | Generates a random last names from a predefined list of names |
+| `firstName()` | n/a | Generates a random first name from a predefined list of names |
+| `lastName()` | n/a | Generates a random last name from a predefined list of names |
 | `uuid()` | n/a | Generates a random UUID |
 | `stringMerge()` | Delimiter and then the string values to merge | Takes the input arguments and merges them together using the delimiter. This can be used with the `this.prop` or `cur.prop` keywords to merge generated values like: `stringMerge(_, this.firstName, this.lastName)` which would output something like `Bilbo_Baggins` |
 
 
 
-### Primitave Functions
+### Primitive Functions
 | Function        | Arguments           | Description   |
 | --------------- |----------------| --------------|
 | `boolean()` | n/a | Random true/false |
@@ -458,10 +458,10 @@ Will always generate:
 | Function        | Arguments           | Description   |
 | --------------- |----------------| --------------|
 | `random(val1,val2,...)` | Literal values to choose from. Can be Strings, Integers, Longs, Doubles, or Booleans | Randomly chooses from the specified values |
-| `counter(name)` | The name of the counter to generate | Generates a one up number for a specific name. Specify different names for differnt counters. |
+| `counter(name)` | The name of the counter to generate | Generates a one up number for a specific name. Specify different names for different counters. |
 | `this.propName` | propName = the name of another property | Allows you to reference other values that have already been generated (i.e. they must come before).  For example, this.test.nested-test will reference the value of test.nested-test in the previously generated json object. You can also specify a `this.` clause when calling other functions like `date(this.otherDate)` will generate a date after another generated date. |
-| `cur.propName` | propName = the name of another property at the same level as this property | Allows you to reference other values at the same level as the current property being generated. This is useful when you want to reference properties within a generated array and you don't know the index of the arrary. |
-| `randomIncrementLong(name, baseValue, minStep, maxStep)` | The name of the value to generate, its base value and boundries for the step | Generates a random step number for a specific name. Specify different names for differnt counters. |
+| `cur.propName` | propName = the name of another property at the same level as this property | Allows you to reference other values at the same level as the current property being generated. This is useful when you want to reference properties within a generated array and you don't know the index of the array. |
+| `randomIncrementLong(name, baseValue, minStep, maxStep)` | The name of the value to generate, its base value and boundaries for the step | Generates a random step number for a specific name. Specify different names for different counters. |
 
 #### Arrays
 We have two super special `Functions` for use with arrays. They are `repeat()` and `random()`.  The `repeat()` function is used to specify that you want the Generator to take the elements in the array, and repeat its generator a certain number of times.  You can specify the number of times or if you provide no arguments, it will repeat it 0-10 times.  Use it like so:
@@ -496,7 +496,7 @@ The `random()` function will tell the generator to pick a random element from th
 This will generate an array with one element that is either the element with `date` & `count` or the element with `thing1` in it. 
 
 ## Examples
-Here is a Kitchen Sink example to show you all the differnt ways you can generate data:
+Here is a Kitchen Sink example to show you all the different ways you can generate data:
 
 ```
 {
