@@ -1,0 +1,11 @@
+{
+    "workflows": [{
+            "workflowName": "test",
+            "workflowFilename": "exampleWorkflow.json"
+        }],
+    "producers": [{
+        "type":"iothub",
+        "connectionString" : "<- Insert IoT Hub connection string for your device ->",
+        "protocol" : "HTTPS"
+    }]
+}
