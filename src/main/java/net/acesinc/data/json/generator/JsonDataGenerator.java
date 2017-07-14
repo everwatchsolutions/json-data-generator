@@ -6,6 +6,7 @@
 package net.acesinc.data.json.generator;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +78,15 @@ public class JsonDataGenerator {
                             loggers.add(new MqttLogger(elProps));
                         } catch (MqttException ex) {
                             log.error("mqtt Logger unable to initialize", ex);
+                        }
+                        break;
+                    }
+                    case "iothub": {
+                        log.info("Adding Azure IoT Hub Logger with properties: " + elProps);
+                        try {
+                            loggers.add(new AzureIoTHubLogger(elProps));
+                        } catch (URISyntaxException ex) {
+                            log.error("Azure IoT Hub Logger unable to initialize", ex);
                         }
                         break;
                     }

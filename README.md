@@ -217,6 +217,18 @@ The MQTT producer support step specific configuration for QOS and Topic. The ent
 }
 ```
 
+**Azure IoT Hub**
+
+An Azure IoT Hub Producer sends json events to the Azure IoT Hub specified in the config. Choose a protocol from HTTPS, AMQPS or MQTT
+
+```
+{
+    "type": "iothub",
+    "connectionString": "<- Get from Azure portal or Device Explorer ->",
+    "protocol": "HTTPS",
+}
+```
+
 **Full Simulation Config Example**
 
 Here is a full example of a `Simulation Configuration` file:
