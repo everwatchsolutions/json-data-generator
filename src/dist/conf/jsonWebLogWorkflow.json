@@ -1,0 +1,402 @@
+{
+	"eventFrequency": 100,
+	"varyEventFrequency": true,
+	"repeatWorkflow": true,
+	"timeBetweenRepeat": 100,
+	"varyRepeatFrequency": true,
+	"stepRunMode": "random",
+	"steps": [{
+			"config": [{
+				"timestamp": "nowTimestamp()",
+				"method": "random('GET','POST')",
+				"origin": "random('104.18.12.157','50.18.212.223','201.25.214.31','152.26.11.205','122.26.14.11','102.8.19.58','152.8.8.189','104.149.153.72','106.187.182.230','200.187.199.38')",
+				"url": "random('/api/Login','/api/Supplier','/api/Customer','/api/Invoice','/api/Order','/api/StockItem','/api/PurchaseOrder','/api/PurchaseOrder','/api/SalesOrderLine','/api/PurchaseOrderLine')",
+				"status": "200",
+				"user": "random('Kayla','Hudson','Isabella','Sophia','Amy','Anthony','Alica','Stella','Ethan','Henry','Hudson','Lily','Taj','Piper','Katie','Jai','Jack','Matheus','Eliza')",
+				"duration": "integer(50,200)",
+				"headers": {
+					"Content-Length": "integer(100,800)",
+					"Accept-Language": "en-US,en;q=0.8",
+					"Accept-Encoding": "random('gzip,deflate,sdch','gzip,deflate','deflate','gzip')",
+					"X-Forwarded-Port": "integer(400,500)",
+					"Host": "wwi.microsoft.org",
+					"Referer": "random('www.google.com','www.bing.com')",
+					"Accept": "random('text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 'text/html,application/xml;q=0.8,*/*;q=0.7','application/json')",
+					"User-Agent": "random('Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.83 Safari/535.11','Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0'",
+					"X-Request-Start": "nowTimestamp()",
+					"Accept-Charset": "ISO-8859-1,utf-8;q=0.7,*;q=0.3",
+					"Connection": "keep-alive",
+					"X-Forwarded-Proto": "random('https','https','https','http')",
+					"Content-Type": "application/json",
+					"Cookies": [
+						"repeat(1)",
+						{
+							"ARRAffinity": "random('e9d7d581f74fa3aa82fed4e52ba7b581a49d7a218f02ccc2fb509536bfb3742f','3aa82fed4e52ba7b581e9d7d581f74faa49d7a218f02ccc2fb509536bfb3742f','b509536bfb3742fe9d7d581f74fa3aa82fed4e52ba7b581a49d7a218f02ccc2f','2fb509536bfb3742fe9d7d581f74fa3aa82fed4e52ba7b581a49d7a218f02ccc','aa82fed4e52bae9d7d581f74fa37b581a49d7a218f02ccc2fb509536bfb3742f','d7d583aa82fed4e52ba7b581a49d7a218f02ccc2fb509536bfb3742f')"
+						}
+					]
+				},
+				"response": {
+					"access-control-allow-methods": "random('HEAD,GET,OPTIONS','GET','HEAD,GET','GET,OPTIONS')",
+					"access-control-allow-origin": "*",
+					"Transfer-Encoding": "random('chunked','compress','deflate','gzip','','','','')",
+					"Date": "now()",
+					"Server": "Kestrel",
+					"Connection": "random('close','','','')",
+					"X-Powered-By": "ASP.NET",
+					"Pragma": "public",
+					"Expires": "now(1_m)",
+					"Etag": "uuid()",
+					"Cache-Control": "max-age=3600, public",
+					"Content-Type": "random('application/json; charset=UTF-8','text/html; charset=UTF-8')",
+					"Last-Modified": "now()",
+					"Content-Encoding": "random('gzip','deflate')",
+					"Vary": "Accept-Encoding, Cookie, User-Agent",
+					"Set-Cookie": "random('ASP.NET_SessionID=28efde19-bcfa-4121-ba55-d1fbf1589e2d; path=/; secure; HttpOnly','ASP.NET_SessionID=4121-28efde19-bcfa-ba55-d1fbf1589e2d; path=/; secure; HttpOnly','ASP.NET_SessionID=9a21-28efde19-23fa-bcfa-d1fbf1779e2d; path=/; secure; HttpOnly','ASP.NET_SessionID=bcfa-4121-28efde19--ba55-d1fbf1589e2d; path=/; secure; HttpOnly','ASP.NET_SessionID=11430522-92f3-44a1-8874-08a9b81cc44e; path=/; secure; HttpOnly','ASP.NET_SessionID=54430522-08a9b81cc44e-92f3-44a1-8874; path=/; secure; HttpOnly','ASP.NET_SessionID=93efde19-bcfa-4121-ba55-d1fbf15ade2d; path=/; secure; HttpOnly','ASP.NET_SessionID=28efde19-bcfa-4121-ba55-d1fbf1589e2d; path=/; secure; HttpOnly','ASP.NET_SessionID=11430522-92f3-44a1-8874-08a9b81cc44e; path=/; secure; HttpOnly','ASP.NET_SessionID=28efde19-bcfa-4121-ba55-d1fbf1589aad; path=/; secure; HttpOnly','ASP.NET_SessionID=87e7de19-bcfa-4121-ba55-d1fbf1589aad; path=/; secure; HttpOnly','ASP.NET_SessionID=d22bf1589aad-78efde19-bcfa-4121-ba55-d1fbf1589aad; path=/; secure; HttpOnly')"
+				}
+			}],
+			"duration": 200
+		}, {
+			"config": [{
+				"timestamp": "nowTimestamp()",
+				"method": "GET",
+				"origin": "random('104.18.12.157','50.18.212.223','201.25.214.31','152.26.11.205','122.26.14.11','102.8.19.58','152.8.8.189','104.149.153.72','106.187.182.230','200.187.199.38')",
+				"url": "random('/api/Invoice/197','/api/Supplier/405','/api/Customer/29','/api/Invoice/495','/api/Invoice/45','/api/Invoice/501','/api/Invoice/992','/api/Invoice/550','/api/Invoice/453','/api/Invoice/151','/api/Invoice/243','/api/Invoice/142','/api/Invoice/502','/api/Invoice/302','/api/Invoice/454','/api/Invoice/35','/api/Invoice/153','/api/Invoice/401','/api/Invoice/405','/api/Invoice/145','/api/Order/102','/api/Order/292','/api/Order/702','/api/StockItem/394','/api/PurchaseOrder/226','/api/PurchaseOrder/209','/api/PurchaseOrder/627','/api/PurchaseOrder/983','/api/PurchaseOrder/726','/api/PurchaseOrder/991','/api/PurchaseOrder/804','/api/PurchaseOrder/927','/api/PurchaseOrder/303','/api/PurchaseOrder/326','/api/PurchaseOrder/396','/api/PurchaseOrder/501','/api/PurchaseOrder/400','/api/PurchaseOrder/401','/api/PurchaseOrder/926','/api/PurchaseOrder/297','/api/PurchaseOrder/307','/api/PurchaseOrder/902','/api/PurchaseOrder/972','/api/PurchaseOrder/75','/api/PurchaseOrder/204','/api/SalesOrderLine/293','/api/PurchaseOrderLine/394')",
+				"status": 200,
+				"user": "random('Kayla','Hudson','Isabella','Sophia','Amy','Anthony','Alica','Stella','Ethan','Henry','Hudson','Lily','Taj','Piper','Katie','Jai','Jack','Matheus','Eliza')",
+				"type": "INFO",
+				"duration": "integer(20,300)",
+				"headers": {
+					"Content-Length": "integer(50,100)",
+					"Accept-Language": "en-US,en;q=0.8",
+					"Accept-Encoding": "random('gzip,deflate,sdch','gzip,deflate','deflate','gzip')",
+					"X-Forwarded-Port": "integer(400,500)",
+					"Host": "wwi.microsoft.org",
+					"Referer": "random('www.google.com','www.bing.com')",
+					"Accept": "application/json",
+					"User-Agent": "random('Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.83 Safari/535.11','Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0'",
+					"X-Request-Start": "nowTimestamp()",
+					"Accept-Charset": "ISO-8859-1,utf-8;q=0.7,*;q=0.3",
+					"Connection": "keep-alive",
+					"X-Forwarded-Proto": "random('https','https','https','http')",
+					"Content-Type": "aplication/json,*/*;q=0.1",
+					"Cookies": [{
+							"ASP.NET_SessionID": "random('28efde19-bcfa-4121-ba55-d1fbf1589e2d','4121-28efde19-bcfa-ba55-d1fbf1589e2d','9a21-28efde19-23fa-bcfa-d1fbf1779e2d','bcfa-4121-28efde19--ba55-d1fbf1589e2d','11430522-92f3-44a1-8874-08a9b81cc44e','54430522-08a9b81cc44e-92f3-44a1-8874','93efde19-bcfa-4121-ba55-d1fbf15ade2d','28efde19-bcfa-4121-ba55-d1fbf1589e2d','11430522-92f3-44a1-8874-08a9b81cc44e','28efde19-bcfa-4121-ba55-d1fbf1589aad','87e7de19-bcfa-4121-ba55-d1fbf1589aad','d22bf1589aad-78efde19-bcfa-4121-ba55-d1fbf1589aad')"
+						},
+						{
+							"vk": "uuid()"
+						},
+						{
+							"ARRAffinity": "random('e9d7d581f74fa3aa82fed4e52ba7b581a49d7a218f02ccc2fb509536bfb3742f','3aa82fed4e52ba7b581e9d7d581f74faa49d7a218f02ccc2fb509536bfb3742f','b509536bfb3742fe9d7d581f74fa3aa82fed4e52ba7b581a49d7a218f02ccc2f','2fb509536bfb3742fe9d7d581f74fa3aa82fed4e52ba7b581a49d7a218f02ccc','aa82fed4e52bae9d7d581f74fa37b581a49d7a218f02ccc2fb509536bfb3742f','d7d583aa82fed4e52ba7b581a49d7a218f02ccc2fb509536bfb3742f')"
+						},
+						{
+							"__utma": "random(40492976,1438525691,1507109799,1512420906,1512856450.9,40492976,1512856450,9.9)"
+						},
+						{
+							"utmcsr": "random('google','organic','not%20provided')"
+						},
+						{
+							"__gads": "random('648621cc59255a3c','T=1507109800','S=ALNI_MZEq6eAc_VRM1vKXj6egIUPvaRetg')"
+						},
+						{
+							"dmaduid": "random('V0URlp1EQ2OgGLlrwvK/uw==','40492976.1.10.1512856450','40492976')"
+						},
+						{
+							"t": "now(2_h)"
+						},
+						{
+							"leap": "integer(40,80)"
+						},
+						{
+							"X-FD-FEATURES": "random('ctinfrac%2cxGMT','irnwc%2cxMTA','eew343RE2S2)"
+						},
+						{
+							"t": "now(2_h)"
+						},
+						{
+							"__proto__": "uuid()"
+						}
+					]
+				},
+				"response": {
+					"Date": "now()",
+					"Server": "Kestrel",
+					"Connection": "close",
+					"X-Powered-By": "ASP.NET",
+					"Pragma": "public",
+					"Expires": "now(1_d)",
+					"Etag": "uuid()",
+					"Cache-Control": "max-age=3600, public",
+					"Content-Type": "text/css; charset=UTF-8",
+					"Last-Modified": "now()",
+					"Content-Encoding": "random('gzip','deflate')",
+					"Vary": "Accept-Encoding, Cookie, User-Agent"
+				}
+			}],
+			"duration": 50
+		}, {
+			"config": [{
+				"timestamp": "nowTimestamp()",
+				"method": "random('GET','GET','GET','PUT','DELETE')",
+				"origin": "random('104.18.12.157','50.18.212.223','201.25.214.31','152.26.11.205','122.26.14.11','102.8.19.58','152.8.8.189','104.149.153.72','106.187.182.230','200.187.199.38')",
+				"url": "random('/api/Invoice/197','/api/Supplier/405','/api/Customer/29','/api/Invoice/495','/api/Invoice/45','/api/Invoice/501','/api/Invoice/992','/api/Invoice/550','/api/Invoice/453','/api/Invoice/151','/api/Invoice/243','/api/Invoice/142','/api/Invoice/502','/api/Invoice/302','/api/Invoice/454','/api/Invoice/35','/api/Invoice/153','/api/Invoice/401','/api/Invoice/405','/api/Invoice/145','/api/Order/102','/api/Order/292','/api/Order/702','/api/StockItem/394','/api/PurchaseOrder/226','/api/PurchaseOrder/209','/api/PurchaseOrder/627','/api/PurchaseOrder/983','/api/PurchaseOrder/726','/api/PurchaseOrder/991','/api/PurchaseOrder/804','/api/PurchaseOrder/927','/api/PurchaseOrder/303','/api/PurchaseOrder/326','/api/PurchaseOrder/396','/api/PurchaseOrder/501','/api/PurchaseOrder/400','/api/PurchaseOrder/401','/api/PurchaseOrder/926','/api/PurchaseOrder/297','/api/PurchaseOrder/307','/api/PurchaseOrder/902','/api/PurchaseOrder/972','/api/PurchaseOrder/75','/api/PurchaseOrder/204','/api/SalesOrderLine/293','/api/PurchaseOrderLine/394')",
+				"status": "random(200,200,200,200,200,200,400,403,500,503)",
+				"user": "random('Kayla','Hudson','Isabella','Sophia','Amy','Anthony','Alica','Stella','Ethan','Henry','Hudson','Lily','Taj','Piper','Katie','Jai','Jack','Matheus','Eliza')",
+				"duration": "integer(50,200)",
+				"headers": {
+					"Content-Length": "integer(100,800)",
+					"Accept-Language": "en-US,en;q=0.8",
+					"Accept-Encoding": "random('gzip,deflate,sdch','gzip,deflate','deflate','gzip')",
+					"X-Forwarded-Port": "integer(400,500)",
+					"Host": "wwi.microsoft.org",
+					"Referer": "random('www.google.com','www.bing.com')",
+					"Accept": "random('text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 'text/html,application/xml;q=0.8,*/*;q=0.7','application/json')",
+					"User-Agent": "random('Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.83 Safari/535.11','Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0'",
+					"X-Request-Start": "nowTimestamp()",
+					"Accept-Charset": "ISO-8859-1,utf-8;q=0.7,*;q=0.3",
+					"Connection": "keep-alive",
+					"X-Forwarded-Proto": "random('https','https','https','http')",
+					"Cookies": [{
+							"ASP.NET_SessionID": "random('28efde19-bcfa-4121-ba55-d1fbf1589e2d','4121-28efde19-bcfa-ba55-d1fbf1589e2d','9a21-28efde19-23fa-bcfa-d1fbf1779e2d','bcfa-4121-28efde19--ba55-d1fbf1589e2d','11430522-92f3-44a1-8874-08a9b81cc44e','54430522-08a9b81cc44e-92f3-44a1-8874','93efde19-bcfa-4121-ba55-d1fbf15ade2d','28efde19-bcfa-4121-ba55-d1fbf1589e2d','11430522-92f3-44a1-8874-08a9b81cc44e','28efde19-bcfa-4121-ba55-d1fbf1589aad','87e7de19-bcfa-4121-ba55-d1fbf1589aad','d22bf1589aad-78efde19-bcfa-4121-ba55-d1fbf1589aad')"
+						},
+						{
+							"vk": "uuid()"
+						},
+						{
+							"ARRAffinity": "random('e9d7d581f74fa3aa82fed4e52ba7b581a49d7a218f02ccc2fb509536bfb3742f','3aa82fed4e52ba7b581e9d7d581f74faa49d7a218f02ccc2fb509536bfb3742f','b509536bfb3742fe9d7d581f74fa3aa82fed4e52ba7b581a49d7a218f02ccc2f','2fb509536bfb3742fe9d7d581f74fa3aa82fed4e52ba7b581a49d7a218f02ccc','aa82fed4e52bae9d7d581f74fa37b581a49d7a218f02ccc2fb509536bfb3742f','d7d583aa82fed4e52ba7b581a49d7a218f02ccc2fb509536bfb3742f')"
+						},
+						{
+							"__utma": "random(40492976,1438525691,1507109799,1512420906,1512856450.9,40492976,1512856450,9.9)"
+						},
+						{
+							"utmcsr": "random('google','organic','not%20provided')"
+						},
+						{
+							"__gads": "random('648621cc59255a3c','T=1507109800','S=ALNI_MZEq6eAc_VRM1vKXj6egIUPvaRetg')"
+						},
+						{
+							"dmaduid": "random('V0URlp1EQ2OgGLlrwvK/uw==','40492976.1.10.1512856450','40492976')"
+						},
+						{
+							"t": "now(2_h)"
+						},
+						{
+							"leap": "integer(40,80)"
+						},
+						{
+							"X-FD-FEATURES": "random('ctinfrac%2cxGMT','irnwc%2cxMTA','eew343RE2S2)"
+						},
+						{
+							"t": "now(2_h)"
+						},
+						{
+							"__proto__": "uuid()"
+						}
+					],
+					"Content-Type": "application/json"
+				},
+				"response": {
+					"access-control-allow-methods": "random('HEAD,GET,OPTIONS','GET','HEAD,GET','GET,OPTIONS')",
+					"access-control-allow-origin": "*",
+					"Transfer-Encoding": "chunked",
+					"Date": "now()",
+					"Server": "Kestrel",
+					"Connection": "random('close','','','')",
+					"X-Powered-By": "ASP.NET",
+					"Pragma": "public",
+					"Expires": "now(1_m)",
+					"Etag": "uuid()",
+					"Cache-Control": "max-age=3600, public",
+					"Content-Type": "random('application/json; charset=UTF-8','text/html; charset=UTF-8')",
+					"Last-Modified": "now()",
+					"Content-Encoding": "random('gzip','deflate')",
+					"Vary": "Accept-Encoding, Cookie, User-Agent",
+					"Set-Cookie": "X-FD-FEATURES=ids=ctinfrac%2cxGMT; path=/; secure; HttpOnly"
+				}
+			}],
+			"duration": 200
+		},
+		{
+			"config": [{
+				"timestamp": "nowTimestamp()",
+				"method": "random('GET','GET','GET','POST')",
+				"origin": "random('104.18.12.157','50.18.212.223','201.25.214.31','152.26.11.205','122.26.14.11','102.8.19.58','152.8.8.189','104.149.153.72','106.187.182.230','200.187.199.38')",
+				"url": "random('/api/Sales','/api/Supplier','/api/Customer','/api/Invoice','/api/Order','/api/StockItem','/api/PurchaseOrder','/api/PurchaseOrder','/api/SalesOrderLine','/api/PurchaseOrderLine')",
+				"status": "random(200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,201,204)",
+				"user": "random('Kayla','Hudson','Isabella','Sophia','Amy','Anthony','Alica','Stella','Ethan','Henry','Hudson','Lily','Taj','Piper','Katie','Jai','Jack','Matheus','Eliza')",
+				"duration": "integer(50,200)",
+				"headers": {
+					"Content-Length": "integer(100,800)",
+					"Accept-Language": "en-US,en;q=0.8",
+					"Accept-Encoding": "random('gzip,deflate,sdch','gzip,deflate','deflate','gzip')",
+					"X-Forwarded-Port": "integer(400,500)",
+					"Host": "wwi.microsoft.org",
+					"Referer": "random('www.google.com','www.bing.com')",
+					"Accept": "random('text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 'text/html,application/xml;q=0.8,*/*;q=0.7','application/json')",
+					"User-Agent": "random('Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.83 Safari/535.11','Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0'",
+					"X-Request-Start": "nowTimestamp()",
+					"Accept-Charset": "ISO-8859-1,utf-8;q=0.7,*;q=0.3",
+					"Connection": "keep-alive",
+					"X-Forwarded-Proto": "random('https','https','https','http')",
+					"Cookies": [{
+							"ASP.NET_SessionID": "random('28efde19-bcfa-4121-ba55-d1fbf1589e2d','4121-28efde19-bcfa-ba55-d1fbf1589e2d','9a21-28efde19-23fa-bcfa-d1fbf1779e2d','bcfa-4121-28efde19--ba55-d1fbf1589e2d','11430522-92f3-44a1-8874-08a9b81cc44e','54430522-08a9b81cc44e-92f3-44a1-8874','93efde19-bcfa-4121-ba55-d1fbf15ade2d','28efde19-bcfa-4121-ba55-d1fbf1589e2d','11430522-92f3-44a1-8874-08a9b81cc44e','28efde19-bcfa-4121-ba55-d1fbf1589aad','87e7de19-bcfa-4121-ba55-d1fbf1589aad','d22bf1589aad-78efde19-bcfa-4121-ba55-d1fbf1589aad')"
+						},
+						{
+							"vk": "uuid()"
+						},
+						{
+							"ARRAffinity": "random('e9d7d581f74fa3aa82fed4e52ba7b581a49d7a218f02ccc2fb509536bfb3742f','3aa82fed4e52ba7b581e9d7d581f74faa49d7a218f02ccc2fb509536bfb3742f','b509536bfb3742fe9d7d581f74fa3aa82fed4e52ba7b581a49d7a218f02ccc2f','2fb509536bfb3742fe9d7d581f74fa3aa82fed4e52ba7b581a49d7a218f02ccc','aa82fed4e52bae9d7d581f74fa37b581a49d7a218f02ccc2fb509536bfb3742f','d7d583aa82fed4e52ba7b581a49d7a218f02ccc2fb509536bfb3742f')"
+						},
+						{
+							"__utma": "random(40492976,1438525691,1507109799,1512420906,1512856450.9,40492976,1512856450,9.9)"
+						},
+						{
+							"utmcsr": "random('google','organic','not%20provided')"
+						},
+						{
+							"__gads": "random('648621cc59255a3c','T=1507109800','S=ALNI_MZEq6eAc_VRM1vKXj6egIUPvaRetg')"
+						},
+						{
+							"dmaduid": "random('V0URlp1EQ2OgGLlrwvK/uw==','40492976.1.10.1512856450','40492976')"
+						},
+						{
+							"t": "now(2_h)"
+						},
+						{
+							"leap": "integer(40,80)"
+						},
+						{
+							"X-FD-FEATURES": "random('ctinfrac%2cxGMT','irnwc%2cxMTA','eew343RE2S2)"
+						},
+						{
+							"t": "now(2_h)"
+						},
+						{
+							"__proto__": "uuid()"
+						}
+					],
+					"Content-Type": "application/json"
+				},
+				"response": {
+					"access-control-allow-methods": "random('HEAD,GET,OPTIONS','GET','HEAD,GET','GET,OPTIONS')",
+					"access-control-allow-origin": "*",
+					"Transfer-Encoding": "random('chunked','compress','deflate','gzip','','','','')",
+					"Date": "now()",
+					"Server": "Kestrel",
+					"Connection": "random('close','','','')",
+					"X-Powered-By": "ASP.NET",
+					"Pragma": "public",
+					"Expires": "now(1_m)",
+					"Etag": "uuid()",
+					"Cache-Control": "max-age=3600, public",
+					"Content-Type": "random('application/json; charset=UTF-8','text/html; charset=UTF-8')",
+					"Last-Modified": "now()",
+					"Content-Encoding": "random('gzip','deflate')",
+					"Vary": "Accept-Encoding, Cookie, User-Agent",
+					"Set-Cookie": "X-FD-FEATURES=ids=ctinfrac%2cxGMT; path=/; secure; HttpOnly"
+				}
+			}],
+			"duration": 100
+		},
+		{
+			"config": [{
+				"timestamp": "nowTimestamp()",
+				"method": "random('GET','GET','GET','PUT','DELETE')",
+				"origin": "random('104.18.12.157','50.18.212.223','201.25.214.31','152.26.11.205','122.26.14.11','102.8.19.58','152.8.8.189','104.149.153.72','106.187.182.230','200.187.199.38')",
+				"url": "random('/api/Invoice/197','/api/Supplier/405','/api/Customer/29','/api/Invoice/495','/api/Invoice/45','/api/Invoice/501','/api/Invoice/992','/api/Invoice/550','/api/Invoice/453','/api/Invoice/151','/api/Invoice/243','/api/Invoice/142','/api/Invoice/502','/api/Invoice/302','/api/Invoice/454','/api/Invoice/35','/api/Invoice/153','/api/Invoice/401','/api/Invoice/405','/api/Invoice/145','/api/Order/102','/api/Order/292','/api/Order/702','/api/StockItem/394','/api/PurchaseOrder/226','/api/PurchaseOrder/209','/api/PurchaseOrder/627','/api/PurchaseOrder/983','/api/PurchaseOrder/726','/api/PurchaseOrder/991','/api/PurchaseOrder/804','/api/PurchaseOrder/927','/api/PurchaseOrder/303','/api/PurchaseOrder/326','/api/PurchaseOrder/396','/api/PurchaseOrder/501','/api/PurchaseOrder/400','/api/PurchaseOrder/401','/api/PurchaseOrder/926','/api/PurchaseOrder/297','/api/PurchaseOrder/307','/api/PurchaseOrder/902','/api/PurchaseOrder/972','/api/PurchaseOrder/75','/api/PurchaseOrder/204','/api/SalesOrderLine/293','/api/PurchaseOrderLine/394')",
+				"status": "random(400,403,500,503)",
+				"user": "random('Kayla','Hudson','Isabella','Sophia','Amy','Anthony','Alica','Stella','Ethan','Henry','Hudson')",
+				"duration": "integer(50,400)",
+				"type": "ERROR",
+				"headers": {
+					"Content-Length": "integer(100,800)",
+					"Accept-Language": "en-US,en;q=0.8",
+					"Accept-Encoding": "random('gzip,deflate,sdch','gzip,deflate','deflate','gzip')",
+					"X-Forwarded-Port": "integer(400,500)",
+					"Host": "wwi.microsoft.org",
+					"Referer": "random('www.google.com','www.bing.com')",
+					"Accept": "random('text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 'text/html,application/xml;q=0.8,*/*;q=0.7','application/json')",
+					"User-Agent": "random('Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.83 Safari/535.11','Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0'",
+					"X-Request-Start": "nowTimestamp()",
+					"Accept-Charset": "ISO-8859-1,utf-8;q=0.7,*;q=0.3",
+					"Connection": "keep-alive",
+					"X-Forwarded-Proto": "random('https','https','https','http')",
+					"Cookies": [{
+							"ASP.NET_SessionID": "random('28efde19-bcfa-4121-ba55-d1fbf1589e2d','4121-28efde19-bcfa-ba55-d1fbf1589e2d','9a21-28efde19-23fa-bcfa-d1fbf1779e2d','bcfa-4121-28efde19--ba55-d1fbf1589e2d','11430522-92f3-44a1-8874-08a9b81cc44e','54430522-08a9b81cc44e-92f3-44a1-8874','93efde19-bcfa-4121-ba55-d1fbf15ade2d','28efde19-bcfa-4121-ba55-d1fbf1589e2d','11430522-92f3-44a1-8874-08a9b81cc44e','28efde19-bcfa-4121-ba55-d1fbf1589aad','87e7de19-bcfa-4121-ba55-d1fbf1589aad','d22bf1589aad-78efde19-bcfa-4121-ba55-d1fbf1589aad')"
+						},
+						{
+							"vk": "uuid()"
+						},
+						{
+							"ARRAffinity": "random('e9d7d581f74fa3aa82fed4e52ba7b581a49d7a218f02ccc2fb509536bfb3742f','3aa82fed4e52ba7b581e9d7d581f74faa49d7a218f02ccc2fb509536bfb3742f','b509536bfb3742fe9d7d581f74fa3aa82fed4e52ba7b581a49d7a218f02ccc2f','2fb509536bfb3742fe9d7d581f74fa3aa82fed4e52ba7b581a49d7a218f02ccc','aa82fed4e52bae9d7d581f74fa37b581a49d7a218f02ccc2fb509536bfb3742f','d7d583aa82fed4e52ba7b581a49d7a218f02ccc2fb509536bfb3742f')"
+						},
+						{
+							"__utma": "random(40492976,1438525691,1507109799,1512420906,1512856450.9,40492976,1512856450,9.9)"
+						},
+						{
+							"utmcsr": "random('google','organic','not%20provided')"
+						},
+						{
+							"__gads": "random('648621cc59255a3c','T=1507109800','S=ALNI_MZEq6eAc_VRM1vKXj6egIUPvaRetg')"
+						},
+						{
+							"dmaduid": "random('V0URlp1EQ2OgGLlrwvK/uw==','40492976.1.10.1512856450','40492976')"
+						},
+						{
+							"t": "now(2_h)"
+						},
+						{
+							"leap": "integer(40,80)"
+						},
+						{
+							"X-FD-FEATURES": "random('ctinfrac%2cxGMT','irnwc%2cxMTA','eew343RE2S2)"
+						},
+						{
+							"t": "now(2_h)"
+						},
+						{
+							"__proto__": "uuid()"
+						}
+					],
+					"Content-Type": "application/json"
+				},
+				"response": {
+					"access-control-allow-methods": "random('HEAD,GET,OPTIONS','GET','HEAD,GET','GET,OPTIONS')",
+					"access-control-allow-origin": "*",
+					"Transfer-Encoding": "chunked",
+					"Date": "now()",
+					"Server": "Kestrel",
+					"Connection": "random('close','','','')",
+					"X-Powered-By": "ASP.NET",
+					"Pragma": "public",
+					"Expires": "now(1_m)",
+					"Etag": "uuid()",
+					"Cache-Control": "max-age=3600, public",
+					"Content-Type": "random('application/json; charset=UTF-8','text/html; charset=UTF-8')",
+					"Last-Modified": "now()",
+					"Content-Encoding": "random('gzip','deflate')",
+					"Vary": "Accept-Encoding, Cookie, User-Agent",
+					"Set-Cookie": "X-FD-FEATURES=ids=ctinfrac%2cxGMT; path=/; secure; HttpOnly"
+				},
+				"error": [
+                    "random()",
+                    "Input string was not in a correct format.\nSystem.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal) +2753395\nSystem.Number.ParseDecimal(String value, NumberStyles options, NumberFormatInfo numfmt) +119\nSystem.Decimal.Parse(String s, NumberStyles style, IFormatProvider provider) +37\nSystem.Convert.ToDecimal(String value, IFormatProvider provider) +50\nSystem.String.System.IConvertible.ToDecimal(IFormatProvider provider) +10\nSystem.Convert.ChangeType(Object value, TypeCode typeCode, IFormatProvider provider) +495",
+                    "Index was outside the bounds of the array.\nWWI.Mvc.Models.SalaryRepository.GetByType(string type) in D:\\wwwroot\\WWI\\WWI.WebApp\\Mvc\\Models\\Sales.cs:53\nWWI.Mvc.Controllers.Sales.Index() in D:\\wwwroot\\WWI\\WWI.WebApp\\Mvc\\Controllers\\SalesController.cs:29\nlambda_method(Closure , ControllerBase , Object[] ) +43\nSystem.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters) +248\nSystem.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters) +39\nSystem.Web.Mvc.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12() +125\nSystem.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation) +640\nSystem.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters) +312\nSystem.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName) +691','Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware:Error: An unhandled exception has occurred while executing the request\nSystem.AggregateException: Unhandled remote failure. (Message contains error: \"server_error\", error_description: AADB2C: An exception has occured.\nCorrelation ID: 6f040040-088a-451b-8eff-73f9578316b6\nTimestamp: 2017-03-27 20:35:08Z",
+                    "InvalidOperationException\nThe following authentication scheme was not accepted: \nat Microsoft.AspNet.Http.Authentication.Internal.DefaultAuthenticationManager.<ChallengeAsync>d__10.MoveNext() \nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.GetResult() \nat Microsoft.AspNet.Mvc.ChallengeResult.<ExecuteResultAsync>d__14.MoveNext() \nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.GetResult() \nat Microsoft.AspNet.Mvc.Core.FilterActionInvoker.<InvokeResultAsync>d__53.MoveNext() \nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.GetResult() \nat Microsoft.AspNet.Mvc.Core.FilterActionInvoker.<InvokeAsync>d__41.MoveNext() \nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.GetResult() \nat Microsoft.AspNet.Mvc.MvcRouteHandler.<InvokeActionAsync>d__7.MoveNext() \nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.GetResult() \nat Microsoft.AspNet.Mvc.MvcRouteHandler.<RouteAsync>d__6.MoveNext() \nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.GetResult() \nat Microsoft.AspNet.Mvc.Routing.InnerAttributeRoute.<RouteAsync>d__10.MoveNext() \nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.GetResult() \nat Microsoft.AspNet.Routing.RouteCollection.<RouteAsync>d__9.MoveNext() \nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.GetResult() \nat Microsoft.AspNet.Builder.RouterMiddleware.<Invoke>d__4.MoveNext() \nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.GetResult() \nat Microsoft.AspNet.Hosting.Internal.RequestServicesContainerMiddleware.<Invoke>d__3.MoveNext() \nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.GetResult() \nat Microsoft.AspNet.Hosting.Internal.HostingEngine.<>c__DisplayClass29_0.<<Start>b__0>d.MoveNext() \nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.GetResult() \nat Microsoft.AspNet.Loader.IIS.RuntimeHttpApplication.<ProcessRequestAsyncImpl>d__13.MoveNext() \n--- exception rethrown --- \nat Microsoft.AspNet.Loader.IIS.RuntimeHttpApplication.<ProcessRequestAsyncImpl>d__13.MoveNext() \nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task) \nat System.Runtime.CompilerServices.TaskAwaiter.GetResult() \nat Microsoft.AspNet.Loader.IIS.HttpApplicationBase.<InvokeProcessRequestAsyncImpl>d__9.MoveNext()",
+                    "An unhandled exception has occurred while executing the request\nSystem.InvalidOperationException: No authentication handler is configured to handle the scheme: Automatic\nat Microsoft.AspNet.Http.Authentication.Internal.DefaultAuthenticationManager.<ChallengeAsync>d__12.MoveNext()\n--- End of stack trace from previous location where exception was thrown ---\nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\nat Microsoft.AspNet.Mvc.ChallengeResult.<ExecuteResultAsync>d__14.MoveNext()\n--- End of stack trace from previous location where exception was thrown ---\nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\nat Microsoft.AspNet.Mvc.Controllers.FilterActionInvoker.<InvokeResultAsync>d__56.MoveNext()\n--- End of stack trace from previous location where exception was thrown ---\nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\nat Microsoft.AspNet.Mvc.Controllers.FilterActionInvoker.<InvokeAsync>d__44.MoveNext()\n--- End of stack trace from previous location where exception was thrown ---\nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\nat Microsoft.AspNet.Mvc.Infrastructure.MvcRouteHandler.<RouteAsync>d__6.MoveNext()\n--- End of stack trace from previous location where exception was thrown ---\nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\nat Microsoft.AspNet.Mvc.Routing.InnerAttributeRoute.<RouteAsync>d__10.MoveNext()\n--- End of stack trace from previous location where exception was thrown ---\nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\nat Microsoft.AspNet.Routing.RouteCollection.<RouteAsync>d__9.MoveNext()\n--- End of stack trace from previous location where exception was thrown ---\nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\nat Microsoft.AspNet.Builder.RouterMiddleware.<Invoke>d__4.MoveNext()\n--- End of stack trace from previous location where exception was thrown ---\nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\nat Microsoft.AspNet.Authentication.AuthenticationMiddleware`1.<Invoke>d__18.MoveNext()\n--- End of stack trace from previous location where exception was thrown ---\nat Microsoft.AspNet.Authentication.AuthenticationMiddleware`1.<Invoke>d__18.MoveNext()\n--- End of stack trace from previous location where exception was thrown ---\nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\nat Microsoft.AspNet.Diagnostics.DeveloperExceptionPageMiddleware.<Invoke>d__7.MoveNext()",
+                    "System.InvalidOperationException: UserId not found.\nat Microsoft.AspNet.Identity.UserManager`2.<GetRolesAsync>d__ac.MoveNext()  --- End of stack trace from previous location where exception was thrown ---\nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\nat Abp.Authorization.Users.AbpUserManager`2.<>c__DisplayClass63_0.<<GetUserPermissionCacheItemAsync>b__0>d.MoveNext() in D:\\WWI\\GitHub\\module-zero\\src\\Abp.Zero\\Authorization\\Users\\AbpUserManager.cs:line 641  --- End of stack trace from previous location where exception was thrown ---\nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\nat Abp.Runtime.Caching.CacheExtensions.<>c__DisplayClass5_0`2.<<GetAsync>b__0>d.MoveNext() in D:\\WWI\\GitHub\\aspnetboilerplate\\src\\Abp\\Runtime\\Caching\\CacheExtensions.cs:line 0  --- End of stack trace from previous location where exception was thrown ---\nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\nat Abp.Runtime.Caching.CacheBase.<GetAsync>d__15.MoveNext() in D:\\WWI\\GitHub\\aspnetboilerplate\\src\\Abp\\Runtime\\Caching\\CacheBase.cs:line 69  --- End of stack trace from previous location where exception was thrown ---\nat System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\nat System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\nat Abp.Runtime.Caching.CacheExtensions.<GetAsync>d__5`2.MoveNext() in D:\\WWI\\GitHub\\aspnetboilerplate\\src\\Abp\\Runtime\\Caching\\CacheExtensions.cs:line 38  --- End of stack trace from previous location where exception was thrown ---\nat System.Runtime.CompilerServices.TaskA..",
+                    "[MissingMethodException: Method not found: 'System.Collections.Generic.IReadOnlyList`1<Abp.Authorization.Permission> Abp.Authorization.IPermissionManager.GetAllPermissions()'.]\n   Abp.Web.Authorization.<GetScriptAsync>d__2.MoveNext() +0\n   System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start(TStateMachine& stateMachine) +70\n   System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1.Start(TStateMachine& stateMachine) +14\n   Abp.Web.Authorization.AuthorizationScriptManager.GetScriptAsync() +128\n   Abp.Web.Mvc.Controllers.<GetScripts>d__0.MoveNext() +346\n   System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task) +93\n   System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task) +52\n   System.Runtime.CompilerServices.TaskAwaiter.GetResult() +21\n   System.Threading.Tasks.TaskHelpersExtensions.ThrowIfFaulted(Task task) +61\n   System.Web.Mvc.Async.TaskAsyncActionDescriptor.EndExecute(IAsyncResult asyncResult) +114\n   System.Web.Mvc.Async.<>c__DisplayClass37.<BeginInvokeAsynchronousActionMethod>b__36(IAsyncResult asyncResult) +66\n   System.Web.Mvc.Async.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult) +47\n   System.Web.Mvc.Async.WrappedAsyncResultBase`1.End() +136\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +102\n   System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult) +49\n   System.Web.Mvc.Async.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d() +117\n   System.Web.Mvc.Async.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f() +323\n   System.Web.Mvc.Async.<>c__DisplayClass33.<BeginInvokeActionMethodWithFilters>b__32(IAsyncResult asyncResult) +44\n   System.Web.Mvc.Async.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult) +47\n   System.Web.Mvc.Async.WrappedAsyncResultBase`1.End() +136\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +102\n   System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult) +50\n   System.Web.Mvc.Async.<>c__DisplayClass2b.<BeginInvokeAction>b__1c() +72\n   System.Web.Mvc.Async.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult) +185\n   System.Web.Mvc.Async.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult) +42\n   System.Web.Mvc.Async.WrappedAsyncResultBase`1.End() +133\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +56\n   System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeAction(IAsyncResult asyncResult) +40\n   System.Web.Mvc.Controller.<BeginExecuteCore>b__1d(IAsyncResult asyncResult, ExecuteCoreState innerState) +34\n   System.Web.Mvc.Async.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult) +70\n   System.Web.Mvc.Async.WrappedAsyncResultBase`1.End() +139\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +59\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +40\n   System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult) +44\n   System.Web.Mvc.Controller.<BeginExecute>b__15(IAsyncResult asyncResult, Controller controller) +39\n   System.Web.Mvc.Async.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult) +62\n   System.Web.Mvc.Async.WrappedAsyncResultBase`1.End() +139\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +59\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +40\n   System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult) +39\n   System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.EndExecute(IAsyncResult asyncResult) +39\n   System.Web.Mvc.MvcHandler.<BeginProcessRequest>b__5(IAsyncResult asyncResult, ProcessRequestState innerState) +39\n   System.Web.Mvc.Async.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult) +70\n   System.Web.Mvc.Async.WrappedAsyncResultBase`1.End() +139\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +59\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +40\n   System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult) +40\n   System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.EndProcessRequest(IAsyncResult result) +38\n   System.Web.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute() +9651188\n   System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously) +155",
+                    "System.InvalidOperationException\nException message: Collection was modified; enumeration operation may not execute\n\nStack trace: at System.ThrowHelper.ThrowInvalidOperationException(ExceptionResource resource)\nat System.Collections.Generic.Dictionary`2.Enumerator.MoveNext()\nat System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()\nat System.Linq.Buffer`1..ctor(IEnumerable`1 source)\nat System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)\nat System.Web.Mvc.MvcHandler.RemoveOptionalRoutingParameters()\nat System.Web.Mvc.MvcHandler.ProcessRequestInit(HttpContextBase httpContext, IController& controller, IControllerFactory& factory)\nat System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContextBase httpContext, AsyncCallback callback, Object state)\nat System.Web.Mvc.MvcHandler.BeginProcessRequest(HttpContext httpContext, AsyncCallback callback, Object state)\nat System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, Object extraData)\nat System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()\nat System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)",
+                    "System.Web.Http.dll!System.Web.Http.Routing.HttpRouteDataExtensions.GetDirectRouteCandidates(System.Web.Http.Routing.IHttpRouteData routeData) Line 78 C#\nSystem.Web.Http.dll!System.Web.Http.Dispatcher.DefaultHttpControllerSelector.GetDirectRouteController(System.Web.Http.Routing.IHttpRouteData routeData) Line 129 C#\nSystem.Web.Http.dll!System.Web.Http.Dispatcher.DefaultHttpControllerSelector.SelectController(System.Net.Http.HttpRequestMessage request) Line 60 C#\nSystem.Web.Http.dll!System.Web.Http.Dispatcher.HttpControllerDispatcher.SendAsync(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken) Line 118 C#\nSystem.Net.Http.dll!System.Net.Http.HttpMessageInvoker.SendAsync(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken) Unknown\nSystem.Web.Http.dll!System.Web.Http.Dispatcher.HttpRoutingDispatcher.SendAsync(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken) Line 89 C#\nSystem.Net.Http.dll!System.Net.Http.DelegatingHandler.SendAsync(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken) Unknown\nSystem.Web.Http.dll!System.Web.Http.HttpServer.AnonymousMethod__FabricatedMethod9() Unknown\nSystem.Web.Http.dll!System.Web.Http.HttpServer.SendAsync(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken) Line 223 C#\nSystem.Net.Http.dll!System.Net.Http.HttpMessageInvoker.SendAsync(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken) Unknown\nSystem.Web.OData.dll!System.Web.OData.Batch.ODataBatchRequestItem.SendMessageAsync(System.Net.Http.HttpMessageInvoker invoker, System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken, System.Collections.Generic.Dictionary<string,string> contentIdToLocationMapping) Line 44 C#\nSystem.Web.OData.dll!System.Web.OData.Batch.ChangeSetRequestItem.SendRequestAsync(System.Net.Http.HttpMessageInvoker invoker, System.Threading.CancellationToken cancellationToken) Line 55 C#\nSystem.Web.OData.dll!System.Web.OData.Batch.DefaultODataBatchHandler.ExecuteRequestMessagesAsync(System.Collections.Generic.IEnumerable<System.Web.OData.Batch.ODataBatchRequestItem> requests, System.Threading.CancellationToken cancellationToken) Line 78 C#\nSystem.Web.OData.dll!System.Web.OData.Batch.DefaultODataBatchHandler.ProcessBatchAsync(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken) Line 45 C#",
+                    "The query specified in the URI is not valid. Syntax error at position 22 in 'time(Timestamp) ge 23:45\nSyntax error at position 22 in 'time(Timestamp) ge 23:45'.\nMicrosoft.OData.Core.ODataException\n at Microsoft.OData.Core.UriParser.ExpressionLexer.ValidateToken(ExpressionTokenKind t)\r\n at Microsoft.OData.Core.UriParser.Parsers.UriQueryExpressionParser.ParseExpressionText(String expressionText)\r\n at Microsoft.OData.Core.UriParser.Parsers.UriQueryExpressionParser.ParseFilter(String filter)\r\n at Microsoft.OData.Core.UriParser.ODataQueryOptionParser.ParseFilterImplementation(String filter, ODataUriParserConfiguration configuration, IEdmType elementType, IEdmNavigationSource navigationSource)\r\n at Microsoft.OData.Core.UriParser.ODataQueryOptionParser.ParseFilter()\r\n at System.Web.OData.Query.FilterQueryOption.get_FilterClause()\r\n at System.Web.OData.Query.Validators.FilterQueryValidator.Validate(FilterQueryOption filterQueryOption, ODataValidationSettings settings)\r\n at System.Web.OData.Query.FilterQueryOption.Validate(ODataValidationSettings validationSettings)\r\n at System.Web.OData.Query.Validators.ODataQueryValidator.Validate(ODataQueryOptions options, ODataValidationSettings validationSettings)\r\n at System.Web.OData.Query.ODataQueryOptions.Validate(ODataValidationSettings validationSettings)\r\n at System.Web.OData.EnableQueryAttribute.ValidateQuery(HttpRequestMessage request, ODataQueryOptions queryOptions)\r\n at ...",
+                    "[MissingMethodException]: Method not found: &#39;Void System.Web.Mvc.ControllerBase.set_ValueProvider(System.Collections.Generic.IDictionary`2&lt;System.String,System.Web.Mvc.ValueProviderResult&gt;)&#39;.\nat Ext.Direct.Mvc.DirectMethodInvoker.GetParameterValues(ControllerContext controllerContext, ActionDescriptor actionDescriptor)\nat System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)\nat System.Web.Mvc.Controller.ExecuteCore()\nat System.Web.Mvc.ControllerBase.Execute(RequestContext requestContext)\nat System.Web.Mvc.ControllerBase.System.Web.Mvc.IController.Execute(RequestContext requestContext)\nat Ext.Direct.Mvc.DirectProvider.ExecuteRequest(RequestContext requestContext, DirectRequest request)\nat Ext.Direct.Mvc.DirectProvider.Execute(RequestContext requestContext)\nat Ext.Direct.Mvc.DirectController.Router()\nat lambda_method(Closure , ControllerBase , Object[] )\nat System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters)\nat System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)\nat System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)\nat System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClassd.<InvokeActionMethodWithFilters>b__a()\nat System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)\nat System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClassd.<>c__DisplayClassf.<InvokeActionMethodWithFilters>b__c()\nat System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)\nat System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)\nat System.Web.Mvc.Controller.ExecuteCore()\nat System.Web.Mvc.ControllerBase.Execute(RequestContext requestContext)\nat System.Web.Mvc.ControllerBase.System.Web.Mvc.IController.Execute(RequestContext requestContext)\nat System.Web.Mvc.MvcHandler.<>c__DisplayClass8.<BeginProcessRequest>b__4()\nat System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass1.<MakeVoidDelegate>b__0()\nat System.Web.Mvc.Async.AsyncResultWrapper.<>c__DisplayClass8`1.<BeginSynchronous>b__7(IAsyncResult _)\nat System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncResult`1.End()\nat System.Web.Mvc.Async.AsyncResultWrapper.End[TResult](IAsyncResult asyncResult, Object tag)\nat System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag)\nat System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)\nat System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.EndProcessRequest(IAsyncResult result)\nat System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()\nat System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)",
+                    "[FileNotFoundException: Could not load file or assembly 'DotNetOpenAuth.AspNet, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246' or one of its dependencies. The system cannot find the file specified.]\n   Nop.Plugin.ExternalAuth.Twitter.Core.TwitterProviderAuthorizer.RequestAuthentication(String returnUrl) +0\n   Nop.Plugin.ExternalAuth.Twitter.Core.TwitterProviderAuthorizer.Authorize(String returnUrl, Nullable`1 verifyResponse) +172\n   Nop.Plugin.ExternalAuth.Twitter.Controllers.ExternalAuthTwitterController.LoginInternal(String returnUrl, Boolean verifyResponse) +491\n   Nop.Plugin.ExternalAuth.Twitter.Controllers.ExternalAuthTwitterController.Login(String returnUrl) +63\n   lambda_method(Closure , ControllerBase , Object[] ) +180\n   System.Web.Mvc.ActionMethodDispatcher.Execute(ControllerBase controller, Object[] parameters) +59\n   System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters) +435\n   System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters) +60\n   System.Web.Mvc.Async.ActionInvocation.InvokeSynchronousActionMethod() +76\n   System.Web.Mvc.Async.AsyncControllerActionInvoker.<BeginInvokeSynchronousActionMethod>b__39(IAsyncResult asyncResult, ActionInvocation innerInvokeState) +36\n   System.Web.Mvc.Async.WrappedAsyncResult`2.CallEndDelegate(IAsyncResult asyncResult) +73\n   System.Web.Mvc.Async.WrappedAsyncResultBase`1.End() +136\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +102\n   System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethod(IAsyncResult asyncResult) +49\n   System.Web.Mvc.Async.AsyncInvocationWithFilters.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3d() +117\n   System.Web.Mvc.Async.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f() +323\n   System.Web.Mvc.Async.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f() +323\n   System.Web.Mvc.Async.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f() +323\n   System.Web.Mvc.Async.<>c__DisplayClass46.<InvokeActionMethodFilterAsynchronouslyRecursive>b__3f() +323\n   System.Web.Mvc.Async.<>c__DisplayClass33.<BeginInvokeActionMethodWithFilters>b__32(IAsyncResult asyncResult) +44\n   System.Web.Mvc.Async.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult) +47\n   System.Web.Mvc.Async.WrappedAsyncResultBase`1.End() +136\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +102\n   System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeActionMethodWithFilters(IAsyncResult asyncResult) +50\n   System.Web.Mvc.Async.<>c__DisplayClass2b.<BeginInvokeAction>b__1c() +72\n   System.Web.Mvc.Async.<>c__DisplayClass21.<BeginInvokeAction>b__1e(IAsyncResult asyncResult) +185\n   System.Web.Mvc.Async.WrappedAsyncResult`1.CallEndDelegate(IAsyncResult asyncResult) +42\n   System.Web.Mvc.Async.WrappedAsyncResultBase`1.End() +133\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +56\n   System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeAction(IAsyncResult asyncResult) +40\n   System.Web.Mvc.Controller.<BeginExecuteCore>b__1d(IAsyncResult asyncResult, ExecuteCoreState innerState) +34\n   System.Web.Mvc.Async.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult) +70\n   System.Web.Mvc.Async.WrappedAsyncResultBase`1.End() +133\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +56\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +37\n   System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult) +44\n   System.Web.Mvc.Controller.<BeginExecute>b__15(IAsyncResult asyncResult, Controller controller) +39\n   System.Web.Mvc.Async.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult) +62\n   System.Web.Mvc.Async.WrappedAsyncResultBase`1.End() +133\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +56\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +37\n   System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult) +39\n   System.Web.Mvc.Controller.System.Web.Mvc.Async.IAsyncController.EndExecute(IAsyncResult asyncResult) +39\n   System.Web.Mvc.MvcHandler.<BeginProcessRequest>b__5(IAsyncResult asyncResult, ProcessRequestState innerState) +39\n   System.Web.Mvc.Async.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult) +70\n   System.Web.Mvc.Async.WrappedAsyncResultBase`1.End() +133\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +56\n   System.Web.Mvc.Async.AsyncResultWrapper.End(IAsyncResult asyncResult, Object tag) +37\n   System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult) +40\n   System.Web.Mvc.MvcHandler.System.Web.IHttpAsyncHandler.EndProcessRequest(IAsyncResult result) +38\n   System.Web.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute() +9729052\n   System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously) +155",
+                    "An unhandled exception has occurred while executing the request\n      System.IO.FileNotFoundException: Could not load file or assembly 'System.Runtime.Serialization.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a' or one of its dependencies. The system cannot find the file specified.\n\n      File name: 'System.Runtime.Serialization.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'\n         at Microsoft.AspNet.Mvc.Formatters.Json.Internal.MvcJsonMvcOptionsSetup.<>c__DisplayClass0_0.<.ctor>b__0(MvcOptions options)\n         at Microsoft.Extensions.Options.OptionsCache`1.CreateOptions()\n         at System.Threading.LazyInitializer.EnsureInitializedCore[T](T& target, Boolean& initialized, Object& syncLock, Func`1 valueFactory)\n         at Microsoft.AspNet.Mvc.ApplicationModels.DefaultApplicationModelProvider..ctor(IOptions`1 mvcOptionsAccessor)\n      --- End of stack trace from previous location where exception was thrown ---\n         at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\n         at Microsoft.Extensions.DependencyInjection.ServiceLookup.ConstructorCallSite.Invoke(ServiceProvider provider)\n         at Microsoft.Extensions.DependencyInjection.ServiceProvider.TransientCallSite.Invoke(ServiceProvider provider)\n         at Microsoft.Extensions.DependencyInjection.ServiceLookup.ClosedIEnumerableService.CallSite.Invoke(ServiceProvider provider)\n         at Microsoft.Extensions.DependencyInjection.ServiceProvider.TransientCallSite.Invoke(ServiceProvider provider)\n         at Microsoft.Extensions.DependencyInjection.ServiceLookup.ConstructorCallSite.Invoke(ServiceProvider provider)\n         at Microsoft.Extensions.DependencyInjection.ServiceProvider.TransientCallSite.Invoke(ServiceProvider provider)\n         at Microsoft.Extensions.DependencyInjection.ServiceLookup.ClosedIEnumerableService.CallSite.Invoke(ServiceProvider provider)\n         at Microsoft.Extensions.DependencyInjection.ServiceProvider.TransientCallSite.Invoke(ServiceProvider provider)\n         at Microsoft.Extensions.DependencyInjection.ServiceProviderExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)\n         at Microsoft.Extensions.DependencyInjection.ServiceProviderExtensions.GetRequiredService[T](IServiceProvider provider)\n         at Microsoft.AspNet.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.GetCollection()\n         at Microsoft.AspNet.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.get_ActionDescriptors()\n         at Microsoft.AspNet.Mvc.Routing.AttributeRoute.GetTreeRouter()\n         at Microsoft.AspNet.Mvc.Routing.AttributeRoute.RouteAsync(RouteContext context)\n         at Microsoft.AspNet.Routing.RouteCollection.<RouteAsync>d__9.MoveNext()\n      --- End of stack trace from previous location where exception was thrown ---\n         at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\n         at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\n         at Microsoft.AspNet.Builder.RouterMiddleware.<Invoke>d__4.MoveNext()\n      --- End of stack trace from previous location where exception was thrown ---\n         at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\n         at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\n         at Microsoft.AspNet.Diagnostics.DeveloperExceptionPageMiddleware.<Invoke>d__7.MoveNext()",
+                    "An exception of type 'System.IO.FileNotFoundException' occurred in Newtonsoft.Json.dll but was not handled in user code\nAdditional information: Could not load file or assembly 'System.Xml.Linq, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35' or one of its dependencies. The system cannot find the file specified.\nat Newtonsoft.Json.Converters.XmlNodeConverter.CanConvert(Type valueType)\n   at Newtonsoft.Json.JsonSerializer.GetMatchingConverter(IList`1 converters, Type objectType)\n   at Newtonsoft.Json.Serialization.DefaultContractResolver.InitializeContract(JsonContract contract)\n   at Newtonsoft.Json.Serialization.DefaultContractResolver.CreateObjectContract(Type objectType)\n   at Newtonsoft.Json.Serialization.DefaultContractResolver.CreateContract(Type objectType)\n   at Newtonsoft.Json.Serialization.DefaultContractResolver.ResolveContract(Type type)\n   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize(JsonWriter jsonWriter, Object value, Type objectType)\n   at Newtonsoft.Json.JsonSerializer.SerializeInternal(JsonWriter jsonWriter, Object value, Type objectType)\n   at Newtonsoft.Json.JsonConvert.SerializeObjectInternal(Object value, Type type, JsonSerializer jsonSerializer)\n   at Newtonsoft.Json.JsonConvert.SerializeObject(Object value)",
+                    "ERROR 09:30:27 Exception converting message to type: Class2\nSystem.Runtime.Serialization.SerializationException: Failed to\ndeserialize the message --->\nNewtonsoft.Json.JsonSerializationException: Error converting value \"/\nE2VbIhGjvRblqZJOy3eqw==\" to type 'System.Byte'. ---> System.Exception:\nCould not cast or convert from System.String to System.Byte.\n   at\nNewtonsoft.Json.Utilities.ConvertUtils.EnsureTypeAssignable(Object\nvalue, Type initialType, Type targetType) in d:\\WWI\\json.net\\Src\n\\Newtonsoft.Json\\Utilities\\ConvertUtils.cs:line 467\n   at Newtonsoft.Json.Utilities.ConvertUtils.ConvertOrCast(Object\ninitialValue, CultureInfo culture, Type targetType) in d:\\WWI\\json.net\n\\Src\\Newtonsoft.Json\\Utilities\\ConvertUtils.cs:line 389\n   at\nNewtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(Object\nvalue, CultureInfo culture, Type targetType) in d:\\WWI\\json.net\\Src\n\\Newtonsoft.Json\\Serialization\\JsonSerializerInternalReader.cs:line\n494\n   --- End of inner exception stack trace ---\n   at\nNewtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(Object\nvalue, CultureInfo culture, Type targetType) in d:\\WWI\\json.net\\Src\n\\Newtonsoft.Json\\Serialization\\JsonSerializerInternalReader.cs:line\n498\n   at\nNewtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader\nreader, Type objectType, JsonContract contract, JsonProperty member,\nObject existingValue) in d:\\WWI\\json.net\\Src\\Newtonsoft.Json\n\\Serialization\\JsonSerializerInternalReader.cs:line 244\n   at\nNewtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueNonProperty(JsonReader\nreader, Type objectType, JsonContract contract) in d:\\WWI\\json.net\\Src\n\\Newtonsoft.Json\\Serialization\\JsonSerializerInternalReader.cs:line\n209\n   at\nNewtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader\nreader, Type objectType) in d:\\WWI\\json.net\\Src\\Newtonsoft.Json\n\\Serialization\\JsonSerializerInternalReader.cs:line 121\n   at\nNewtonsoft.Json.Serialization.JsonSerializerProxy.DeserializeInternal(JsonReader\nreader, Type objectType) in d:\\WWI\\json.net\\Src\\Newtonsoft.Json\n\\Serialization\\JsonSerializerProxy.cs:line 155\n   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader,\nType objectType) in d:\\WWI\\json.net\\Src\\Newtonsoft.Json\n\\JsonSerializer.cs:line 413\n   at MassTransit.Serialization.ListJsonConverter.GetSingleItemList[T]\n(JsonReader reader, JsonSerializer serializer, Boolean isArray) in d:\n\\BuildAgent-01\\work\\8d1373c869590c5b\\src\\MassTransit\\Serialization\n\\ListJsonConverter.cs:line 70\n   at lambda_method(Closure , ListJsonConverter , Object[] )\n   at Magnum.Reflection.FastInvoker`2.FastInvoke(T target, Type[]\ngenericTypes, String methodName, Object[] args) in d:\\Builds\n\\MassTransit-Magnum\\src\\Magnum\\Reflection\\FastInvoker.2.cs:line 119\n   at Magnum.Reflection.ExtensionsToFastActivator.FastInvoke[T,TResult]\n(T target, Type[] genericTypes, String methodName, Object[] args) in d:\n\\Builds\\MassTransit-Magnum\\src\\Magnum\\Reflection\n\\ExtensionsToFastActivator.cs:line 80\n   at MassTransit.Serialization.ListJsonConverter.ReadJson(JsonReader\nreader, Type objectType, Object existingValue, JsonSerializer\nserializer) in d:\\BuildAgent-01\\work\\8d1373c869590c5b\\src\\MassTransit\n\\Serialization\\ListJsonConverter.cs:line 40\n   at\nNewtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueProperty(JsonReader\nreader, JsonProperty property, Object target, Boolean\ngottenCurrentValue, Object currentValue) in d:\\WWI\\json.net\\Src\n\\Newtonsoft.Json\\Serialization\\JsonSerializerInternalReader.cs:line\n196\n   at\nNewtonsoft.Json.Serialization.JsonSerializerInternalReader.SetPropertyValue(JsonProperty\nproperty, JsonReader reader, Object target) in d:\\WWI\\json.net\\Src\n\\Newtonsoft.Json\\Serialization\\JsonSerializerInternalReader.cs:line\n567\n   at\nNewtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateObject(Object\nnewObject, JsonReader reader, JsonObjectContract contract, String id)\nin d:\\WWI\\json.net\\Src\\Newtonsoft.Json\\Serialization\n\\JsonSerializerInternalReader.cs:line 1057\n   at\nNewtonsoft.Json.Serialization.JsonSerializerInternalReader.Populate(JsonReader\nreader, Object target) in d:\\WWI\\json.net\\Src\\Newtonsoft.Json\n\\Serialization\\JsonSerializerInternalReader.cs:line 87\n   at Newtonsoft.Json.JsonSerializer.PopulateInternal(JsonReader\nreader, Object target) in d:\\WWI\\json.net\\Src\\Newtonsoft.Json\n\\JsonSerializer.cs:line 367\n   at Newtonsoft.Json.JsonSerializer.Populate(JsonReader reader,\nObject target) in d:\\WWI\\json.net\\Src\\Newtonsoft.Json\n\\JsonSerializer.cs:line 358\n   at\nMassTransit.Serialization.JsonMessageTypeConverter.<>c__DisplayClass4`1.<TryConvert>b__1(JsonReader\njsonReader) in d:\\BuildAgent-01\\work\\8d1373c869590c5b\\src\\MassTransit\n\\Serialization\\JsonMessageTypeConverter.cs:line 65\n   at\nMassTransit.Serialization.JsonMessageTypeConverter.UsingReader(Action`1\ncallback) in d:\\BuildAgent-01\\work\\8d1373c869590c5b\\src\\MassTransit\n\\Serialization\\JsonMessageTypeConverter.cs:line 87\n   at MassTransit.Serialization.JsonMessageTypeConverter.TryConvert[T]\n(T& message) in d:\\BuildAgent-01\\work\\8d1373c869590c5b\\src\\MassTransit\n\\Serialization\\JsonMessageTypeConverter.cs:line 65\n   at MassTransit.Context.ReceiveContext.TryGetContext[T]\n(IConsumeContext`1& context) in d:\\BuildAgent-01\\work\\8d1373c869590c5b\n\\src\\MassTransit\\Context\\ReceiveContext.cs:line 150\n   --- End of inner exception stack trace ---",
+                    "[SerializationException: Type System.Xml.Xsl.XslCompiledTransform in Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 is not marked as serializable.]\n   System.Runtime.Serialization.FormatterServices.InternalGetSerializableMembers(RuntimeType type) +14350317\n   System.Runtime.Serialization.FormatterServices.GetSerializableMembers(Type type, StreamingContext context) +408\n   System.Runtime.Serialization.Formatters.Binary.WriteObjectInfo.InitMemberInfo() +420\n   System.Runtime.Serialization.Formatters.Binary.WriteObjectInfo.InitSerialize(Object obj, ISurrogateSelector surrogateSelector, StreamingContext context, SerObjectInfoInit serObjectInfoInit, IFormatterConverter converter, ObjectWriter objectWriter, SerializationBinder binder) +532\n   System.Runtime.Serialization.Formatters.Binary.WriteObjectInfo.Serialize(Object obj, ISurrogateSelector surrogateSelector, StreamingContext context, SerObjectInfoInit serObjectInfoInit, IFormatterConverter converter, ObjectWriter objectWriter, SerializationBinder binder) +270\n   System.Runtime.Serialization.Formatters.Binary.ObjectWriter.Serialize(Object graph, Header[] inHeaders, __BinaryWriter serWriter, Boolean fCheck) +814\n   System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(Stream serializationStream, Object graph, Header[] headers, Boolean fCheck) +322\n   System.Web.Util.AltSerialization.WriteValueToStream(Object value, BinaryWriter writer) +1487\n \n[HttpException (0x80004005): Unable to serialize the session state. In StateServer and SQLServer mode, ASP.NET will serialize the session state objects, and as a result non-serializable objects or MarshalByRef objects are not permitted. The same restriction applies if similar serialization is done by the custom session state store in Custom mode.]\n   System.Web.Util.AltSerialization.WriteValueToStream(Object value, BinaryWriter writer) +2508779\n   System.Web.SessionState.SessionStateItemCollection.WriteValueToStreamWithAssert(Object value, BinaryWriter writer) +49\n   System.Web.SessionState.SessionStateItemCollection.Serialize(BinaryWriter writer) +746\n   System.Web.SessionState.SessionStateUtility.Serialize(SessionStateStoreData item, Stream stream) +336\n   System.Web.SessionState.SessionStateUtility.SerializeStoreData(SessionStateStoreData item, Int32 initialStreamSize, Byte[]&amp; buf, Int32&amp; length, Boolean compressionEnabled) +99\n   System.Web.SessionState.SqlSessionStateStore.SetAndReleaseItemExclusive(HttpContext context, String id, SessionStateStoreData item, Object lockId, Boolean newItem) +3831661\n   System.Web.SessionState.SessionStateModule.OnReleaseState(Object source, EventArgs eventArgs) +1021\n   System.Web.SyncEventExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute() +80\n   System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean&amp; completedSynchronously) +165"
+                ]
+			}],
+			"duration": 0
+		}
+	]
+}
