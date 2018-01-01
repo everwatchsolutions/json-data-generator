@@ -1,0 +1,9 @@
+{
+    "workflows": [{
+            "workflowName": "test",
+            "workflowFilename": "jsonWebLogWorkflow.json"
+        }],
+    "producers": [{
+        "type": "logger"
+    }]
+}
