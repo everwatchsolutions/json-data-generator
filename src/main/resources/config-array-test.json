@@ -1,0 +1,9 @@
+{
+    "timestamp": "nowTimestamp()",
+    "array-that-worked-with-issue43": [{"one":"integer()"}, {"two":"double(-90.0, 90.0)"}],
+    "array-that-didnt-work-with-issue43": ["integer()", "double(-90.0, 90.0)", "boolean()","date(\"2015/03/01T00:00:00\")", "long()"],
+    "location": {
+    	"lat": "double(-90.0, 90.0)",
+    	"lon": "double(-180.0, 180.0)"
+    }
+}

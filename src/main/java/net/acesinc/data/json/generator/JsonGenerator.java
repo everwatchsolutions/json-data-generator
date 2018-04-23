@@ -51,7 +51,8 @@ public class JsonGenerator {
     }
     
     public static void main(String... args) {
-        String config = "config6.json";
+        String config = "config-array-test.json";
+//        String config = "config1.json";
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonGenerator gen = new JsonGenerator();
