@@ -16,6 +16,7 @@ import net.acesinc.data.json.generator.config.JSONConfigReader;
 import net.acesinc.data.json.generator.log.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.pulsar.client.api.PulsarClientException;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 /**
@@ -87,6 +88,15 @@ public class JsonDataGenerator {
                             loggers.add(new AzureIoTHubLogger(elProps));
                         } catch (URISyntaxException ex) {
                             log.error("Azure IoT Hub Logger unable to initialize", ex);
+                        }
+                        break;
+                    }
+                    case "pulsar": {
+                        log.info("Adding Pulsar Logger with properties: " + elProps);
+                        try {
+                           loggers.add(new PulsarLogger(elProps));
+                        } catch (final PulsarClientException ex) {
+                           log.error("Pulsar Logger unable to initialize", ex);
                         }
                         break;
                     }
