@@ -90,6 +90,15 @@ public class JsonDataGenerator {
                         }
                         break;
                     }
+                    case "kinesis": {
+                        log.info("Adding Kinesis Logger with properties: " + elProps);
+                        try {
+                            loggers.add(new KinesisLogger(elProps));
+                        } catch (Exception ex) {
+                            log.error("Kinesis Logger unable to initialize", ex);
+                        }
+                        break;
+                    }
                 }
             }
             if (loggers.isEmpty()) {
