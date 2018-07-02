@@ -155,6 +155,37 @@ Would become
 	"array[1].element2": "two"
 }
 ```
+
+**Kafka on kerberized cluster**
+
+Valid only for kafka version 0.10.2.0 or higher.
+
+If you need to send data to kafka with kerberos you can provide the next configuration:
+
+```
+{
+    "type": "kafka",
+    "topic": "logevent",
+    "flatten": false,
+    "sync": false,
+    "kerberos": {
+      "kerberos.conf.file": "<path_your_kerberos_file_krb5.conf>",
+      "kafka.brokers.servers": "broker1:port,broker2:port,broker3:port",
+      "kafka.jaas.file": "<path_your_jaas_file_kafka_jaas.conf",
+      "kafka.security.protocol": "SASL_PLAINTEXT",
+      "kafka.service.name": "kafka"
+  }
+}
+```
+
+* `kerberos.conf.file` : Sets the system property 'java.security.krb5.conf'
+* `kafka.jaas.file` : Sets the system property 'java.security.auth.login.config'
+* `kafka.security.protocol` : Sets kafka producer property 'security.protocol'
+* `kafka.service.name`: Sets kafka producer property 'sasl.kerberos.service.name'
+
+
+In a kerberized kafka cluster, the keytab file must be defined inside JAAS file `"kafka.jaas.file": "<path_your_jaas_file_kafka_jaas.conf"` 
+
 **NATS**
 
 A nats logger sends json events to gnatsd broker specifed in the config. The following example shows a sample config that sends json events to a locally running NATS broker listening on the default NATS port.
@@ -449,8 +480,8 @@ Will always generate:
 | --------------- |----------------| --------------|
 | `boolean()` | n/a | Random true/false |
 | `double([min, max])` | Optional min val or range | If no args, generates a random double between Double.MIN & MAX. If one arg, generates a double between that min and Double.MAX. If two args, generates a double between those two numbers. |
-| `integer([min, max])` | Optional min val or range | If no args, generates a random integer between Integer.MIN & MAX. If one arg, generates a double between that min and Integer.MAX. If two args, generates a double between those two numbers. |
-| `long([min, max])` | Optional min val or range | If no args, generates a random long between Long.MIN & MAX. If one arg, generates a double between that min and Long.MAX. If two args, generates a double between those two numbers. |
+| `integer([min, max])` | Optional min val or range | If no args, generates a random integer between Integer.MIN & MAX. If one arg, generates a integer between that min and Integer.MAX. If two args, generates a integer between those two numbers. |
+| `long([min, max])` | Optional min val or range | If no args, generates a random long between Long.MIN & MAX. If one arg, generates a long between that min and Long.MAX. If two args, generates a long between those two numbers. |
 
 
 
