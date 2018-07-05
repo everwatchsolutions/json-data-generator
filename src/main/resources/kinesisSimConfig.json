@@ -11,7 +11,8 @@
       "type": "kinesis",
       "stream": "data-input-stream",
       "region": "ap-southeast-2",
-      "max.records": 1000
+      "max.records": 1000,
+      "roleARN": "arn:aws:iam::464543162476:role/Vimond-Kinesis-Sandbox-Access"
     }
   ]
 }

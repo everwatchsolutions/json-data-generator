@@ -42,7 +42,7 @@
         }
       ],
       "producerConfig": {
-        "stream": "player_log_event"
+        "stream": "vimond-sandbox-player_log_event"
       },
       "duration": 0
     }

@@ -77,11 +77,12 @@ public class KafkaLogger implements EventLogger {
 
     @Override
     public void logEvent(String event, Map<String, Object> producerConfig) {
-        logEvent(event);
-    }
-
-    private void logEvent(String event) {
         boolean sync = false;
+
+        String producerTopic = (String) producerConfig.get("topic");
+        if(producerTopic == null){
+            producerTopic = this.topic;
+        }
 
         String output = event;
         if (flatten) {
@@ -93,7 +94,7 @@ public class KafkaLogger implements EventLogger {
             }
         }
 
-        ProducerRecord<String, String> producerRecord = new ProducerRecord<>(topic, output);
+        ProducerRecord<String, String> producerRecord = new ProducerRecord<>(producerTopic, output);
         if (sync) {
             try {
                 producer.send(producerRecord).get();
