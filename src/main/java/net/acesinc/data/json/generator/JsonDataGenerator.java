@@ -97,8 +97,6 @@ public class JsonDataGenerator {
                             loggers.add(new KinesisLogger(elProps));
                         } catch (Exception ex) {
                             log.error("Kinesis Logger unable to initialize", ex);
-                        }
-                    }
                     case "pulsar": {
                         log.info("Adding Pulsar Logger with properties: " + elProps);
                         try {
