@@ -16,6 +16,7 @@ import net.acesinc.data.json.generator.config.JSONConfigReader;
 import net.acesinc.data.json.generator.log.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.pulsar.client.api.PulsarClientException;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 /**
@@ -96,6 +97,12 @@ public class JsonDataGenerator {
                             loggers.add(new KinesisLogger(elProps));
                         } catch (Exception ex) {
                             log.error("Kinesis Logger unable to initialize", ex);
+                    case "pulsar": {
+                        log.info("Adding Pulsar Logger with properties: " + elProps);
+                        try {
+                           loggers.add(new PulsarLogger(elProps));
+                        } catch (final PulsarClientException ex) {
+                           log.error("Pulsar Logger unable to initialize", ex);
                         }
                         break;
                     }
