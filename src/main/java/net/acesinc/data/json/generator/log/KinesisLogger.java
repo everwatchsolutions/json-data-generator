@@ -42,6 +42,8 @@ public class KinesisLogger implements EventLogger {
         String region = (String) props.get("region");
         String roleARN = (String) props.get("roleARN");
         this.maxRecords = (Integer) props.get("max.records");
+        if(this.maxRecords == null)
+            this.maxRecords = 0;
 
         AmazonKinesisClientBuilder clientBuilder = AmazonKinesisClientBuilder.standard();
 
