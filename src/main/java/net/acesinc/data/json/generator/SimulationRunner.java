@@ -34,7 +34,7 @@ public class SimulationRunner {
         this.eventLoggers = loggers;
         eventGenerators = new ArrayList<EventGenerator>();
         eventGenThreads = new ArrayList<Thread>();
-        
+
         setupSimulation();
     }
 
@@ -43,7 +43,7 @@ public class SimulationRunner {
         for (WorkflowConfig workflowConfig : config.getWorkflows()) {
             try {
                 Workflow w = JSONConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(workflowConfig.getWorkflowFilename()), Workflow.class);
-                final EventGenerator gen = new EventGenerator(w, workflowConfig.getWorkflowName(), eventLoggers);
+                final EventGenerator gen = new EventGenerator(w, workflowConfig, eventLoggers);
                 log.info("Adding EventGenerator for [ " + workflowConfig.getWorkflowName()+ "," + workflowConfig.getWorkflowFilename()+ " ]");
                 eventGenerators.add(gen);
                 eventGenThreads.add(new Thread(gen));
@@ -55,7 +55,7 @@ public class SimulationRunner {
 
     public void startSimulation() {
         log.info("Starting Simulation");
-               
+
         if (eventGenThreads.size() > 0) {
             for (Thread t : eventGenThreads) {
                 t.start();

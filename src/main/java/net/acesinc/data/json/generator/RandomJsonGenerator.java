@@ -5,7 +5,6 @@
  */
 package net.acesinc.data.json.generator;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
@@ -13,15 +12,21 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.json.Json;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
-import net.acesinc.data.json.generator.types.TypeHandler;
-import net.acesinc.data.json.generator.types.TypeHandlerFactory;
-import net.acesinc.data.json.util.JsonUtils;
+
 import org.apache.commons.math3.random.RandomDataGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import net.acesinc.data.json.generator.config.WorkflowConfig;
+import net.acesinc.data.json.generator.types.TypeHandler;
+import net.acesinc.data.json.generator.types.TypeHandlerFactory;
+import net.acesinc.data.json.util.JsonUtils;
 
 /**
  *
@@ -36,10 +41,13 @@ public class RandomJsonGenerator {
     private static JsonGeneratorFactory factory = Json.createGeneratorFactory(null);
     private Map<String, Object> generatedValues;
     private JsonUtils jsonUtils;
+    private WorkflowConfig workflowConfig;
 
-    public RandomJsonGenerator(Map<String, Object> config) {
+    public RandomJsonGenerator(Map<String, Object> config, WorkflowConfig workflowConfig) {
         this.config = config;
+        this.workflowConfig = workflowConfig;
         jsonUtils = new JsonUtils();
+        TypeHandlerFactory.getInstance().configure(workflowConfig);
     }
 
     public String generateJson() {
