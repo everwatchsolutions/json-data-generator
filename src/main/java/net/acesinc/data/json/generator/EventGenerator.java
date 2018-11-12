@@ -14,11 +14,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import net.acesinc.data.json.generator.config.WorkflowConfig;
 import net.acesinc.data.json.generator.log.EventLogger;
 import net.acesinc.data.json.generator.workflow.Workflow;
 import net.acesinc.data.json.generator.workflow.WorkflowStep;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -34,10 +37,12 @@ public class EventGenerator implements Runnable {
     private List<EventLogger> eventLoggers;
     private long startTime;
     private long generatedEvents = 0;
+    private WorkflowConfig workflowConfig;
 
-    public EventGenerator(Workflow workflow, String generatorName, List<EventLogger> loggers) {
+    public EventGenerator(Workflow workflow, WorkflowConfig workflowConfig, List<EventLogger> loggers) {
         this.workflow = workflow;
-        this.generatorName = generatorName;
+        this.workflowConfig = workflowConfig;
+        this.generatorName = workflowConfig.getWorkflowName();
         this.eventLoggers = loggers;
     }
 
@@ -46,7 +51,7 @@ public class EventGenerator implements Runnable {
         if (workflow.getStepRunMode() != null) {
             runMode = workflow.getStepRunMode();
         }
-        
+
         startTime = System.currentTimeMillis();
         switch (runMode) {
             case "sequential":
@@ -87,7 +92,7 @@ public class EventGenerator implements Runnable {
     protected void runRandom() {
         List<WorkflowStep> stepsCopy = new ArrayList<>(workflow.getSteps());
         Collections.shuffle(stepsCopy, new Random(System.currentTimeMillis()));
-        
+
         Iterator<WorkflowStep> it = stepsCopy.iterator();
         while (running && it.hasNext()) {
             WorkflowStep step = it.next();
@@ -124,7 +129,7 @@ public class EventGenerator implements Runnable {
             }
         }
     }
-    
+
     protected void executeStep(WorkflowStep step) {
         if (step.getDuration() == 0) {
             //Just generate this event and move on to the next one
@@ -195,9 +200,9 @@ public class EventGenerator implements Runnable {
                 }
             }
         }
-        
+
         if (log.isTraceEnabled()) {
-            generatedEvents++; 
+            generatedEvents++;
 
             long elapsed = System.currentTimeMillis() - startTime;
             if (elapsed > 1000) { //1sec
@@ -212,7 +217,7 @@ public class EventGenerator implements Runnable {
         }
     }
 
-    
+
 
     private void performEventSleep(Workflow workflow) throws InterruptedException {
         long durationBetweenEvents = workflow.getEventFrequency();
@@ -239,7 +244,7 @@ public class EventGenerator implements Runnable {
     }
 
     public String generateEvent(Map<String, Object> config) throws IOException {
-        RandomJsonGenerator generator = new RandomJsonGenerator(config);
+        RandomJsonGenerator generator = new RandomJsonGenerator(config, workflowConfig);
         return generator.generateJson();
     }
 

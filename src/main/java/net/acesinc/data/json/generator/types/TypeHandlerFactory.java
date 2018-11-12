@@ -14,9 +14,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.reflections.Reflections;
+
+import net.acesinc.data.json.generator.config.WorkflowConfig;
 
 /**
  *
@@ -25,7 +28,9 @@ import org.reflections.Reflections;
 public class TypeHandlerFactory {
 
     private static final Logger log = LogManager.getLogger(TypeHandlerFactory.class);
+    private static final String TYPE_HANDLERS_DEFAULT_PATH = "net.acesinc.data.json.generator.types";
 
+    private boolean configured = false;
     private static TypeHandlerFactory instance;
     private Map<String, Class> typeHandlerNameMap;
     private Map<String, TypeHandler> typeHandlerCache;
@@ -35,19 +40,34 @@ public class TypeHandlerFactory {
             return new TypeHandlerFactory();
         }
     };
-    
+
     private TypeHandlerFactory() {
         typeHandlerNameMap = new LinkedHashMap<>();
         typeHandlerCache = new LinkedHashMap<>();
-        scanForTypeHandlers();
+        scanForTypeHandlers(TYPE_HANDLERS_DEFAULT_PATH);
     }
 
     public static TypeHandlerFactory getInstance() {
         return localInstance.get();
     }
 
-    private void scanForTypeHandlers() {
-        Reflections reflections = new Reflections("net.acesinc.data.json.generator.types");
+    /**
+     * Allows the type handler factory to be configured from the WorkflowConfig.
+     * This will only configure itself once per thread. Any additional call
+     * to config will be ignored.
+     * @param workflowConfig
+     */
+    public void configure(WorkflowConfig workflowConfig) {
+        if(!configured) {
+            for(String packageName : workflowConfig.getCustomTypeHandlers()) {
+                scanForTypeHandlers(packageName);
+            }
+            configured = true;
+        }
+    }
+
+    private void scanForTypeHandlers(String packageName) {
+        Reflections reflections = new Reflections(packageName);
         Set<Class<? extends TypeHandler>> subTypes = reflections.getSubTypesOf(TypeHandler.class);
         for (Class type : subTypes) {
             //first, make sure we aren't trying to create an abstract class

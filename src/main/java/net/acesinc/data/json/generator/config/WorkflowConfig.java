@@ -6,6 +6,9 @@
 
 package net.acesinc.data.json.generator.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author andrewserff
@@ -14,6 +17,7 @@ public class WorkflowConfig {
     private String workflowName;
     private String workflowFilename;
     private int instances = 1;
+    private List<String> customTypeHandlers = new ArrayList<>();
     /**
      * @return the workflowName
      */
@@ -49,4 +53,13 @@ public class WorkflowConfig {
     public void setInstances(int instances) {
         this.instances = instances;
     }
+
+    public List<String> getCustomTypeHandlers() {
+        return customTypeHandlers;
+    }
+
+    public void setCustomTypeHandlers(List<String> customTypeHandlers) {
+        this.customTypeHandlers = customTypeHandlers;
+    }
+
 }

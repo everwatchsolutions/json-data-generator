@@ -2,11 +2,11 @@
 
 <div style="text-align:center"><img src ="./src/design/logo.png" width="95%"/></div>
 
-Have you ever needed to generate a realtime stream of json data in order to test an application? When thinking about a good source of streaming data, we often look to the Twitter stream as a solution, but that only gets us so far in prototyping scenarios and we often fall short because Twitter data only fits a certain amount of use cases. There are plenty of json data generator online (like [json-generator](http://www.json-generator.com/), or [mockaroo](https://www.mockaroo.com/)), but we couldn't find an offline data generator for us to use in our testing and prototyping, so we decided to build one.  We found it so useful, that we decided to open source it as well so other can make use of it in their own projects.  
+Have you ever needed to generate a realtime stream of json data in order to test an application? When thinking about a good source of streaming data, we often look to the Twitter stream as a solution, but that only gets us so far in prototyping scenarios and we often fall short because Twitter data only fits a certain amount of use cases. There are plenty of json data generator online (like [json-generator](http://www.json-generator.com/), or [mockaroo](https://www.mockaroo.com/)), but we couldn't find an offline data generator for us to use in our testing and prototyping, so we decided to build one.  We found it so useful, that we decided to open source it as well so other can make use of it in their own projects.
 
-For more information, check out the [announcement blog post](http://acesinc.net/introducing-a-streaming-json-data-generator/). 
+For more information, check out the [announcement blog post](http://acesinc.net/introducing-a-streaming-json-data-generator/).
 
-### Project Status 
+### Project Status
 
 [![Build Status](https://travis-ci.org/acesinc/json-data-generator.svg?branch=master)](https://travis-ci.org/acesinc/json-data-generator)
 
@@ -15,10 +15,10 @@ We had a couple of needs when it came to generating data for testing purposes. T
 
 * **Generate json documents that are defined in json themselves**. This would allow us to take existing schemas, drop them in to the generator, modify them a bit and start generating data that looks like what we expect in our application
 * **Generate json with random data as values**. This includes different types of random data, not just random characters, but things like random names, counters, dates, primitive types, etc.
-* **Generate a constant stream of json events that are sent somewhere**. We might need to send the data to a log file or to a Kafka topic or something else.  
-* **Generate events in a defined order, at defined or random time periods** in order to act like a real system. 
+* **Generate a constant stream of json events that are sent somewhere**. We might need to send the data to a log file or to a Kafka topic or something else.
+* **Generate events in a defined order, at defined or random time periods** in order to act like a real system.
 
-We now have a data generator that supports all of these things that can be run on our own networks and produce streams of json data for applications to consume.  
+We now have a data generator that supports all of these things that can be run on our own networks and produce streams of json data for applications to consume.
 
 ### License
 
@@ -27,14 +27,14 @@ We now have a data generator that supports all of these things that can be run o
 ### Architecture
 The Generator has the following basic architecture:
 
-* `JsonDataGenerator` - The main application that loads configurations and runs simulations. 
-* `Simulation Configuration` - A json file that represents your over all simulation you would like to run. 
-* `Workflow Definitions` - Json files that define a workflow that is run by your Simulation.  
+* `JsonDataGenerator` - The main application that loads configurations and runs simulations.
+* `Simulation Configuration` - A json file that represents your over all simulation you would like to run.
+* `Workflow Definitions` - Json files that define a workflow that is run by your Simulation.
 
-When you start the `JsonDataGenerator`, you specify your `Simulation Configuration` which also references one or many `Workflow Definitions.`  The Simulation is loaded and the Workflows are created within the application and each workflow is started within its own thread. Json events are generated and sent to the defined `Producers`.  
+When you start the `JsonDataGenerator`, you specify your `Simulation Configuration` which also references one or many `Workflow Definitions.`  The Simulation is loaded and the Workflows are created within the application and each workflow is started within its own thread. Json events are generated and sent to the defined `Producers`.
 
 #### What's defined Where
-There are multiple pieces of information that you as a developer/integrator need to define within your configuration files. We'll break down what goes where in this section. 
+There are multiple pieces of information that you as a developer/integrator need to define within your configuration files. We'll break down what goes where in this section.
 
 ##### Simulation Configuration
 The `Simulation Configuration` defines the following:
@@ -51,6 +51,7 @@ A `Workflow` is defined with the following properties:
 | workflowName | String | A name for the workflow |
 | workflowFilename | String | The filename of the workflow config file to run |
 | instances | Integer | the number of identical copies of instances to run  (optional, default value is 1)|
+| customTypeHandlers (optional) | Array | A list of packages where custom type handlers are defined |
 
 Here is an example of a Workflow configuration:
 
@@ -58,7 +59,8 @@ Here is an example of a Workflow configuration:
 "workflows": [{
             "workflowName": "test",
             "workflowFilename": "exampleWorkflow.json",
-            "instances": 1
+            "instances": 1,
+            "customTypeHandlers": ["com.example.types", "org.example2.types"]
         }]
 ```
 
@@ -80,7 +82,7 @@ A Logger Producer sends json events to a log file in the `logs` directory into a
     "type": "logger"
 }
 ```
-No configuration options exist for the Logger Producer at this time. 
+No configuration options exist for the Logger Producer at this time.
 
 **File**
 
@@ -95,7 +97,7 @@ A File Producer sends json events to a file. One event will be written to each f
 }
 ```
 
-The File Logger will attempt to create the directory specified by `output.directory`. 
+The File Logger will attempt to create the directory specified by `output.directory`.
 
 **HTTP POST**
 
@@ -219,7 +221,7 @@ If you need to send data to kafka with kerberos you can provide the next configu
 * `kafka.service.name`: Sets kafka producer property 'sasl.kerberos.service.name'
 
 
-In a kerberized kafka cluster, the keytab file must be defined inside JAAS file `"kafka.jaas.file": "<path_your_jaas_file_kafka_jaas.conf"` 
+In a kerberized kafka cluster, the keytab file must be defined inside JAAS file `"kafka.jaas.file": "<path_your_jaas_file_kafka_jaas.conf"`
 
 **NATS**
 
@@ -251,12 +253,12 @@ A Tranquility Producer sends json events using [Tranquility](https://github.com/
     "datasource.name":"test",
     "timestamp.name":"startTime",
     "sync": true,
-    "geo.dimensions": "where.latitude,where.longitude"  
+    "geo.dimensions": "where.latitude,where.longitude"
 }
 ```
-When sending data to Druid via Tranquility, we are sending a Task to the Druid Overlord node that will perform realtime ingestion. Our task implementation currently does not allow users to specifc the aggregators that are used. We create a single "events" metric that is a Count Aggregation. Everything else if configured though the properties. The `sync` and `flatten` properties behave exactly the same ast the Kafka Producer.  This works for us currently, but if you need more capability, please file an issue or submit a pull request!  
+When sending data to Druid via Tranquility, we are sending a Task to the Druid Overlord node that will perform realtime ingestion. Our task implementation currently does not allow users to specifc the aggregators that are used. We create a single "events" metric that is a Count Aggregation. Everything else if configured though the properties. The `sync` and `flatten` properties behave exactly the same ast the Kafka Producer.  This works for us currently, but if you need more capability, please file an issue or submit a pull request!
 
-When you start the Generator, it will contact the Druid Overlord and create a task for your datasource and will then begin streaming data into Druid.  
+When you start the Generator, it will contact the Druid Overlord and create a task for your datasource and will then begin streaming data into Druid.
 
 **MQTT**
 
@@ -329,22 +331,22 @@ The `Workflow` is defined in seperate files to allow you to have and run multipl
 | eventFrequency | integer | The time in milliseconds events between steps should be output at |
 | varyEventFrequency | boolean | If true, a random amount (between 0 and half the eventFrequency) of time will be added/subtracted to the eventFrequency |
 | repeatWorkflow | boolean | If true, the workflow will repeat after it finishes |
-| timeBetweenRepeat | integer | The time in milliseconds to wait before the Workflow is restarted |  
+| timeBetweenRepeat | integer | The time in milliseconds to wait before the Workflow is restarted |
 | varyRepeatFrequency | boolean | If true, a random amount (between 0 and half the eventFrequency) of time will be added/subtracted to the timeBewteenRepeat  |
-| stepRunMode | string | Possible values: sequential, random, random-pick-one. Default is sequential |  
+| stepRunMode | string | Possible values: sequential, random, random-pick-one. Default is sequential |
 | steps | Array | A list of Workflow Steps to be run in this Workflow |
 
 **Workflow Steps**
 
 Workflow Steps are meat of your generated json events. They specify what your json will look like and how they will be generated. Depending on the `stepRunMode` you have chosen, the Generator will execute your steps in different orders. The possibilities are as follows:
 
-* sequential - Steps will be run in the order they are specified in the array. 
+* sequential - Steps will be run in the order they are specified in the array.
 * random - Steps will be shuffled and run in a random order.  Steps will be reshuffled each time the workflow is repeated.
-* random-pick-one - A random step will be chosen from your config and will be run.  No other steps will be run until the workflow repeats.  When the workflow repeats, a different random step will be picked. 
+* random-pick-one - A random step will be chosen from your config and will be run.  No other steps will be run until the workflow repeats.  When the workflow repeats, a different random step will be picked.
 
 **Step**
 
-Now that you know how Steps are executed, let's take a look at how they are defined. 
+Now that you know how Steps are executed, let's take a look at how they are defined.
 
 | Property        | Type           | Description   |
 | --------------- |----------------| --------------|
@@ -384,7 +386,7 @@ This config will generate json documents that look something like:
 ```
 {"timestamp":1430244584899,"system":"BADGE","actor":"bob","action":"LOGOUT","objects":["Building 1"],"location":{"lat":-19.4224,"lon":-165.0512},"message":"Entered Building 1"}
 ```
-Each time, the timestamp, system, action, and lat/lon values would be randomly generated.  
+Each time, the timestamp, system, action, and lat/lon values would be randomly generated.
 
 **Full Workflow Definition Config Example**
 
@@ -431,10 +433,10 @@ exampleWorkflow.json:
     }]
 }
 ```
-This workflow would output the defined json about every 4 seconds and then it will wait about 15 seconds before starting again.  
+This workflow would output the defined json about every 4 seconds and then it will wait about 15 seconds before starting again.
 
 ## Running The Generator
-Now that you know how to configure the Generator, it's time to run it.  You will need Maven to build the application until we put a release up to download. 
+Now that you know how to configure the Generator, it's time to run it.  You will need Maven to build the application until we put a release up to download.
 
 First, clone/fork the repo:
 
@@ -454,7 +456,7 @@ cd your/directory
 tar xvf json-data-generator-1.0.0-bin.tar
 cd json-data-generator
 ```
-In the `conf` directory, you will find an example `Simulation Configuration` and an example `Workflow Definition`.  You can change these or make your own configurations to run with, but for now, we will just run the examples.  This example simulates an auditing system that generates events when a user performs an action on a system.  To do so, do the following: 
+In the `conf` directory, you will find an example `Simulation Configuration` and an example `Workflow Definition`.  You can change these or make your own configurations to run with, but for now, we will just run the examples.  This example simulates an auditing system that generates events when a user performs an action on a system.  To do so, do the following:
 
 ```
 java -jar json-data-generator-1.0.0.jar exampleSimConfig.json
@@ -471,7 +473,7 @@ You will start seeing output in your console and data will begin to be generated
 2015-04-28 14:30:09,768 INFO data-logger [Thread-2] {"timestamp":1430253009767,"system":"AUDIT","actor":"bob","action":"COPY","objects":["/data/file1.txt","/share/mystuff/file2.txt"],"location":null,"message":"Printed /data/file1.txt"}
 ```
 
-This example only outputs to the `Logger` Producer, so all the data is going to your console and it is also being written to `json-data-generator/logs/json-data.log`. The data written to `json-data.log` is a single event per line and does not contain the logging timestamps and other info like above.  
+This example only outputs to the `Logger` Producer, so all the data is going to your console and it is also being written to `json-data-generator/logs/json-data.log`. The data written to `json-data.log` is a single event per line and does not contain the logging timestamps and other info like above.
 
 If you were to create your own simulation config called `mySimConfig.json`, you would place that file and any workflow conigs into the `conf` directory and run the application again like so:
 
@@ -493,8 +495,8 @@ If you specify a literal value as the value of a property, it will just be echoe
 Will always generate:
 
 ```
-{ 
-    "literal-bool": true 
+{
+    "literal-bool": true
 }
 ```
 
@@ -554,7 +556,7 @@ We have two super special `Functions` for use with arrays. They are `repeat()` a
         }]
 }
 ```
-This will generate a json object that has 7 values each with different random values for `date` and `count`. 
+This will generate a json object that has 7 values each with different random values for `date` and `count`.
 
 The `random()` function will tell the generator to pick a random element from the array and out put that element only. Use it like so:
 
@@ -571,7 +573,45 @@ The `random()` function will tell the generator to pick a random element from th
 }
 ```
 
-This will generate an array with one element that is either the element with `date` & `count` or the element with `thing1` in it. 
+This will generate an array with one element that is either the element with `date` & `count` or the element with `thing1` in it.
+
+### Custom Functions
+To create a custom function, you must extend the `TypeHandler` as follows:
+
+```
+public class PhoneNumberType extends TypeHandler {
+
+    public static final String TYPE_NAME = "phone";
+
+    private String areaCode;
+
+    @Override
+    public void setLaunchArguments(String[] launchArguments) {
+        super.setLaunchArguments(launchArguments);
+        if (launchArguments.length >= 1) {
+            areaCode = launchArguments[0];
+        }
+    }
+
+    @Override
+    public String getNextRandomValue() {
+        return (areaCode != null ? areaCode : getRand().nextInt(111, 999)) + "-"
+                + getRand().nextInt(111, 999) + "-"
+                + getRand().nextInt(1111, 9999);
+    }
+
+    @Override
+    public String getName() {
+        return TYPE_NAME;
+    }
+
+}
+```
+Keep in mind:
+- You must make sure to add your class's package name to the workflow config as shown above.
+- `getName()` returns the name of the function. If you use an already existing function's name, it will be overwritten.
+- Calling `getRand()` requires that apache's `math3` library is on the compiler's classpath.
+- `getNextRandomValue()` can return other primitive values, not just String.
 
 ## Examples
 Here is a Kitchen Sink example to show you all the different ways you can generate data:

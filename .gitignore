@@ -4,3 +4,7 @@ logs/
 .idea/
 *.iml
 /nbproject/
+bin/
+.settings/
+.classpath
+.project
