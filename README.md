@@ -156,6 +156,41 @@ Would become
 }
 ```
 
+**Kinesis**
+
+A Kinesis Producer sends json events to the specified Kinesis stream as a String. Configure it like so:
+
+```
+{
+    "type": "kinesis",
+    "stream": "data-input-stream",
+    "region": ap-southeast-2,
+    "max.records": 1000,
+    "roleARN": "arn:aws:iam::XXXXXX2342:role/Kinesis-Access-Role"
+}
+```
+
+By default, it will use DefaultAWSCredentialsProviderChain for the credentials. If you want to access the streams using cross-account,  use "roleARN" with the role. 
+
+Streams can to configured differently for every step using the producerConfig config.
+
+```
+{
+  "eventFrequency": 100,
+  ...
+  "steps": [
+    {
+      "config": [
+        ...
+      ],
+      "producerConfig": {
+        "stream": "new-stream"
+      }
+    }
+  ]
+}
+```
+
 **Kafka on kerberized cluster**
 
 Valid only for kafka version 0.10.2.0 or higher.
