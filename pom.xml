@@ -4,7 +4,7 @@
     <groupId>net.acesinc.data</groupId>
     <artifactId>json-data-generator</artifactId>
     <packaging>jar</packaging>
-    <version>1.4.0</version>
+    <version>1.4.1-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <description>A robust, generic, streaming random json data generator for your data</description>
     <url>https://github.com/acesinc/json-data-generator</url>
@@ -13,7 +13,7 @@
         <connection>scm:git:git://github.com/acesinc/json-data-generator.git</connection>
         <developerConnection>scm:git:git@github.com:acesinc/json-data-generator.git</developerConnection>
         <url>https://github.com/acesinc/json-data-generator</url>
-        <tag>json-data-generator-1.4.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <licenses>
