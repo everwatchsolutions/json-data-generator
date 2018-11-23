@@ -61,7 +61,7 @@ public class FileLogger implements EventLogger {
                 f = File.createTempFile(filePrefix, fileExtension, outputDirectory);
                 counterOfLines=1;
             }else{
-                FileUtils.writeStringToFile(f, event+"\n", "UTF-8", true);
+                FileUtils.writeStringToFile(f, event+System.lineSeparator(), "UTF-8", true);
                 counterOfLines++;
             }
         } catch (IOException ioe) {
