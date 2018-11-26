@@ -296,6 +296,7 @@ The `Workflow` is defined in seperate files to allow you to have and run multipl
 | eventFrequency | integer | The time in milliseconds events between steps should be output at |
 | varyEventFrequency | boolean | If true, a random amount (between 0 and half the eventFrequency) of time will be added/subtracted to the eventFrequency |
 | repeatWorkflow | boolean | If true, the workflow will repeat after it finishes |
+| iterations | integer | The number of times that the workflow will repeat. `repeatWorkflow` must be set to *true*. Defaults to -1 (no limit). |
 | timeBetweenRepeat | integer | The time in milliseconds to wait before the Workflow is restarted |
 | varyRepeatFrequency | boolean | If true, a random amount (between 0 and half the eventFrequency) of time will be added/subtracted to the timeBewteenRepeat  |
 | stepRunMode | string | Possible values: sequential, random, random-pick-one. Default is sequential |
@@ -316,7 +317,8 @@ Now that you know how Steps are executed, let's take a look at how they are defi
 | Property        | Type           | Description   |
 | --------------- |----------------| --------------|
 | config | array of objects | The json objects to be generated during this step |
-| duration | integer | If 0, this step will run once. If -1, this step will run forever. Any of number is the time in milliseconds to run this step for. |
+| duration | integer | If 0, this step will run once. If -1, this step will run forever. Any other number is the time in milliseconds to run this step for. Default is 0. |
+| iterations | integer | The number of times to repeat the step. If `duration` is -1, 0, or unset, and `iterations` is set, only `iterations` will be used. If `duration` is positive and `iterations` is set, the step will repeat until the end of the duration or until all iterations happen. Which ever happens first.
 | producerConfig | map of objects | Optional: producer configuration for this step - optional and specific for each producer. (See producer documentation) |
 
 **Step Config**
@@ -363,6 +365,7 @@ exampleWorkflow.json:
     "eventFrequency": 4000,
     "varyEventFrequency": true,
     "repeatWorkflow": true,
+    "iterations": 5,
     "timeBetweenRepeat": 15000,
     "varyRepeatFrequency": true,
     "steps": [{
@@ -394,7 +397,7 @@ exampleWorkflow.json:
 		    },
 		    "message": "Entered Building 2"
 		}],
-        "duration": 0
+        "iterations": 2
     }]
 }
 ```
