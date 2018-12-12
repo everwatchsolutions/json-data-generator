@@ -1,0 +1,18 @@
+{
+    "eventFrequency": 0,
+    "varyEventFrequency": false,
+    "repeatWorkflow": true,
+    "timeBetweenRepeat": 1,
+    "varyRepeatFrequency": false,
+    "steps": [
+		{
+        "config": [
+		{
+    		"id": "uuid()"
+		}
+		],
+        "duration": 0,
+        "quantity": 10
+		}
+	]
+}

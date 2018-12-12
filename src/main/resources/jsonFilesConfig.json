@@ -1,0 +1,14 @@
+{
+    "workflows": [{
+            "workflowName": "jsonfiles",
+            "workflowFilename": "jsonFilesWorkflow.json"
+		}],
+	"producers": [
+		{
+		"type": "file",
+		"output.directory": "/tmp",
+		"file.prefix": "data_",
+		"file.extension": ".json"
+		}
+	]
+}
