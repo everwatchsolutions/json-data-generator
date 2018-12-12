@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import net.acesinc.data.json.generator.log.FileLogger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -70,10 +71,44 @@ public class EventGenerator implements Runnable {
     }
 
     protected void runSequential() {
+
         Iterator<WorkflowStep> it = workflow.getSteps().iterator();
         while (running && it.hasNext()) {
             WorkflowStep step = it.next();
-            executeStep(step);
+
+            // Store all events in this ArrayList for future processing by each logger type
+            ArrayList<String> events = new ArrayList<String>();
+
+            // custom "quantity" parameter added to each configuration step to allow for looping
+            long stepQuantity = step.getQuantity();
+            long stepQuantityRun = 0;
+
+            // All loggers are FileLoggers ?
+            boolean onlyFileLoggers = true;
+            for (EventLogger l : eventLoggers)
+                if (!(l instanceof FileLogger))
+                    onlyFileLoggers = false;
+
+            if (!onlyFileLoggers || step.getDuration() != 0)
+                stepQuantity = 1;
+
+            while (stepQuantityRun < stepQuantity) {
+                executeStep(step, events);
+                stepQuantityRun++;
+            }
+            // Log all events here, instead, by concatenating the Events ArrayList from above
+            if (step.getDuration() == 0) {
+                for (EventLogger l : eventLoggers) {
+                    if (l instanceof FileLogger) {
+                        l.logEvent("[" + String.join(",\n", events) + "]"
+                                , step.getProducerConfig());
+                    } else {
+                        l.logEvent(String.join("\n", events)
+                                , step.getProducerConfig());
+                    }
+                }
+            }
+            //executeStep(step);
 
             if (!it.hasNext() && workflow.isRepeatWorkflow()) {
                 it = workflow.getSteps().iterator();
@@ -85,8 +120,8 @@ public class EventGenerator implements Runnable {
                     break;
                 }
             }
-
         }
+
     }
 
     protected void runRandom() {
@@ -96,7 +131,7 @@ public class EventGenerator implements Runnable {
         Iterator<WorkflowStep> it = stepsCopy.iterator();
         while (running && it.hasNext()) {
             WorkflowStep step = it.next();
-            executeStep(step);
+            executeStep(step, null);
 
             if (!it.hasNext() && workflow.isRepeatWorkflow()) {
                 Collections.shuffle(stepsCopy, new Random(System.currentTimeMillis()));
@@ -109,14 +144,13 @@ public class EventGenerator implements Runnable {
                     break;
                 }
             }
-
         }
     }
 
     protected void runRandomPickOne() {
         while (running) {
             WorkflowStep step = workflow.getSteps().get(generateRandomNumber(0, workflow.getSteps().size() - 1));;
-            executeStep(step);
+            executeStep(step, null);
 
             if (workflow.isRepeatWorkflow()) {
                 try {
@@ -130,7 +164,7 @@ public class EventGenerator implements Runnable {
         }
     }
 
-    protected void executeStep(WorkflowStep step) {
+    protected void executeStep(WorkflowStep step, ArrayList<String> events) {
         if (step.getDuration() == 0) {
             //Just generate this event and move on to the next one
             for (Map<String, Object> config : step.getConfig()) {
@@ -138,8 +172,14 @@ public class EventGenerator implements Runnable {
                 wrapper.put(null, config);
                 try {
                     String event = generateEvent(wrapper);
-                    for (EventLogger l : eventLoggers) {
-                        l.logEvent(event, step.getProducerConfig());
+
+                    // Add the events to the Events Array
+                    if (events!=null) {
+                        events.add(event);
+                    } else {
+                        for (EventLogger l : eventLoggers) {
+                            l.logEvent(event, step.getProducerConfig());
+                        }
                     }
                     try {
                         performEventSleep(workflow);

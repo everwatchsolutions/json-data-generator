@@ -3,6 +3,8 @@ target/
 logs/
 .idea/
 *.iml
+*.iws 
+*.ipr 
 /nbproject/
 bin/
 .settings/
