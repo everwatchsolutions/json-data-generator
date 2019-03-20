@@ -1,0 +1,17 @@
+{
+  "workflows": [
+    {
+      "workflowName": "player",
+      "workflowFilename": "kinesisWorkflow.json",
+      "instances": 1
+    }
+  ],
+  "producers": [
+    {
+      "type": "kinesis",
+      "stream": "data-input-stream",
+      "region": "ap-southeast-2",
+      "max.records": 1000
+    }
+  ]
+}

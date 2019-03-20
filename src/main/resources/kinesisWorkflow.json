@@ -1,0 +1,50 @@
+{
+  "eventFrequency": 100,
+  "varyEventFrequency": false,
+  "repeatWorkflow": true,
+  "timeBetweenRepeat": 20,
+  "varyRepeatFrequency": false,
+  "steps": [
+    {
+      "config": [
+        {
+          "eventName": "log_event",
+          "originator": "player",
+          "tenant": "test",
+          "originatorId": "226760",
+          "versions": [
+            "1.0"
+            ],
+          "timestamp": "now()Z",
+          "guid": "uuid()",
+          "client": {
+            "playerState": "playing",
+            "viewingSession": "uuid()"
+          },
+          "progress": {
+            "liveResumePossible": true,
+            "title": "alphaNumeric(10)",
+            "playbackType": "live",
+            "category": {
+              "id": "integer(1, 3000)",
+              "name": "Round 12",
+              "enc": {
+                "start": "now(-5_m)Z",
+                "pos": "date(cur.start)",
+                "unit": "date"
+              }
+            },
+            "assetId": "integer(1,20000)"
+          },
+          "streamRules": {
+            "subscriptionLimitConcurrentStream": 2
+          }
+        }
+      ],
+      "producerConfig": {
+        "stream": "player_log_event"
+      },
+      "duration": 0
+    }
+  ]
+}

@@ -4,7 +4,7 @@
     <groupId>net.acesinc.data</groupId>
     <artifactId>json-data-generator</artifactId>
     <packaging>jar</packaging>
-    <version>1.3.1-SNAPSHOT</version>
+    <version>1.4.1-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <description>A robust, generic, streaming random json data generator for your data</description>
     <url>https://github.com/acesinc/json-data-generator</url>
@@ -129,15 +129,33 @@
             <version>1.0.2</version>
         </dependency>
         <dependency>
-			<groupId>com.microsoft.azure.sdk.iot</groupId>
-			<artifactId>iot-device-client</artifactId>
-			<version>1.3.30</version>
-		</dependency>
-		<dependency>
+            <groupId>com.microsoft.azure.sdk.iot</groupId>
+            <artifactId>iot-device-client</artifactId>
+            <version>1.3.30</version>
+        </dependency>
+        
+        <!-- AWS -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-kinesis</artifactId>
+            <version>1.11.447</version>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-sts</artifactId>
+            <version>1.11.447</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.9.7</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.pulsar</groupId>
             <artifactId>pulsar-client</artifactId>
             <version>1.22.0-incubating</version>
-		</dependency>
+        </dependency>
     </dependencies>
     <repositories>
         <!-- These are set in the settings.xml to our nexus repo -->
