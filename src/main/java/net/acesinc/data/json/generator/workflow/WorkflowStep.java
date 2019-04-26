@@ -19,12 +19,25 @@ public class WorkflowStep {
     private List<Map<String, Object>> config;
     private Map<String, Object> producerConfig;
     private long duration;
+    private long quantity;
 
     public WorkflowStep() {
         config = new ArrayList<Map<String, Object>>();
         producerConfig = new HashMap<>() ;
     }
-    
+
+    /**
+     * @return the quantity
+     */
+    public long getQuantity() { return quantity <= 1 ? 1 : quantity; }
+
+    /**
+     * @param quantity the quantity to set
+     */
+    public void setQuantity(long quantity) {
+        this.quantity = quantity;
+    }
+
     /**
      * @return the duration
      */
@@ -52,8 +65,8 @@ public class WorkflowStep {
     public void setConfig(List<Map<String, Object>> config) {
         this.config = config;
     }
-    
-        /**
+
+    /**
      * @return the producerConfig
      */
     public Map<String, Object> getProducerConfig() {
