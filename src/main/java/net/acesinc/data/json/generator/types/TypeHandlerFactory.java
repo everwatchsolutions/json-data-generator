@@ -91,7 +91,7 @@ public class TypeHandlerFactory {
     public TypeHandler getTypeHandler(String name, Map<String, Object> knownValues, String currentContext) throws IllegalArgumentException {
         if (name.contains("(")) {
             String typeName = name.substring(0, name.indexOf("("));
-            String args = name.substring(name.indexOf("(") + 1, name.indexOf(")"));
+            String args = name.substring(name.indexOf("(") + 1, name.lastIndexOf(")"));
             String[] helperArgs = {};
             if (!args.isEmpty()) {
                 helperArgs = args.split(",");
