@@ -25,6 +25,7 @@ public class Workflow {
     private long timeBetweenRepeat;
     private boolean varyRepeatFrequency;
     private String stepRunMode;
+    private long iterations = -1;
     
     public Workflow() {
         steps = new ArrayList<>();
@@ -41,6 +42,9 @@ public class Workflow {
                 return false;
             }
             if (!w.getStepRunMode().equals(stepRunMode)) {
+                return false;
+            }
+            if (w.getIterations() != iterations) {
                 return false;
             }
             
@@ -152,6 +156,10 @@ public class Workflow {
     public void setRepeatWorkflow(boolean repeatWorkflow) {
         this.repeatWorkflow = repeatWorkflow;
     }
+    
+    public boolean shouldRepeat(int currentIteration) {
+        return repeatWorkflow && (iterations < 0 || currentIteration < iterations);
+    }
 
     /**
      * @return the timeBetweenRepeat
@@ -193,6 +201,14 @@ public class Workflow {
      */
     public void setStepRunMode(String stepRunMode) {
         this.stepRunMode = stepRunMode;
+    }
+    
+    public long getIterations() {
+        return iterations;
+    }
+
+    public void setIterations(long runCount) {
+        this.iterations = runCount;
     }
     
 }

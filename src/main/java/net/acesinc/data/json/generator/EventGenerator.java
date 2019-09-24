@@ -71,11 +71,12 @@ public class EventGenerator implements Runnable {
 
     protected void runSequential() {
         Iterator<WorkflowStep> it = workflow.getSteps().iterator();
+        int i = 1;
         while (running && it.hasNext()) {
             WorkflowStep step = it.next();
             executeStep(step);
 
-            if (!it.hasNext() && workflow.isRepeatWorkflow()) {
+            if (!it.hasNext() && workflow.shouldRepeat(i++)) {
                 it = workflow.getSteps().iterator();
                 try {
                     performWorkflowSleep(workflow);
@@ -94,11 +95,12 @@ public class EventGenerator implements Runnable {
         Collections.shuffle(stepsCopy, new Random(System.currentTimeMillis()));
 
         Iterator<WorkflowStep> it = stepsCopy.iterator();
+        int i = 1;
         while (running && it.hasNext()) {
             WorkflowStep step = it.next();
             executeStep(step);
 
-            if (!it.hasNext() && workflow.isRepeatWorkflow()) {
+            if (!it.hasNext() && workflow.shouldRepeat(i++)) {
                 Collections.shuffle(stepsCopy, new Random(System.currentTimeMillis()));
                 it = stepsCopy.iterator();
                 try {
@@ -114,11 +116,12 @@ public class EventGenerator implements Runnable {
     }
 
     protected void runRandomPickOne() {
+        int i = 1;
         while (running) {
             WorkflowStep step = workflow.getSteps().get(generateRandomNumber(0, workflow.getSteps().size() - 1));;
             executeStep(step);
 
-            if (workflow.isRepeatWorkflow()) {
+            if (workflow.shouldRepeat(i++)) {
                 try {
                     performWorkflowSleep(workflow);
                 } catch (InterruptedException ie) {
@@ -131,72 +134,42 @@ public class EventGenerator implements Runnable {
     }
 
     protected void executeStep(WorkflowStep step) {
+        int i = 0;
         if (step.getDuration() == 0) {
-            //Just generate this event and move on to the next one
-            for (Map<String, Object> config : step.getConfig()) {
-                Map<String, Object> wrapper = new LinkedHashMap<>();
-                wrapper.put(null, config);
-                try {
-                    String event = generateEvent(wrapper);
-                    for (EventLogger l : eventLoggers) {
-                        l.logEvent(event, step.getProducerConfig());
-                    }
-                    try {
-                        performEventSleep(workflow);
-                    } catch (InterruptedException ie) {
-                        //wake up!
-                        running = false;
-                        break;
-                    }
-                } catch (IOException ioe) {
-                    log.error("Error generating json event", ioe);
+            if(step.getIterations() == -1) {
+                //Just generate this event and move on to the next one
+                executeAllConfigs(step);
+            } else {
+                // Run for the number of iterations
+                while (running && i++ < step.getIterations()) {
+                    executeRandomConfig(step);
                 }
             }
         } else if (step.getDuration() == -1) {
-            //Run this step forever
-            //They want to continue generating events of this step over a duration
-            List<Map<String, Object>> configs = step.getConfig();
-            while (running) {
-                try {
-                    Map<String, Object> wrapper = new LinkedHashMap<>();
-                    wrapper.put(null, configs.get(generateRandomNumber(0, configs.size() - 1)));
-                    String event = generateEvent(wrapper);
-                    for (EventLogger l : eventLoggers) {
-                        l.logEvent(event, step.getProducerConfig());
-                    }
-                    try {
-                        performEventSleep(workflow);
-                    } catch (InterruptedException ie) {
-                        //wake up!
-                        running = false;
-                        break;
-                    }
-                } catch (IOException ioe) {
-                    log.error("Error generating json event", ioe);
+            if(step.getIterations() == -1) {
+                //Run this step forever
+                while(running) {
+                    executeRandomConfig(step);
+                }
+            } else {
+                //Run for the number of iterations
+                while (running && i++ < step.getIterations()) {
+                    executeRandomConfig(step);
                 }
             }
         } else {
-            //They want to continue generating events of this step over a duration
             long now = new Date().getTime();
             long stopTime = now + step.getDuration();
-            List<Map<String, Object>> configs = step.getConfig();
-            while (new Date().getTime() < stopTime && running) {
-                try {
-                    Map<String, Object> wrapper = new LinkedHashMap<>();
-                    wrapper.put(null, configs.get(generateRandomNumber(0, configs.size() - 1)));
-                    String event = generateEvent(wrapper);
-                    for (EventLogger l : eventLoggers) {
-                        l.logEvent(event, step.getProducerConfig());
-                    }
-                    try {
-                        performEventSleep(workflow);
-                    } catch (InterruptedException ie) {
-                        //wake up!
-                        running = false;
-                        break;
-                    }
-                } catch (IOException ioe) {
-                    log.error("Error generating json event", ioe);
+            if(step.getIterations() == -1) {
+                //They want to continue generating events of this step over a duration
+                while (running && new Date().getTime() < stopTime) {
+                    executeRandomConfig(step);
+                }
+            } else {
+                //They want to continue generating events of this step over a duration and a number of iterations.
+                //Which ever ends first.
+                while (running && new Date().getTime() < stopTime && i++ < step.getIterations()) {
+                    executeRandomConfig(step);
                 }
             }
         }
@@ -217,6 +190,47 @@ public class EventGenerator implements Runnable {
         }
     }
 
+    private void executeAllConfigs(WorkflowStep step) {
+        for (Map<String, Object> config : step.getConfig()) {
+            Map<String, Object> wrapper = new LinkedHashMap<>();
+            wrapper.put(null, config);
+            try {
+                String event = generateEvent(wrapper);
+                for (EventLogger l : eventLoggers) {
+                    l.logEvent(event, step.getProducerConfig());
+                }
+                try {
+                    performEventSleep(workflow);
+                } catch (InterruptedException ie) {
+                    //wake up!
+                    running = false;
+                    break;
+                }
+            } catch (IOException ioe) {
+                log.error("Error generating json event", ioe);
+            }
+        }
+    }
+
+    private void executeRandomConfig(WorkflowStep step) {
+        List<Map<String, Object>> configs = step.getConfig();
+        try {
+            Map<String, Object> wrapper = new LinkedHashMap<>();
+            wrapper.put(null, configs.get(generateRandomNumber(0, configs.size() - 1)));
+            String event = generateEvent(wrapper);
+            for (EventLogger l : eventLoggers) {
+                l.logEvent(event, step.getProducerConfig());
+            }
+            try {
+                performEventSleep(workflow);
+            } catch (InterruptedException ie) {
+                //wake up!
+                running = false;
+            }
+        } catch (IOException ioe) {
+            log.error("Error generating json event", ioe);
+        }
+    }
 
 
     private void performEventSleep(Workflow workflow) throws InterruptedException {

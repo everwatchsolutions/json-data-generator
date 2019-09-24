@@ -18,13 +18,14 @@ import java.util.Map;
 public class WorkflowStep {
     private List<Map<String, Object>> config;
     private Map<String, Object> producerConfig;
-    private long duration;
+    private long duration = 0;
+    private long iterations = -1;
 
     public WorkflowStep() {
         config = new ArrayList<Map<String, Object>>();
         producerConfig = new HashMap<>() ;
     }
-    
+
     /**
      * @return the duration
      */
@@ -52,7 +53,7 @@ public class WorkflowStep {
     public void setConfig(List<Map<String, Object>> config) {
         this.config = config;
     }
-    
+
         /**
      * @return the producerConfig
      */
@@ -65,6 +66,14 @@ public class WorkflowStep {
      */
     public void setProducerConfig(Map<String, Object> producerConfig) {
         this.producerConfig = producerConfig;
+    }
+
+    public long getIterations() {
+        return iterations;
+    }
+
+    public void setIterations(long iterations) {
+        this.iterations = iterations;
     }
 
 }
