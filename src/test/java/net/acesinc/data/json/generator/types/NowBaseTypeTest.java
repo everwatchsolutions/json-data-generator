@@ -7,11 +7,6 @@ package net.acesinc.data.json.generator.types;
 
 import org.junit.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 import static org.junit.Assert.*;
 
 /**
