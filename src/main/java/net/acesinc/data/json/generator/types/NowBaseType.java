@@ -47,19 +47,19 @@ public abstract class NowBaseType extends TypeHandler {
         long multiplier = 1;
         switch (unit) {
             case "y": {
-                multiplier = 1000 * 60 * 60 * 24 * 365;
+                multiplier = 1000 * 60 * 60 * 24 * 365L;
                 break;
             }
             case "d": {
-                multiplier = 1000 * 60 * 60 * 24;
+                multiplier = 1000 * 60 * 60 * 24L;
                 break;
             }
             case "h": {
-                multiplier = 1000 * 60 * 60;
+                multiplier = 1000 * 60 * 60L;
                 break;
             }
             case "m": {
-                multiplier = 1000 * 60;
+                multiplier = 1000 * 60L;
                 break;
             }
         }
