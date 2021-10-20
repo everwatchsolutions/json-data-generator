@@ -91,8 +91,11 @@ public class RandomJsonGenerator {
             } else if (Map.class.isAssignableFrom(value.getClass())) {
                 //nested object
                 Map<String, Object> nestedProps = (Map<String, Object>) value;
+                final boolean unwrapped = nestedProps.containsKey("unwrap()");
                 if (propName == null) {
-                    gen.writeStartObject();
+                    if (!unwrapped) {
+                        gen.writeStartObject();
+                    }
                 } else {
                     gen.writeStartObject(propName);
                 }
@@ -105,12 +108,14 @@ public class RandomJsonGenerator {
                     }
                 }
                 processProperties(gen, nestedProps, newContext);
-                gen.writeEnd();
+                if (!unwrapped) {
+                    gen.writeEnd();
+                }
             } else if (List.class.isAssignableFrom(value.getClass())) {
                 //array
                 List<Object> listOfItems = (List<Object>) value;
                 String newContext = "";
-                if (propName != null) {
+                if (propName != null && !"unwrap()".equals(propName)) {
                     gen.writeStartArray(propName);
 
                     if (currentContext.isEmpty()) {
