@@ -7,7 +7,9 @@ package net.acesinc.data.json.generator.log;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import javax.net.ssl.SSLContext;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.HttpClient;
@@ -31,12 +33,24 @@ public class HttpPostLogger implements EventLogger {
 
     private static final Logger log = LogManager.getLogger(HttpPostLogger.class);
     public static final String URL_PROP_NAME = "url";
+    public static final String HEADERS_PROP_NAME = "headers";
 
+    private Map<String, String> headers = new HashMap<>();
     private String url;
     private CloseableHttpClient httpClient;
 
     public HttpPostLogger(Map<String, Object> props) throws NoSuchAlgorithmException {
         this.url = (String) props.get(URL_PROP_NAME);
+
+        final Object headerConfigs = props.get(HEADERS_PROP_NAME);
+        if (headerConfigs instanceof Map) {
+            for (Entry<Object, Object> header : ((Map<Object, Object>) headerConfigs).entrySet()) {
+                if (header.getKey() instanceof String && header.getValue() instanceof String) {
+                    headers.put((String) header.getKey(), (String) header.getValue());
+                }
+            }
+        }
+
         SSLConnectionSocketFactory sf = new SSLConnectionSocketFactory(SSLContext.getDefault(), new NoopHostnameVerifier());
         this.httpClient = HttpClientBuilder.create().setSSLSocketFactory(sf).build();
     }
@@ -52,6 +66,10 @@ public class HttpPostLogger implements EventLogger {
             StringEntity input = new StringEntity(event);
             input.setContentType("application/json");
             request.setEntity(input);
+
+            for (Entry<String, String> header : headers.entrySet()) {
+                request.addHeader(header.getKey(), header.getValue());
+            }
 
 //            log.debug("executing request " + request);
             CloseableHttpResponse response = null;
