@@ -26,7 +26,6 @@ public class SimulationRunner {
     private SimulationConfig config;
     private List<EventGenerator> eventGenerators;
     private List<Thread> eventGenThreads;
-    private boolean running;
     private List<EventLogger> eventLoggers;
 
     public SimulationRunner(SimulationConfig config, List<EventLogger> loggers) {
@@ -39,7 +38,6 @@ public class SimulationRunner {
     }
 
     private void setupSimulation() {
-        running = false;
         for (WorkflowConfig workflowConfig : config.getWorkflows()) {
             try {
                 Workflow w = JSONConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(workflowConfig.getWorkflowFilename()), Workflow.class);
@@ -60,7 +58,6 @@ public class SimulationRunner {
             for (Thread t : eventGenThreads) {
                 t.start();
             }
-            running = true;
         }
     }
 
@@ -72,11 +69,16 @@ public class SimulationRunner {
         for (EventLogger l : eventLoggers) {
             l.shutdown();
         }
-        running = false;
     }
 
     public boolean isRunning() {
-        return running;
+        for (Thread t : eventGenThreads) {
+            if (t.isAlive()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
