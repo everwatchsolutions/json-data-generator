@@ -71,21 +71,19 @@ public class HttpPostLogger implements EventLogger {
                 request.addHeader(header.getKey(), header.getValue());
             }
 
-//            log.debug("executing request " + request);
             CloseableHttpResponse response = null;
             try {
                 response = httpClient.execute(request);
+                if (response.getStatusLine().getStatusCode() != 201) {
+                    log.warn("Non-201 response code: " + response.getStatusLine().getStatusCode());
+                    log.warn("Response: " + EntityUtils.toString(response.getEntity()));
+                }
             } catch (IOException ex) {
                 log.error("Error POSTing Event", ex);
             }
             if (response != null) {
                 try {
-//                    log.debug("----------------------------------------");
-//                    log.debug(response.getStatusLine().toString());
                     HttpEntity resEntity = response.getEntity();
-                    if (resEntity != null) {
-//                        log.debug("Response content length: " + resEntity.getContentLength());
-                    }
                     EntityUtils.consume(resEntity);
                 } catch (IOException ioe) {
                     //oh well
