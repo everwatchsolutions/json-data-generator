@@ -35,24 +35,24 @@ public class JsonGenerator {
         Map<String, Object> props = JSONConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(config), Map.class);
         Map<String, Object> wrapper = new LinkedHashMap<>();
         wrapper.put(null, props);
-        RandomJsonGenerator generator = new RandomJsonGenerator(wrapper, workflowConfig);
-        Map<String, Object> map = generator.generateJsonMap();
+        RandomJsonGenerator generator = new RandomJsonGenerator(workflowConfig);
+        Map<String, Object> map = generator.generateJsonMap(wrapper);
         return map;
     }
     public String testFlatJsonGenerator(String config) throws IOException {
         Map<String, Object> props = JSONConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(config), Map.class);
         Map<String, Object> wrapper = new LinkedHashMap<>();
         wrapper.put(null, props);
-        RandomJsonGenerator generator = new RandomJsonGenerator(wrapper, workflowConfig);
-        String json = generator.generateFlattnedJson();
+        RandomJsonGenerator generator = new RandomJsonGenerator(workflowConfig);
+        String json = generator.generateFlattnedJson(wrapper);
         return json;
     }
     public List<Map<String, Object>> testListGenerator(String config) throws IOException {
         List<Map<String, Object>> props = JSONConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(config), List.class);
         Map<String, Object> wrapper = new LinkedHashMap<>();
         wrapper.put(null, props);
-        RandomJsonGenerator generator = new RandomJsonGenerator(wrapper, workflowConfig);
-        List<Map<String, Object>> list = generator.generateJsonList();
+        RandomJsonGenerator generator = new RandomJsonGenerator(workflowConfig);
+        List<Map<String, Object>> list = generator.generateJsonList(wrapper);
         return list;
     }
 

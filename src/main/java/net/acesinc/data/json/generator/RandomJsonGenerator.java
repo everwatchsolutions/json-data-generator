@@ -37,20 +37,18 @@ public class RandomJsonGenerator {
     private static final Logger log = LogManager.getLogger(RandomJsonGenerator.class);
     private SimpleDateFormat iso8601DF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
-    private Map<String, Object> config;
     private static JsonGeneratorFactory factory = Json.createGeneratorFactory(null);
     private Map<String, Object> generatedValues;
     private JsonUtils jsonUtils;
     private WorkflowConfig workflowConfig;
 
-    public RandomJsonGenerator(Map<String, Object> config, WorkflowConfig workflowConfig) {
-        this.config = config;
+    public RandomJsonGenerator(WorkflowConfig workflowConfig) {
         this.workflowConfig = workflowConfig;
         jsonUtils = new JsonUtils();
         TypeHandlerFactory.getInstance().configure(workflowConfig);
     }
 
-    public String generateJson() {
+    public String generateJson(Map<String, Object> config) {
         StringWriter w = new StringWriter();
         javax.json.stream.JsonGenerator gen = factory.createGenerator(w);
         generatedValues = new LinkedHashMap<>();
@@ -61,19 +59,19 @@ public class RandomJsonGenerator {
         return w.toString();
     }
 
-    public String generateFlattnedJson() throws IOException {
-        String json = generateJson();
+    public String generateFlattnedJson(Map<String, Object> config) throws IOException {
+        String json = generateJson(config);
         return jsonUtils.flattenJson(json);
     }
 
-    public Map<String, Object> generateJsonMap() throws IOException {
-        String json = generateJson();
+    public Map<String, Object> generateJsonMap(Map<String, Object> config) throws IOException {
+        String json = generateJson(config);
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(json, Map.class);
     }
 
-    public List<Map<String, Object>> generateJsonList() throws IOException {
-        String json = generateJson();
+    public List<Map<String, Object>> generateJsonList(Map<String, Object> config) throws IOException {
+        String json = generateJson(config);
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(json, List.class);
     }
