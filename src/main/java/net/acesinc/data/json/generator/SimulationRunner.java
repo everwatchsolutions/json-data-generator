@@ -5,10 +5,16 @@
  */
 package net.acesinc.data.json.generator;
 
+import com.codahale.metrics.Counter;
+import com.codahale.metrics.Gauge;
+import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.Timer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import net.acesinc.data.json.generator.config.SimulationConfig;
 import net.acesinc.data.json.generator.config.WorkflowConfig;
@@ -64,7 +70,24 @@ public class SimulationRunner {
 
     public void stopSimulation() {
         log.info("Dumping " + metrics.getMetrics().size() + " metrics");
-        metrics.getMetrics().entrySet().forEach(log::info);
+        metrics.getMetrics().forEach((key, metric) -> {
+            log.info("metric key: " + key);
+            if (metric instanceof Timer) {
+                log.info("timer");
+                Timer timer = (Timer) metric;
+                log.info("count: " + timer.getCount());
+                log.info("mean rate: " + timer.getMeanRate());
+                log.info("one minute rate: " + timer.getOneMinuteRate());
+                log.info("five minute rate: " + timer.getFiveMinuteRate());
+                log.info("fifteen minute rate: " + timer.getFifteenMinuteRate());
+            } else if (metric instanceof Gauge) {
+                log.info("gauge");
+                log.info("value: " + ((Gauge<?>) metric).getValue());
+            } else if (metric instanceof Counter) {
+                log.info("counter");
+                log.info("value: " + ((Counter) metric).getCount());
+            }
+        });
 
         log.info("Stopping Simulation");
         for (Thread t : eventGenThreads) {
