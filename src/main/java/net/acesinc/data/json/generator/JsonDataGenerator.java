@@ -148,17 +148,6 @@ public class JsonDataGenerator {
 
         final JsonDataGenerator gen = new JsonDataGenerator(simConfig);
 
-        final Thread mainThread = Thread.currentThread();
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            log.info("Shutdown Hook Invoked.  Shutting Down Loggers");
-            gen.stopRunning();
-            try {
-                mainThread.join();
-            } catch (InterruptedException ex) {
-                //oh well
-            }
-        }));
-
         gen.startRunning();
         while (gen.isRunning()) {
             try {
@@ -168,6 +157,7 @@ public class JsonDataGenerator {
             }
         }
 
+        gen.stopRunning();
     }
 
     /**
