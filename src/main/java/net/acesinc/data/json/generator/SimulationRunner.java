@@ -71,22 +71,22 @@ public class SimulationRunner {
     public void stopSimulation() {
         log.info("Dumping " + metrics.getMetrics().size() + " metrics");
         metrics.getMetrics().forEach((key, metric) -> {
-            log.info("metric key: " + key);
             if (metric instanceof Timer) {
-                log.info("timer");
+                log.info("timer: " + key);
                 Timer timer = (Timer) metric;
                 log.info("count: " + timer.getCount());
-                log.info("mean rate: " + timer.getMeanRate());
-                log.info("one minute rate: " + timer.getOneMinuteRate());
-                log.info("five minute rate: " + timer.getFiveMinuteRate());
-                log.info("fifteen minute rate: " + timer.getFifteenMinuteRate());
+                log.info("\tmean rate: " + timer.getMeanRate());
+                log.info("\tone minute rate: " + timer.getOneMinuteRate());
+                log.info("\tfive minute rate: " + timer.getFiveMinuteRate());
+                log.info("\tfifteen minute rate: " + timer.getFifteenMinuteRate());
             } else if (metric instanceof Gauge) {
-                log.info("gauge");
-                log.info("value: " + ((Gauge<?>) metric).getValue());
+                log.info("gauge: " + key);
+                log.info("\tvalue: " + ((Gauge<?>) metric).getValue());
             } else if (metric instanceof Counter) {
-                log.info("counter");
-                log.info("value: " + ((Counter) metric).getCount());
+                log.info("counter: " + key);
+                log.info("\tvalue: " + ((Counter) metric).getCount());
             }
+            log.info("----------------------------------------");
         });
 
         log.info("Stopping Simulation");
