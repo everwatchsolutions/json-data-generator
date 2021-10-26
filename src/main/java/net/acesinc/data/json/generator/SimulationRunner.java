@@ -5,6 +5,7 @@
  */
 package net.acesinc.data.json.generator;
 
+import com.codahale.metrics.ConsoleReporter;
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Metric;
@@ -12,9 +13,12 @@ import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import net.acesinc.data.json.generator.config.SimulationConfig;
@@ -34,6 +38,10 @@ public class SimulationRunner {
     private static final Logger log = LogManager.getLogger(SimulationRunner.class);
 
     public static final MetricRegistry metrics = new MetricRegistry();
+    private static final ConsoleReporter reporter = ConsoleReporter.forRegistry(metrics)
+        .convertDurationsTo(TimeUnit.MILLISECONDS)
+        .convertRatesTo(TimeUnit.SECONDS)
+        .build();
 
     private SimulationConfig config;
     private List<EventGenerator> eventGenerators;
@@ -70,34 +78,8 @@ public class SimulationRunner {
     }
 
     public void stopSimulation() {
-        log.info("Dumping " + metrics.getMetrics().size() + " metrics");
-        metrics.getMetrics().forEach((key, metric) -> {
-            if (metric instanceof Timer) {
-                log.info("timer: " + key);
-                Timer timer = (Timer) metric;
-                log.info("count: " + timer.getCount());
-                log.info("\tmean rate: " + timer.getMeanRate());
-                log.info("\tone minute rate: " + timer.getOneMinuteRate());
-                log.info("\tfive minute rate: " + timer.getFiveMinuteRate());
-                log.info("\tfifteen minute rate: " + timer.getFifteenMinuteRate());
-
-                log.info("\tmax: " + timer.getSnapshot().getMax());
-                log.info("\t99.9th %: " + timer.getSnapshot().get999thPercentile());
-                log.info("\t99th %: " + timer.getSnapshot().get99thPercentile());
-                log.info("\t98th %: " + timer.getSnapshot().get98thPercentile());
-                log.info("\t95th %: " + timer.getSnapshot().get95thPercentile());
-                log.info("\t75th %: " + timer.getSnapshot().get75thPercentile());
-                log.info("\tmean: " + timer.getSnapshot().getMean());
-                log.info("\tmin: " + timer.getSnapshot().getMin());
-            } else if (metric instanceof Gauge) {
-                log.info("gauge: " + key);
-                log.info("\tvalue: " + ((Gauge<?>) metric).getValue());
-            } else if (metric instanceof Counter) {
-                log.info("counter: " + key);
-                log.info("\tvalue: " + ((Counter) metric).getCount());
-            }
-            log.info("----------------------------------------");
-        });
+        log.info("Reporting  metrics if there are any");
+        reporter.report();
 
         log.info("Stopping Simulation");
         for (Thread t : eventGenThreads) {
