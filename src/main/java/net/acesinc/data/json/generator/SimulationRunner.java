@@ -11,6 +11,7 @@ import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -79,6 +80,9 @@ public class SimulationRunner {
                 log.info("\tone minute rate: " + timer.getOneMinuteRate());
                 log.info("\tfive minute rate: " + timer.getFiveMinuteRate());
                 log.info("\tfifteen minute rate: " + timer.getFifteenMinuteRate());
+
+                log.info("\tsnapshot dump: ");
+                timer.getSnapshot().dump(System.err);
             } else if (metric instanceof Gauge) {
                 log.info("gauge: " + key);
                 log.info("\tvalue: " + ((Gauge<?>) metric).getValue());
