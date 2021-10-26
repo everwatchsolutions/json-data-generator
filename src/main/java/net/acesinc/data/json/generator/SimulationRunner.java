@@ -63,6 +63,9 @@ public class SimulationRunner {
     }
 
     public void stopSimulation() {
+        log.info("Dumping " + metrics.getMetrics().size() + " metrics");
+        metrics.getMetrics().entrySet().forEach(log::info);
+
         log.info("Stopping Simulation");
         for (Thread t : eventGenThreads) {
             t.interrupt();

@@ -150,12 +150,7 @@ public class JsonDataGenerator {
 
         final Thread mainThread = Thread.currentThread();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            log.info("Shutdown Hook Invoked");
-
-            log.info("Dumping metrics");
-            SimulationRunner.metrics.getMetrics().entrySet().forEach(log::info);
-
-            log.info("Shutting down loggers");
+            log.info("Shutdown Hook Invoked.  Shutting Down Loggers");
             gen.stopRunning();
             try {
                 mainThread.join();
