@@ -54,11 +54,7 @@ public class SimulationRunner {
     public void startSimulation() {
         log.info("Starting Simulation");
 
-        if (eventGenThreads.size() > 0) {
-            for (Thread t : eventGenThreads) {
-                t.start();
-            }
-        }
+        eventGenThreads.parallelStream().forEach(Thread::start);
     }
 
     public void stopSimulation() {
