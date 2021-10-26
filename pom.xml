@@ -95,6 +95,7 @@
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
             <version>0.11.0.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.metamx</groupId>
@@ -106,11 +107,13 @@
                     <artifactId>sigar</artifactId>
                 </exclusion>
             </exclusions>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.cloudfoundry-community</groupId>
             <artifactId>nats-client</artifactId>
             <version>0.6.4</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -132,6 +135,7 @@
             <groupId>com.microsoft.azure.sdk.iot</groupId>
             <artifactId>iot-device-client</artifactId>
             <version>1.3.30</version>
+            <scope>provided</scope>
         </dependency>
         
         <!-- AWS -->
@@ -139,11 +143,13 @@
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-kinesis</artifactId>
             <version>1.11.447</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-sts</artifactId>
             <version>1.11.447</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -155,6 +161,7 @@
             <groupId>org.apache.pulsar</groupId>
             <artifactId>pulsar-client</artifactId>
             <version>1.22.0-incubating</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
