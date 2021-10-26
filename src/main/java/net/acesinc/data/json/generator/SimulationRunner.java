@@ -7,6 +7,8 @@ package net.acesinc.data.json.generator;
 
 import com.codahale.metrics.ConsoleReporter;
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.Timer;
+import com.codahale.metrics.Timer.Context;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +35,14 @@ public class SimulationRunner {
         .convertRatesTo(TimeUnit.SECONDS)
         .build();
 
+
     private SimulationConfig config;
     private List<EventGenerator> eventGenerators;
     private List<Thread> eventGenThreads;
     private List<EventLogger> eventLoggers;
+    private final Timer simDurationTimer = metrics.timer(MetricRegistry.name(SimulationRunner.class, "duration", "ms"));
+
+    private Context durationContext;
 
     public SimulationRunner(SimulationConfig config, List<EventLogger> loggers) {
         this.config = config;
@@ -63,11 +69,16 @@ public class SimulationRunner {
 
     public void startSimulation() {
         log.info("Starting Simulation");
+        durationContext = this.simDurationTimer.time();
 
         eventGenThreads.parallelStream().forEach(Thread::start);
     }
 
     public void stopSimulation() {
+        if (durationContext != null) {
+            durationContext.stop();
+        }
+
         log.info("Reporting  metrics if there are any");
         reporter.report();
 
