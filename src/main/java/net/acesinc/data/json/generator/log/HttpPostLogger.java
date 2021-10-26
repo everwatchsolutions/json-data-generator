@@ -5,14 +5,16 @@
  */
 package net.acesinc.data.json.generator.log;
 
+import com.codahale.metrics.MetricRegistry;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.net.ssl.SSLContext;
+import net.acesinc.data.json.generator.SimulationRunner;
 import org.apache.http.HttpEntity;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
@@ -20,7 +22,6 @@ import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -73,11 +74,15 @@ public class HttpPostLogger implements EventLogger {
 
             CloseableHttpResponse response = null;
             try {
+                final long start =System.currentTimeMillis();
                 response = httpClient.execute(request);
-                if (response.getStatusLine().getStatusCode() != 200) {
-                    log.warn("Non-201 response code: " + response.getStatusLine().getStatusCode());
-                    log.warn("Response: " + EntityUtils.toString(response.getEntity()));
-                }
+
+                SimulationRunner.metrics.timer(
+                    MetricRegistry.name(HttpPostLogger.class, "request", "duration", "ms"))
+                    .update(Duration.ofMillis(System.currentTimeMillis() - start));
+                SimulationRunner.metrics.counter(
+                    MetricRegistry.name(HttpPostLogger.class, "response", String.valueOf(response.getStatusLine().getStatusCode())))
+                    .inc();
             } catch (IOException ex) {
                 log.error("Error POSTing Event", ex);
             }

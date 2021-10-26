@@ -5,6 +5,7 @@
  */
 package net.acesinc.data.json.generator;
 
+import com.codahale.metrics.MetricRegistry;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,9 @@ import org.apache.logging.log4j.Logger;
 public class SimulationRunner {
 
     private static final Logger log = LogManager.getLogger(SimulationRunner.class);
+
+    public static final MetricRegistry metrics = new MetricRegistry();
+
     private SimulationConfig config;
     private List<EventGenerator> eventGenerators;
     private List<Thread> eventGenThreads;

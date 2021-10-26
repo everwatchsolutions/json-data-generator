@@ -156,6 +156,12 @@
             <artifactId>pulsar-client</artifactId>
             <version>1.22.0-incubating</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+            <version>4.1.2</version>
+        </dependency>
     </dependencies>
     <repositories>
         <!-- These are set in the settings.xml to our nexus repo -->

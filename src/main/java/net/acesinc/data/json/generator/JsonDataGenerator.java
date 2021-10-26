@@ -5,12 +5,15 @@
  */
 package net.acesinc.data.json.generator;
 
+import com.codahale.metrics.Metric;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Consumer;
 import net.acesinc.data.json.generator.config.SimulationConfig;
 import net.acesinc.data.json.generator.config.JSONConfigReader;
 import net.acesinc.data.json.generator.log.*;
@@ -146,17 +149,20 @@ public class JsonDataGenerator {
         final JsonDataGenerator gen = new JsonDataGenerator(simConfig);
 
         final Thread mainThread = Thread.currentThread();
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
-                log.info("Shutdown Hook Invoked.  Shutting Down Loggers");
-                gen.stopRunning();
-                try {
-                    mainThread.join();
-                } catch (InterruptedException ex) {
-                    //oh well
-                }
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            log.info("Shutdown Hook Invoked");
+
+            log.info("Dumping metrics");
+            SimulationRunner.metrics.getMetrics().entrySet().forEach(log::info);
+
+            log.info("Shutting down loggers");
+            gen.stopRunning();
+            try {
+                mainThread.join();
+            } catch (InterruptedException ex) {
+                //oh well
             }
-        });
+        }));
 
         gen.startRunning();
         while (gen.isRunning()) {
