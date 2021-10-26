@@ -6,6 +6,7 @@
 package net.acesinc.data.json.generator;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,8 @@ import net.acesinc.data.json.generator.config.JSONConfigReader;
 import net.acesinc.data.json.generator.log.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.pulsar.client.api.PulsarClientException;
+import org.eclipse.paho.client.mqttv3.MqttException;
 
 /**
  *
@@ -36,12 +39,73 @@ public class JsonDataGenerator {
             for (Map<String, Object> elProps : simConfig.getProducers()) {
                 String elType = (String) elProps.get("type");
                 switch (elType) {
+                    case "logger": {
+                        log.info("Adding Log4JLogger Producer");
+                        loggers.add(new Log4JLogger());
+                        break;
+                    }
+                    case "file": {
+                        log.info("Adding File Logger with properties: " + elProps);
+                        loggers.add(new FileLogger(elProps));
+                        break;
+                    }
+                    case "kafka": {
+                        log.info("Adding Kafka Producer with properties: " + elProps);
+                        loggers.add(new KafkaLogger(elProps));
+                        break;
+                    }
+                    case "tranquility": {
+                        log.info("Adding Tranqulity Logger with properties: " + elProps);
+                        loggers.add(new TranquilityLogger(elProps));
+                        break;
+                    }
+                    case "nats": {
+                        log.info("Adding NATS Logger with properties: " + elProps);
+                        loggers.add(new NatsLogger(elProps));
+                        break;
+                    }
                     case "http-post": {
                         log.info("Adding HTTP Post Logger with properties: " + elProps);
                         try {
                             loggers.add(new HttpPostLogger(elProps));
                         } catch (NoSuchAlgorithmException ex) {
                             log.error("http-post Logger unable to initialize", ex);
+                        }
+                        break;
+                    }
+                    case "mqtt": {
+                        log.info("Adding MQTT Logger with properties: " + elProps);
+                        try {
+                            loggers.add(new MqttLogger(elProps));
+                        } catch (MqttException ex) {
+                            log.error("mqtt Logger unable to initialize", ex);
+                        }
+                        break;
+                    }
+                    case "iothub": {
+                        log.info("Adding Azure IoT Hub Logger with properties: " + elProps);
+                        try {
+                            loggers.add(new AzureIoTHubLogger(elProps));
+                        } catch (URISyntaxException ex) {
+                            log.error("Azure IoT Hub Logger unable to initialize", ex);
+                        }
+                        break;
+                    }
+                    case "kinesis": {
+                        log.info("Adding Kinesis Logger with properties: " + elProps);
+                        try {
+                            loggers.add(new KinesisLogger(elProps));
+                        } catch (Exception ex) {
+                            log.error("Kinesis Logger unable to initialize", ex);
+                        }
+                        break;
+                    }
+                    case "pulsar": {
+                        log.info("Adding Pulsar Logger with properties: " + elProps);
+                        try {
+                           loggers.add(new PulsarLogger(elProps));
+                        } catch (final PulsarClientException ex) {
+                           log.error("Pulsar Logger unable to initialize", ex);
                         }
                         break;
                     }
