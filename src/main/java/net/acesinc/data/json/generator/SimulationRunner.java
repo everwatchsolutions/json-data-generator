@@ -81,8 +81,14 @@ public class SimulationRunner {
                 log.info("\tfive minute rate: " + timer.getFiveMinuteRate());
                 log.info("\tfifteen minute rate: " + timer.getFifteenMinuteRate());
 
-                log.info("\tsnapshot dump: ");
-                timer.getSnapshot().dump(System.err);
+                log.info("\tmax: " + timer.getSnapshot().getMax());
+                log.info("\t99.9th %: " + timer.getSnapshot().get999thPercentile());
+                log.info("\t99th %: " + timer.getSnapshot().get99thPercentile());
+                log.info("\t98th %: " + timer.getSnapshot().get98thPercentile());
+                log.info("\t95th %: " + timer.getSnapshot().get95thPercentile());
+                log.info("\t75th %: " + timer.getSnapshot().get75thPercentile());
+                log.info("\tmean: " + timer.getSnapshot().getMean());
+                log.info("\tmin: " + timer.getSnapshot().getMin());
             } else if (metric instanceof Gauge) {
                 log.info("gauge: " + key);
                 log.info("\tvalue: " + ((Gauge<?>) metric).getValue());
