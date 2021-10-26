@@ -5,7 +5,10 @@
  */
 package net.acesinc.data.json.generator.log;
 
+import com.codahale.metrics.Counter;
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.Timer;
+import com.codahale.metrics.Timer.Context;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
@@ -40,6 +43,11 @@ public class HttpPostLogger implements EventLogger {
     private String url;
     private CloseableHttpClient httpClient;
 
+    private final Timer requestTimer;
+    private final Counter successCounter;
+    private final Counter badRequestCounter;
+    private final Counter serverErrorCounter;
+
     public HttpPostLogger(Map<String, Object> props) throws NoSuchAlgorithmException {
         this.url = (String) props.get(URL_PROP_NAME);
 
@@ -54,6 +62,15 @@ public class HttpPostLogger implements EventLogger {
 
         SSLConnectionSocketFactory sf = new SSLConnectionSocketFactory(SSLContext.getDefault(), new NoopHostnameVerifier());
         this.httpClient = HttpClientBuilder.create().setSSLSocketFactory(sf).build();
+
+        this.requestTimer = SimulationRunner.metrics.timer(
+            MetricRegistry.name(HttpPostLogger.class, "request", "duration", "ms"));
+        this.successCounter = SimulationRunner.metrics.counter(
+                MetricRegistry.name(HttpPostLogger.class, "response", "status", "200"));
+        this.badRequestCounter = SimulationRunner.metrics.counter(
+            MetricRegistry.name(HttpPostLogger.class, "response", "status", "4XX"));
+        this.serverErrorCounter = SimulationRunner.metrics.counter(
+            MetricRegistry.name(HttpPostLogger.class, "response", "status", "5XX"));
     }
 
     @Override
@@ -74,15 +91,21 @@ public class HttpPostLogger implements EventLogger {
 
             CloseableHttpResponse response = null;
             try {
-                final long start =System.currentTimeMillis();
+                final Context time = this.requestTimer.time();
                 response = httpClient.execute(request);
+                time.stop();
 
-                SimulationRunner.metrics.timer(
-                    MetricRegistry.name(HttpPostLogger.class, "request", "duration", "ms"))
-                    .update(Duration.ofMillis(System.currentTimeMillis() - start));
-                SimulationRunner.metrics.counter(
-                    MetricRegistry.name(HttpPostLogger.class, "response", String.valueOf(response.getStatusLine().getStatusCode())))
-                    .inc();
+                final String statusCode = String.valueOf(response.getStatusLine().getStatusCode());
+                if (statusCode.startsWith("2")) {
+                    this.successCounter.inc();
+                } else if (statusCode.startsWith("4")) {
+                    this.badRequestCounter.inc();
+                } else if (statusCode.startsWith("5")) {
+                    this.serverErrorCounter.inc();
+                } else {
+                    log.warn("Unknown status code: " + statusCode);
+                }
+
             } catch (IOException ex) {
                 log.error("Error POSTing Event", ex);
             }
