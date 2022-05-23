@@ -22,10 +22,15 @@ public class FileLogger implements EventLogger {
     public static final String OUTPUT_DIRECTORY_PROP_NAME = "output.directory";
     public static final String FILE_PREFIX_PROP_NAME = "file.prefix";
     public static final String FILE_EXTENSION_PROP_NAME = "file.extension";
+    public static final String NUM_OF_LINES = "file.lines";
+
 
     private File outputDirectory;
     private String filePrefix;
     private String fileExtension;
+    private int numOfLines = 1;
+    private int counterOfLines = 1;
+    File f;
 
     public FileLogger(Map<String, Object> props) throws IOException {
         String outputDir = (String) props.get(OUTPUT_DIRECTORY_PROP_NAME);
@@ -39,6 +44,10 @@ public class FileLogger implements EventLogger {
         }
         filePrefix = (String) props.get(FILE_PREFIX_PROP_NAME);
         fileExtension = (String) props.get(FILE_EXTENSION_PROP_NAME);
+        numOfLines = Integer.valueOf((String) props.get(NUM_OF_LINES));
+        f = File.createTempFile(filePrefix, fileExtension, outputDirectory);
+        log.info("Running with: Number of lines: "+numOfLines);
+
     }
 
     @Override
@@ -48,8 +57,13 @@ public class FileLogger implements EventLogger {
     
     private void logEvent(String event) {
         try {
-            File f = File.createTempFile(filePrefix, fileExtension, outputDirectory);
-            FileUtils.writeStringToFile(f, event, "UTF-8");
+            if (counterOfLines > numOfLines){
+                f = File.createTempFile(filePrefix, fileExtension, outputDirectory);
+                counterOfLines=1;
+            }else{
+                FileUtils.writeStringToFile(f, event+System.lineSeparator(), "UTF-8", true);
+                counterOfLines++;
+            }
         } catch (IOException ioe) {
             log.error("Unable to create temp file");
         }
