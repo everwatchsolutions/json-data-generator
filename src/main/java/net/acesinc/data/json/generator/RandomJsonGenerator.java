@@ -22,8 +22,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.HashMap;
 
 import net.acesinc.data.json.generator.config.WorkflowConfig;
+import net.acesinc.data.json.generator.source.DataSource;
 import net.acesinc.data.json.generator.types.TypeHandler;
 import net.acesinc.data.json.generator.types.TypeHandlerFactory;
 import net.acesinc.data.json.util.JsonUtils;
@@ -42,10 +44,12 @@ public class RandomJsonGenerator {
     private Map<String, Object> generatedValues;
     private JsonUtils jsonUtils;
     private WorkflowConfig workflowConfig;
+    private DataSource dataSource;
 
-    public RandomJsonGenerator(Map<String, Object> config, WorkflowConfig workflowConfig) {
+    public RandomJsonGenerator(Map<String, Object> config, WorkflowConfig workflowConfig, DataSource source) {
         this.config = config;
         this.workflowConfig = workflowConfig;
+        this.dataSource = source;
         jsonUtils = new JsonUtils();
         TypeHandlerFactory.getInstance().configure(workflowConfig);
     }
@@ -79,6 +83,15 @@ public class RandomJsonGenerator {
     }
 
     private javax.json.stream.JsonGenerator processProperties(javax.json.stream.JsonGenerator gen, Map<String, Object> props, String currentContext) {
+        //If we have a DataSource, we are going to pull an item from that source
+        //so it can be referenced when generating the event
+        Map<String, Object> dataItemFromSource = null;
+        if (dataSource != null) {
+            dataItemFromSource = dataSource.getRandomDataItem();
+        } else {
+            dataItemFromSource = new HashMap<>();
+        }
+
         for (String propName : props.keySet()) {
             Object value = props.get(propName);
             if (value == null) {
@@ -87,7 +100,7 @@ public class RandomJsonGenerator {
             } else if (String.class.isAssignableFrom(value.getClass())) {
                 String type = (String) value;
 
-                handleStringGeneration(type, currentContext, gen, propName);
+                handleStringGeneration(type, currentContext, gen, propName, dataItemFromSource);
             } else if (Map.class.isAssignableFrom(value.getClass())) {
                 //nested object
                 Map<String, Object> nestedProps = (Map<String, Object>) value;
@@ -148,7 +161,7 @@ public class RandomJsonGenerator {
                                 }
                                 List<Object> subList = listOfItems.subList(1, listOfItems.size());
                                 for (int i = 0; i < timesToRepeat; i++) {
-                                    processList(subList, gen, newContext);
+                                    processList(subList, gen, newContext, dataItemFromSource);
                                 }
                                 wasSpecialCase = true;
                                 break;
@@ -156,7 +169,7 @@ public class RandomJsonGenerator {
                             case "random": { //choose one of the items in the list at random
                                 List<Object> subList = listOfItems.subList(1, listOfItems.size());
                                 Object item = subList.get(new RandomDataGenerator().nextInt(0, subList.size() - 1));
-                                processItem(item, gen, newContext + "[0]");
+                                processItem(item, gen, newContext + "[0]", dataItemFromSource);
                                 wasSpecialCase = true;
                                 break;
                             }
@@ -164,7 +177,7 @@ public class RandomJsonGenerator {
                     }
 
                     if (!wasSpecialCase) { //it's not a special function, so process it like normal
-                        processList(listOfItems, gen, newContext);
+                        processList(listOfItems, gen, newContext, dataItemFromSource);
                     }
                 }
                 gen.writeEnd();
@@ -178,8 +191,15 @@ public class RandomJsonGenerator {
         return gen;
     }
 
-    protected void handleStringGeneration(String type, String currentContext, JsonGenerator gen, String propName) {
-        if (type.startsWith("this.") || type.startsWith("cur.")) {
+    protected void handleStringGeneration(String type, String currentContext, JsonGenerator gen, String propName, Map<String, Object> dataItemFromSource) {
+        if (type.startsWith("source.")) {
+            String sourcePropName = type.substring("source.".length(), type.length());
+            if (dataItemFromSource != null && dataItemFromSource.containsKey(sourcePropName)) {
+                addValue(gen, propName, dataItemFromSource.get(sourcePropName));
+            } else {
+                log.warn("Property [ " + sourcePropName + " ] does not exist in Source Data Item");
+            }
+        } else if (type.startsWith("this.") || type.startsWith("cur.")) {
             String refPropName = null;
             if (type.startsWith("this.")) {
                 refPropName = type.substring("this.".length(), type.length());
@@ -214,18 +234,18 @@ public class RandomJsonGenerator {
         }
     }
 
-    protected void processList(List<Object> listOfItems, JsonGenerator gen, String currentContext) {
+    protected void processList(List<Object> listOfItems, JsonGenerator gen, String currentContext, Map<String, Object> dataItemFromSource) {
         for (int i = 0; i < listOfItems.size(); i++) {
             Object item = listOfItems.get(i);
             String newContext = currentContext + "[" + i + "]";
-            processItem(item, gen, newContext);
+            processItem(item, gen, newContext, dataItemFromSource);
         }
     }
 
-    protected void processItem(Object item, JsonGenerator gen, String currentContext) {
+    protected void processItem(Object item, JsonGenerator gen, String currentContext, Map<String, Object> dataItemFromSource) {
         if (String.class.isAssignableFrom(item.getClass())) {
             //process it like normal
-            handleStringGeneration((String) item, currentContext, gen, null);
+            handleStringGeneration((String) item, currentContext, gen, null, dataItemFromSource);
         } else if (Map.class.isAssignableFrom(item.getClass())) {
             Map<String, Object> nestedProps = (Map<String, Object>) item;
             gen.writeStartObject();

@@ -12,6 +12,7 @@ import net.acesinc.data.json.generator.config.SimulationConfig;
 import net.acesinc.data.json.generator.config.WorkflowConfig;
 import net.acesinc.data.json.generator.config.JSONConfigReader;
 import net.acesinc.data.json.generator.log.EventLogger;
+import net.acesinc.data.json.generator.source.DataSource;
 import net.acesinc.data.json.generator.workflow.Workflow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,10 +29,12 @@ public class SimulationRunner {
     private List<Thread> eventGenThreads;
     private boolean running;
     private List<EventLogger> eventLoggers;
+    private DataSource dataSource;
 
-    public SimulationRunner(SimulationConfig config, List<EventLogger> loggers) {
+    public SimulationRunner(SimulationConfig config, List<EventLogger> loggers, DataSource source) {
         this.config = config;
         this.eventLoggers = loggers;
+        this.dataSource = source;
         eventGenerators = new ArrayList<EventGenerator>();
         eventGenThreads = new ArrayList<Thread>();
 
@@ -43,7 +46,7 @@ public class SimulationRunner {
         for (WorkflowConfig workflowConfig : config.getWorkflows()) {
             try {
                 Workflow w = JSONConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(workflowConfig.getWorkflowFilename()), Workflow.class);
-                final EventGenerator gen = new EventGenerator(w, workflowConfig, eventLoggers);
+                final EventGenerator gen = new EventGenerator(w, workflowConfig, eventLoggers, dataSource);
                 log.info("Adding EventGenerator for [ " + workflowConfig.getWorkflowName()+ "," + workflowConfig.getWorkflowFilename()+ " ]");
                 eventGenerators.add(gen);
                 eventGenThreads.add(new Thread(gen));

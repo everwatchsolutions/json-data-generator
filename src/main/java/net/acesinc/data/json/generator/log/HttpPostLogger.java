@@ -61,6 +61,14 @@ public class HttpPostLogger implements EventLogger {
                 log.error("Error POSTing Event", ex);
             }
             if (response != null) {
+                int statusCode = response.getStatusLine().getStatusCode();
+                String statusReason = response.getStatusLine().getReasonPhrase();
+                
+                if (statusCode == 200) {
+                    
+                } else {
+                    log.warn("Response was not OK: " + statusCode + " : " + statusReason);
+                }
                 try {
 //                    log.debug("----------------------------------------");
 //                    log.debug(response.getStatusLine().toString());
@@ -79,7 +87,7 @@ public class HttpPostLogger implements EventLogger {
                 }
             }
         } catch (Exception e) {
-
+            log.error("Error posting event", e);
         }
     }
 

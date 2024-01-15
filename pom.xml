@@ -32,7 +32,7 @@
 
     <properties>
         <org.slf4j-version>1.7.1</org.slf4j-version>
-        <java.version>1.7</java.version>
+        <java.version>1.8</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -156,6 +156,19 @@
             <artifactId>pulsar-client</artifactId>
             <version>1.22.0-incubating</version>
         </dependency>
+        
+        <dependency>
+            <groupId>io.deephaven</groupId>
+            <artifactId>deephaven-csv</artifactId>
+            <version>0.13.0</version>
+        </dependency>
+        <!-- Optional dependency for faster double parsing -->
+<!--<dependency>-->
+<!--    <groupId>io.deephaven</groupId>-->
+<!--    <artifactId>deephaven-csv-fast-double-parser</artifactId>-->
+<!--    <version>0.13.0</version>-->
+<!--    <scope>runtime</scope>-->
+<!--</dependency>-->
     </dependencies>
     <repositories>
         <!-- These are set in the settings.xml to our nexus repo -->

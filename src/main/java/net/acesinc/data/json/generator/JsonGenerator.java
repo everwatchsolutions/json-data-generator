@@ -35,7 +35,7 @@ public class JsonGenerator {
         Map<String, Object> props = JSONConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(config), Map.class);
         Map<String, Object> wrapper = new LinkedHashMap<>();
         wrapper.put(null, props);
-        RandomJsonGenerator generator = new RandomJsonGenerator(wrapper, workflowConfig);
+        RandomJsonGenerator generator = new RandomJsonGenerator(wrapper, workflowConfig, null);
         Map<String, Object> map = generator.generateJsonMap();
         return map;
     }
@@ -43,7 +43,7 @@ public class JsonGenerator {
         Map<String, Object> props = JSONConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(config), Map.class);
         Map<String, Object> wrapper = new LinkedHashMap<>();
         wrapper.put(null, props);
-        RandomJsonGenerator generator = new RandomJsonGenerator(wrapper, workflowConfig);
+        RandomJsonGenerator generator = new RandomJsonGenerator(wrapper, workflowConfig, null);
         String json = generator.generateFlattnedJson();
         return json;
     }
@@ -51,7 +51,7 @@ public class JsonGenerator {
         List<Map<String, Object>> props = JSONConfigReader.readConfig(this.getClass().getClassLoader().getResourceAsStream(config), List.class);
         Map<String, Object> wrapper = new LinkedHashMap<>();
         wrapper.put(null, props);
-        RandomJsonGenerator generator = new RandomJsonGenerator(wrapper, workflowConfig);
+        RandomJsonGenerator generator = new RandomJsonGenerator(wrapper, workflowConfig, null);
         List<Map<String, Object>> list = generator.generateJsonList();
         return list;
     }

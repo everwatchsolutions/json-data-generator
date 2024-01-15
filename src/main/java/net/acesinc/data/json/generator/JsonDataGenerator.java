@@ -14,6 +14,8 @@ import java.util.Map;
 import net.acesinc.data.json.generator.config.SimulationConfig;
 import net.acesinc.data.json.generator.config.JSONConfigReader;
 import net.acesinc.data.json.generator.log.*;
+import net.acesinc.data.json.generator.source.CsvDataSource;
+import net.acesinc.data.json.generator.source.DataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.pulsar.client.api.PulsarClientException;
@@ -35,89 +37,124 @@ public class JsonDataGenerator {
         try {
             log.debug("Creating Simulation Runner using Simulation Config [ " + simConfigString + " ]");
             SimulationConfig simConfig = getSimConfig();
-            List<EventLogger> loggers = new ArrayList<>();
-            for (Map<String, Object> elProps : simConfig.getProducers()) {
-                String elType = (String) elProps.get("type");
-                switch (elType) {
-                    case "logger": {
-                        log.info("Adding Log4JLogger Producer");
-                        loggers.add(new Log4JLogger());
-                        break;
-                    }
-                    case "file": {
-                        log.info("Adding File Logger with properties: " + elProps);
-                        loggers.add(new FileLogger(elProps));
-                        break;
-                    }
-                    case "kafka": {
-                        log.info("Adding Kafka Producer with properties: " + elProps);
-                        loggers.add(new KafkaLogger(elProps));
-                        break;
-                    }
-                    case "tranquility": {
-                        log.info("Adding Tranqulity Logger with properties: " + elProps);
-                        loggers.add(new TranquilityLogger(elProps));
-                        break;
-                    }
-                    case "nats": {
-                        log.info("Adding NATS Logger with properties: " + elProps);
-                        loggers.add(new NatsLogger(elProps));
-                        break;
-                    }
-                    case "http-post": {
-                        log.info("Adding HTTP Post Logger with properties: " + elProps);
-                        try {
-                            loggers.add(new HttpPostLogger(elProps));
-                        } catch (NoSuchAlgorithmException ex) {
-                            log.error("http-post Logger unable to initialize", ex);
-                        }
-                        break;
-                    }
-                    case "mqtt": {
-                        log.info("Adding MQTT Logger with properties: " + elProps);
-                        try {
-                            loggers.add(new MqttLogger(elProps));
-                        } catch (MqttException ex) {
-                            log.error("mqtt Logger unable to initialize", ex);
-                        }
-                        break;
-                    }
-                    case "iothub": {
-                        log.info("Adding Azure IoT Hub Logger with properties: " + elProps);
-                        try {
-                            loggers.add(new AzureIoTHubLogger(elProps));
-                        } catch (URISyntaxException ex) {
-                            log.error("Azure IoT Hub Logger unable to initialize", ex);
-                        }
-                        break;
-                    }
-                    case "kinesis": {
-                        log.info("Adding Kinesis Logger with properties: " + elProps);
-                        try {
-                            loggers.add(new KinesisLogger(elProps));
-                        } catch (Exception ex) {
-                            log.error("Kinesis Logger unable to initialize", ex);
-                        }
-                        break;
-                    }
-                    case "pulsar": {
-                        log.info("Adding Pulsar Logger with properties: " + elProps);
-                        try {
-                           loggers.add(new PulsarLogger(elProps));
-                        } catch (final PulsarClientException ex) {
-                           log.error("Pulsar Logger unable to initialize", ex);
-                        }
-                        break;
-                    }
-                }
-            }
+            List<EventLogger> loggers = loadLoggers(simConfig.getProducers());
+            DataSource source = loadSource(simConfig.getSource());
+            
             if (loggers.isEmpty()) {
                 throw new IllegalArgumentException("You must configure at least one Producer in the Simulation Config");
             }
-            simRunner = new SimulationRunner(simConfig, loggers);
-        } catch (IOException ex) {
+            
+            
+            simRunner = new SimulationRunner(simConfig, loggers, source);
+        } catch (Exception ex) {
             log.error("Error getting Simulation Config [ " + simConfigString + " ]", ex);
         }
+    }
+
+    /**
+     * Loads all the loggers provided in the producer config
+     * @param producerConfig The config that contains all the Loggers that you want to load
+     * @return A list of all the EventLoggers that were configured from the config
+     * @throws IOException If there was an error setting up one of the loggers
+     */
+    private List<EventLogger> loadLoggers(List<Map<String, Object>> producerConfig) throws IOException {
+        List<EventLogger> loggers = new ArrayList<>();
+        
+        for (Map<String, Object> elProps : producerConfig) {
+            String elType = (String) elProps.get("type");
+            switch (elType) {
+                case "logger": {
+                    log.info("Adding Log4JLogger Producer");
+                    loggers.add(new Log4JLogger());
+                    break;
+                }
+                case "file": {
+                    log.info("Adding File Logger with properties: " + elProps);
+                    loggers.add(new FileLogger(elProps));
+                    break;
+                }
+                case "kafka": {
+                    log.info("Adding Kafka Producer with properties: " + elProps);
+                    loggers.add(new KafkaLogger(elProps));
+                    break;
+                }
+                case "tranquility": {
+                    log.info("Adding Tranqulity Logger with properties: " + elProps);
+                    loggers.add(new TranquilityLogger(elProps));
+                    break;
+                }
+                case "nats": {
+                    log.info("Adding NATS Logger with properties: " + elProps);
+                    loggers.add(new NatsLogger(elProps));
+                    break;
+                }
+                case "http-post": {
+                    log.info("Adding HTTP Post Logger with properties: " + elProps);
+                    try {
+                        loggers.add(new HttpPostLogger(elProps));
+                    } catch (NoSuchAlgorithmException ex) {
+                        log.error("http-post Logger unable to initialize", ex);
+                    }
+                    break;
+                }
+                case "mqtt": {
+                    log.info("Adding MQTT Logger with properties: " + elProps);
+                    try {
+                        loggers.add(new MqttLogger(elProps));
+                    } catch (MqttException ex) {
+                        log.error("mqtt Logger unable to initialize", ex);
+                    }
+                    break;
+                }
+                case "iothub": {
+                    log.info("Adding Azure IoT Hub Logger with properties: " + elProps);
+                    try {
+                        loggers.add(new AzureIoTHubLogger(elProps));
+                    } catch (URISyntaxException ex) {
+                        log.error("Azure IoT Hub Logger unable to initialize", ex);
+                    }
+                    break;
+                }
+                case "kinesis": {
+                    log.info("Adding Kinesis Logger with properties: " + elProps);
+                    try {
+                        loggers.add(new KinesisLogger(elProps));
+                    } catch (Exception ex) {
+                        log.error("Kinesis Logger unable to initialize", ex);
+                    }
+                    break;
+                }
+                case "pulsar": {
+                    log.info("Adding Pulsar Logger with properties: " + elProps);
+                    try {
+                        loggers.add(new PulsarLogger(elProps));
+                    } catch (final PulsarClientException ex) {
+                        log.error("Pulsar Logger unable to initialize", ex);
+                    }
+                    break;
+                }
+            }
+        }
+        return loggers;
+    }
+    
+    private DataSource loadSource(Map<String, Object> sourceConfig) throws Exception {
+        DataSource source = null;
+        
+        String type = (String) sourceConfig.get("type");
+        switch (type) {
+            case "csv": {
+                log.info("Adding CSV Data Source with properties: " + sourceConfig);
+                source = new CsvDataSource(sourceConfig);
+                break;
+            }
+            default: {
+                log.warn("Unknown Source type [ " + type + " ] is not supported");
+                break;
+            }
+        }
+        
+        return source;
     }
 
     public void startRunning() {

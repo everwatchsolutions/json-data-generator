@@ -1,0 +1,19 @@
+{
+    "eventFrequency": 500,
+    "varyEventFrequency": true,
+    "repeatWorkflow": true,
+    "timeBetweenRepeat": 500,
+    "varyRepeatFrequency": true,
+    "steps": [{
+            "config": [{
+                    "timestamp": "nowTimestamp()",
+                    "system": "source.name",
+                    "country": "source.iso_country",
+                    "latitude": "source.latitude_deg",
+                    "longitude": "source.longitude_deg",
+                    "state": "random(\"ACTIVE\",\"INACTIVE\")"                    
+                }],
+            "duration": 0
+        }]
+}
+

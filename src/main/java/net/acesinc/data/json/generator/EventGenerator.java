@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 
 import net.acesinc.data.json.generator.config.WorkflowConfig;
 import net.acesinc.data.json.generator.log.EventLogger;
+import net.acesinc.data.json.generator.source.DataSource;
 import net.acesinc.data.json.generator.workflow.Workflow;
 import net.acesinc.data.json.generator.workflow.WorkflowStep;
 
@@ -35,15 +36,17 @@ public class EventGenerator implements Runnable {
     private String generatorName;
     private boolean running;
     private List<EventLogger> eventLoggers;
+    private DataSource dataSource;
     private long startTime;
     private long generatedEvents = 0;
     private WorkflowConfig workflowConfig;
 
-    public EventGenerator(Workflow workflow, WorkflowConfig workflowConfig, List<EventLogger> loggers) {
+    public EventGenerator(Workflow workflow, WorkflowConfig workflowConfig, List<EventLogger> loggers, DataSource source) {
         this.workflow = workflow;
         this.workflowConfig = workflowConfig;
         this.generatorName = workflowConfig.getWorkflowName();
         this.eventLoggers = loggers;
+        this.dataSource = source;
     }
 
     public void runWorkflow() {
@@ -258,7 +261,7 @@ public class EventGenerator implements Runnable {
     }
 
     public String generateEvent(Map<String, Object> config) throws IOException {
-        RandomJsonGenerator generator = new RandomJsonGenerator(config, workflowConfig);
+        RandomJsonGenerator generator = new RandomJsonGenerator(config, workflowConfig, dataSource);
         return generator.generateJson();
     }
 

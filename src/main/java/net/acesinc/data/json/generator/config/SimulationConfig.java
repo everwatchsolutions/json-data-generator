@@ -17,6 +17,7 @@ import java.util.Map;
 public class SimulationConfig {
     private List<WorkflowConfig> workflows;
     private List<Map<String, Object>> producers;
+    private Map<String, Object> source;
     
     /**
      * @return the workflows
@@ -53,5 +54,19 @@ public class SimulationConfig {
      */
     public void setProducers(List<Map<String, Object>> producers) {
         this.producers = producers;
+    }
+
+    /**
+     * @return the source
+     */
+    public Map<String, Object> getSource() {
+        return source;
+    }
+
+    /**
+     * @param source the source to set
+     */
+    public void setSource(Map<String, Object> source) {
+        this.source = source;
     }
 }
