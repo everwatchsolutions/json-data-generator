@@ -109,6 +109,12 @@ public class JsonDataGenerator {
                         }
                         break;
                     }
+                    // add a case for ComsoDB
+                    case "cosmosdb": {
+                        log.info("Adding CosmosDB Logger with properties: " + elProps);
+                        loggers.add(new CosmosDBLogger(elProps));
+                        break;
+                    }
                 }
             }
             if (loggers.isEmpty()) {
