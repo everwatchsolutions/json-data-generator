@@ -1,0 +1,12 @@
+{
+  "name": "Java Project",
+  "dockerFile": "Dockerfile",
+  "settings": { 
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "extensions": [
+    "vscjava.vscode-java-pack"
+  ],
+  "forwardPorts": [],
+  "postCreateCommand": "mvn clean package"
+}
